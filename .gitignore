@@ -1,0 +1,28 @@
+# compiled output
+/dist
+/tmp
+/out
+/demo-app/
+/src/**/*.css
+o-gallery.css
+
+# dependencies
+/node_modules
+/typings
+
+# IDEs and editors
+/.svn
+/.vscode
+/.editorconfig
+
+# misc
+/.travis.yml
+npm-debug.log
+testem.log
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+#System Files
+.DS_Store
