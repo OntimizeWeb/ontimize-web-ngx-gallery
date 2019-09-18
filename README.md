@@ -10,7 +10,7 @@ An implementation of a gallery of images and videos.
 
 
 ## Github
-Ontimize Web Gallery module is stored in [github](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery){:target="_blank"} where you can also see/add todos, bugs or feature requests in the [issues](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues){:target="_blank"} section.
+Ontimize Web Gallery Module is stored in [github](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery) where you can also see/add todos, bugs or feature requests in the [issues](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues) section.
 
 
 ## Examples
@@ -161,7 +161,7 @@ import 'hammerjs';
 - `height` | Type: `string` | Default value: `'400px'` - gallery height
 - `breakpoint` | Type: `number` | Default value: `undefined` - responsive breakpoint, works like media query max-width
 - `fullWidth` | Type: `boolean` | Default value: `false` - sets the same width as browser
-- `layout` | Type: `string` | Default value: `NgxGalleryLayout.Bottom` - sets thumbnails position
+- `layout` | Type: `string` | Default value: `GalleryLayout.Bottom` - sets thumbnails position
 - `startIndex` | Type: `number` | Default value: `0` - sets index of selected image on start
 - `linkTarget` | Type: `string` | Default value: `_blank` - sets target attribute of link
 - `lazyLoading` | Type: `boolean` | Default value: `true` - enables/disables lazy loading for images
@@ -172,8 +172,8 @@ import 'hammerjs';
 - `imageArrows` | Type: `boolean` | Default value: `true` - enables or disables arrows
 - `imageArrowsAutoHide` | Type: `boolean` | Default value: `false` - enables or disables arrows auto hide
 - `imageSwipe` | Type: `boolean` | Default value: `false` - enables or disables swipe
-- `imageAnimation` | Type: `string` | Default value: `NgxGalleryAnimation.Fade` - animation type
-- `imageSize` | Type: `string` | Default value: `NgxGalleryImageSize.Cover` - image size
+- `imageAnimation` | Type: `string` | Default value: `GalleryAnimation.Fade` - animation type
+- `imageSize` | Type: `string` | Default value: `GalleryImageSize.Cover` - image size
 - `imageAutoPlay` | Type: `boolean` | Default value `false` - enables or disables auto play
 - `imageAutoPlayInterval` | Type: `number` | Default value: `2000` - interval for auto play (ms)
 - `imageAutoPlayPauseOnHover` | Type: `boolean` | Default value: `false` - enables or disables pouse auto play on hover
@@ -190,12 +190,12 @@ import 'hammerjs';
 - `thumbnailsArrowsAutoHide` | boolean: `string` | Default value: `false` - enables or disables arrows auto hide
 - `thumbnailsSwipe` | Type: `boolean` | Default value: `false` - enables or disables swipe
 - `thumbnailsMoveSize` | Type: `number` | Default value: `1` - number of items to move on arrow click
-- `thumbnailsOrder` | Type: `number` | Default value: `NgxGalleryOrder.Column` - images order
+- `thumbnailsOrder` | Type: `number` | Default value: `GalleryOrder.Column` - images order
 - `thumbnailsRemainingCount` | Type: `boolean` | Default value: `false` - if true arrows are disabled and last item has label with remaining count
 - `thumbnailsAsLinks` | Type: `boolean` | Default value: `false` - enables or disables links on thumbnails
 - `thumbnailsAutoHide` | Type: `boolean` | Default value: `false` - hides thumbnails if there is only one image
 - `thumbnailMargin` | Type: `number` | Default value: `10` - margin between images in thumbnails
-- `thumbnailSize` | Type: `string` | Default value: `NgxGalleryImageSize.Cover` - thumbnail size
+- `thumbnailSize` | Type: `string` | Default value: `GalleryImageSize.Cover` - thumbnail size
 - `thumbnailActions` | Type: `NgxGalleryAction[]` | Default value: `[]` - Array of custom actions
 
 - `preview` | Type: `boolean` | Default value: `true` - enables or disables preview
@@ -231,7 +231,7 @@ import 'hammerjs';
 - `rotateLeftIcon` | Type: `string` | Default value: `'fa fa-undo'` - icon for rotate left
 - `rotateRightIcon` | Type: `string` | Default value: `'fa fa-repeat'` - icon for rotate right
 - `downloadIcon` | Type: `string` | Default value: `'fa fa-arrow-circle-down'` - icon for download
-- `actions` | Type: `NgxGalleryAction[]` | Default value: `[]` - Array of new custom actions that will be added to the left of the current close/zoom/fullscreen icons
+- `actions` | Type: `GalleryAction[]` | Default value: `[]` - Array of new custom actions that will be added to the left of the current close/zoom/fullscreen icons
 
 ## GalleryImage
 - `small` | Type: `string | SafeResourceUrl` - url used in thumbnails
