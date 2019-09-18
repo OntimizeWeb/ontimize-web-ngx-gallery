@@ -286,4 +286,3 @@ import 'hammerjs';
 - `canMoveThumbnailsRight(): boolean` - returns true if you can move thumbnails to right
 
 
-
