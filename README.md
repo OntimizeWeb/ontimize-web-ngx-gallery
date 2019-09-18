@@ -1,23 +1,133 @@
-**Off until 11.06.2018**
+# Ontimize Web Gallery
+
+An implementation of a gallery of images and videos.
 
 
+* [Github repository](#github)
+* [Examples](#examples)
+* [Installation](#installation)
+* [Usage](#usage)
 
-[![npm version](https://img.shields.io/npm/v/ngx-gallery.svg)](https://www.npmjs.com/package/ngx-gallery)
-[![Downloads](https://img.shields.io/npm/dm/ngx-gallery.svg)](https://www.npmjs.com/package/ngx-gallery)
-<!-- [![DevDependencies](https://david-dm.org/lukasz-galka/ngx-gallery/dev-status.svg)](https://david-dm.org/lukasz-galka/ngx-gallery?type=dev) -->
-[![licence](https://img.shields.io/npm/l/ngx-gallery.svg)](https://www.npmjs.com/package/ngx-gallery)
-[![Build Status](https://travis-ci.org/lukasz-galka/ngx-gallery.svg?branch=master)](https://travis-ci.org/lukasz-galka/ngx-gallery)
-[![Coverage Status](https://coveralls.io/repos/github/lukasz-galka/ngx-gallery/badge.svg?branch=master)](https://coveralls.io/github/lukasz-galka/ngx-gallery?branch=master)
 
-# NgxGallery
-Angular image gallery plugin
+## Github
+Ontimize Web Gallery module is stored in [github](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery){:target="_blank"} where you can also see/add todos, bugs or feature requests in the [issues](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues){:target="_blank"} section.
 
-# Demo
-[Link](https://lukasz-galka.github.io/ngx-gallery-demo/)
+
+## Examples
+````ts
+// app.module.ts
+import { OGalleryModule } from 'ontimize-web-ngx-gallery';
+...
+@NgModule({
+    imports: [
+        ...
+        NgxGalleryModule
+        ...
+    ],
+    ...
+})
+export class AppModule { }
+````
+
+````ts
+// app.component.ts
+import { Component, OnInit } from '@angular/core';
+
+import { GalleryOptions, GalleryImage, GalleryAnimation } from 'ontimize-web-ngx-gallery';
+...
+
+@Component({
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+})
+export class AppComponent implements OnInit {
+    galleryOptions: GalleryOptions[];
+    galleryImages: GalleryImage[];
+
+    ngOnInit(): void {
+
+        this.galleryOptions = [
+            {
+                width: '600px',
+                height: '400px',
+                thumbnailsColumns: 4,
+                imageAnimation: GalleryAnimation.Slide
+            },
+            // max-width 800
+            {
+                breakpoint: 800,
+                width: '100%',
+                height: '600px',
+                imagePercent: 80,
+                thumbnailsPercent: 20,
+                thumbnailsMargin: 20,
+                thumbnailMargin: 20
+            },
+            // max-width 400
+            {
+                breakpoint: 400,
+                preview: false
+            }
+        ];
+
+        this.galleryImages = [
+            {
+                small: 'assets/1-small.jpg',
+                medium: 'assets/1-medium.jpg',
+                big: 'assets/1-big.jpg'
+            },
+            {
+                small: 'assets/2-small.jpg',
+                medium: 'assets/2-medium.jpg',
+                big: 'assets/2-big.jpg'
+            },
+            {
+                small: 'assets/3-small.jpg',
+                medium: 'assets/3-medium.jpg',
+                big: 'assets/3-big.jpg'
+            }
+        ];
+    }
+}
+
+````
+
+````html
+// app.component.html
+<o-gallery [options]="galleryOptions" [images]="galleryImages"></o-gallery>
+````
+
+# Styling
+- Active thumbnail
+```
+/deep/ .o-gallery-thumbnail.o-gallery-active {  
+    /* your styles */
+}
+```
+
+- Arrow
+```
+o-gallery /deep/ .o-gallery-arrow {
+    /* your styles */
+}
+```
+
+- Arrow in particular element
+```
+o-gallery /deep/ o-gallery-image .o-gallery-arrow {
+    /* your styles */
+}
+o-gallery /deep/ o-gallery-thumbnails .o-gallery-arrow {
+    /* your styles */
+}
+o-gallery /deep/ o-gallery-preview .o-gallery-arrow {
+    /* your styles */
+}
+```
 
 # Playground
-You can play with gallery using [Plunker](https://plnkr.co/edit/D1tdBCeFo6L9tMOCOb9p?p=preview) or [CodePen](https://codepen.io/lukasz-galka/project/editor/XGgxrL)
-
+You can play with gallery using http://try.imatia.com/ontimizeweb/playground/main/gallery/
+<!-- 
 # Prerequisites
 - [Font Awesome](http://fontawesome.io/) (required for icons)
 
@@ -38,37 +148,14 @@ For angular-cli based projects insert styles into .angular-cli.json
 
 ````
 import 'hammerjs';
-````
+```` -->
+## Installation
 
-# SystemJS
-
-**If you are not using SystemJS you can skip this section.**
-```
-map: {
-  'ngx-gallery': 'node_modules/ngx-gallery/bundles/ngx-gallery.umd.js',
-}
+```bash
+  npm install ontimize-web-ngx-gallery --save
 ```
 
-# Angular Material
-
-**If you are not using Angular Material you can skip this section.**
-
-Angular Material is using `transform: translate3d(0,0,0);` in components styles. Unfortunately  `transform` changes positioning context and preview won't work properly. To avoid this situation you have to override material styles, for example:
-
-````
-@import "~@angular/material/prebuilt-themes/indigo-pink.css"; // your theme
-
-.mat-sidenav-container, .mat-sidenav-content, .mat-tab-body-content {
-    transform: none !important;
-}
-````
-
-You can read more about this issue [here](https://github.com/angular/material2/issues/998)
-
-# Installation
-```npm install ngx-gallery --save```
-
-# NgxGalleryOptions
+## GalleryOptions
 
 - `width` | Type: `string` | Default value: `'500px'` - gallery width
 - `height` | Type: `string` | Default value: `'400px'` - gallery height
@@ -146,7 +233,7 @@ You can read more about this issue [here](https://github.com/angular/material2/i
 - `downloadIcon` | Type: `string` | Default value: `'fa fa-arrow-circle-down'` - icon for download
 - `actions` | Type: `NgxGalleryAction[]` | Default value: `[]` - Array of new custom actions that will be added to the left of the current close/zoom/fullscreen icons
 
-# NgxGalleryImage
+## GalleryImage
 - `small` | Type: `string | SafeResourceUrl` - url used in thumbnails
 - `medium` | Type: `string | SafeResourceUrl` - url used in image
 - `big` | Type: `string | SafeResourceUrl` - url used in preview
@@ -154,41 +241,39 @@ You can read more about this issue [here](https://github.com/angular/material2/i
 - `url` | Type: `string` - url used in link
 - `label` | Type: `string` - label used for aria-label when thumbnail is a link
 
-# NgxGalleryAnimation
+## GalleryAnimation
 - `Fade` (default)
 - `Slide`
 - `Rotate`
 - `Zoom`
 
-# NgxGalleryImageSize
+## GalleryImageSize
 - `Cover` (default)
 - `Contain`
 
-# NgxGalleryLayout
+## GalleryLayout
 - `Top`
 - `Bottom` (default)
 
-# NgxGalleryOrder
+## GalleryOrder
 - `Column` (default)
 - `Row`
 - `Page`
 
-Examples for 
-
-# NgxGalleryAction
+## GalleryAction
 - `icon` | Type: `string` - icon for custom action
 - `disabled` | Type: `boolean` | Default value: `false` - if the icon should be disabled
 - `titleText` | Type: `string` | Default value: `''` - text to set the title attribute to
 - `onClick` | Type: `(event: Event, index: number) => void` - Output function to call when custom action icon is clicked
 
-# Events
+## Events
 - `change` - triggered on image change
 - `imagesReady` - triggered when images length > 0
 - `previewOpen` - triggered on preview open
 - `previewClose` - triggered on preview close
 - `previewChange` - triggered on preview image change
 
-# Methods
+## Methods
 - `show(index: number): void` - shows image at index
 - `showNext(): void` - shows next image
 - `showPrev(): void` - shows prev image
@@ -200,117 +285,5 @@ Examples for
 - `canMoveThumbnailsLeft(): boolean` - returns true if you can move thumbnails to left
 - `canMoveThumbnailsRight(): boolean` - returns true if you can move thumbnails to right
 
-# Usage
-````ts
-// app.module.ts
-import { NgxGalleryModule } from 'ngx-gallery';
-...
-@NgModule({
-    imports: [
-        ...
-        NgxGalleryModule
-        ...
-    ],
-    ...
-})
-export class AppModule { }
-````
 
-````ts
-// app.component.ts
-import { Component, OnInit } from '@angular/core';
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
-...
 
-@Component({
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-})
-export class AppComponent implements OnInit {
-    galleryOptions: NgxGalleryOptions[];
-    galleryImages: NgxGalleryImage[];
-
-    ngOnInit(): void {
-
-        this.galleryOptions = [
-            {
-                width: '600px',
-                height: '400px',
-                thumbnailsColumns: 4,
-                imageAnimation: NgxGalleryAnimation.Slide
-            },
-            // max-width 800
-            {
-                breakpoint: 800,
-                width: '100%',
-                height: '600px',
-                imagePercent: 80,
-                thumbnailsPercent: 20,
-                thumbnailsMargin: 20,
-                thumbnailMargin: 20
-            },
-            // max-width 400
-            {
-                breakpoint: 400,
-                preview: false
-            }
-        ];
-
-        this.galleryImages = [
-            {
-                small: 'assets/1-small.jpg',
-                medium: 'assets/1-medium.jpg',
-                big: 'assets/1-big.jpg'
-            },
-            {
-                small: 'assets/2-small.jpg',
-                medium: 'assets/2-medium.jpg',
-                big: 'assets/2-big.jpg'
-            },
-            {
-                small: 'assets/3-small.jpg',
-                medium: 'assets/3-medium.jpg',
-                big: 'assets/3-big.jpg'
-            }
-        ];
-    }
-}
-
-````
-
-````html
-// app.component.html
-<ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
-````
-
-# Styling
-- Active thumbnail
-```
-/deep/ .ngx-gallery-thumbnail.ngx-gallery-active {  
-    /* your styles */
-}
-```
-
-- Arrow
-```
-ngx-gallery /deep/ .ngx-gallery-arrow {
-    /* your styles */
-}
-```
-
-- Arrow in particular element
-```
-ngx-gallery /deep/ ngx-gallery-image .ngx-gallery-arrow {
-    /* your styles */
-}
-ngx-gallery /deep/ ngx-gallery-thumbnails .ngx-gallery-arrow {
-    /* your styles */
-}
-ngx-gallery /deep/ ngx-gallery-preview .ngx-gallery-arrow {
-    /* your styles */
-}
-```
-
-# Donate
-
-If you like my work you can buy me a :beer: or :pizza: [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/galer88)
