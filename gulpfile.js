@@ -18,7 +18,6 @@ gulp.task('styles', (callback) => {
 
 const FILES = [
   'CHANGELOG.md',
-  'LICENSE',
   'README.md',
   'package.json',
   'styles.scss',
@@ -30,31 +29,33 @@ gulp.task('copy.files', (callback) => {
   copyfiles(FILES, true, callback);
 });
 
-gulp.task('copy-theme', (callback) => {
-  copyfiles(['src/components/gallery/gallery.component.scss', 'dist'], true, callback);
-});
+gulp.task('copy-files', gulp.series('copy.files'));
 
-gulp.task('copy-theme', (callback) => {
-  copyfiles(['src/components/gallery/gallery-arrows.component.scss', 'dist'], true, callback);
-});
+// gulp.task('copy-theme', (callback) => {
+//   copyfiles(['src/components/gallery/gallery.component.scss', 'dist'], true, callback);
+// });
 
-gulp.task('copy-theme', (callback) => {
-  copyfiles(['src/components/gallery/gallery-bullets.component.scss', 'dist'], true, callback);
-});
+// gulp.task('copy-theme', (callback) => {
+//   copyfiles(['src/components/gallery/gallery-arrows.component.scss', 'dist'], true, callback);
+// });
 
-gulp.task('copy-theme', (callback) => {
-  copyfiles(['src/components/gallery/gallery-image.component.scss', 'dist'], true, callback);
-});
+// gulp.task('copy-theme', (callback) => {
+//   copyfiles(['src/components/gallery/gallery-bullets.component.scss', 'dist'], true, callback);
+// });
 
-gulp.task('copy-theme', (callback) => {
-  copyfiles(['src/components/gallery/gallery-preview.component.scss', 'dist'], true, callback);
-});
+// gulp.task('copy-theme', (callback) => {
+//   copyfiles(['src/components/gallery/gallery-image.component.scss', 'dist'], true, callback);
+// });
 
-gulp.task('copy-theme', (callback) => {
-  copyfiles(['src/components/gallery/gallery-thumbnails.component.scss', 'dist'], true, callback);
-});
+// gulp.task('copy-theme', (callback) => {
+//   copyfiles(['src/components/gallery/gallery-preview.component.scss', 'dist'], true, callback);
+// });
 
-gulp.task('copy-files', gulp.series('copy-theme', 'copy.files'));
+// gulp.task('copy-theme', (callback) => {
+//   copyfiles(['src/components/gallery/gallery-thumbnails.component.scss', 'dist'], true, callback);
+// });
+
+
 
 /**
  * Compile SASS to CSS.
@@ -74,7 +75,7 @@ function compileSass(path, ext, file, callback) {
  * @see  https://github.com/ludohenin/gulp-inline-ng2-template
  */
 const INLINE_TEMPLATES_CONF = {
-  SRC: ['./**/*.ts', '!./tmp/**/*', '!./node_modules/**/*', '!./demo-app/**/*' , '!./custom-typings.d.ts'],
+  SRC: ['./**/*.ts', '!./tmp/**/*', '!./node_modules/**/*', '!./custom-typings.d.ts'],
   DIST: './tmp',
   CONFIG: {
     base: '.',
