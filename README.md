@@ -4,14 +4,18 @@ An implementation of a gallery of images and videos.
 
 
 * [Github repository](#github)
-* [Examples](#examples)
 * [Installation](#installation)
-* [Usage](#usage)
+* [Examples](#examples)
 
 
 ## Github
-Ontimize Web Gallery module is stored in [github](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery){:target="_blank"} where you can also see/add todos, bugs or feature requests in the [issues](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues){:target="_blank"} section.
+Ontimize Web Gallery Module is stored in [github](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery) where you can also see/add todos, bugs or feature requests in the [issues](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues) section.
 
+## Installation
+
+```bash
+  npm install ontimize-web-ngx-gallery --save
+```
 
 ## Examples
 ````ts
@@ -97,7 +101,7 @@ export class AppComponent implements OnInit {
 <o-gallery [options]="galleryOptions" [images]="galleryImages"></o-gallery>
 ````
 
-# Styling
+### Styling
 - Active thumbnail
 ```
 /deep/ .o-gallery-thumbnail.o-gallery-active {  
@@ -125,164 +129,7 @@ o-gallery /deep/ o-gallery-preview .o-gallery-arrow {
 }
 ```
 
-# Playground
 You can play with gallery using http://try.imatia.com/ontimizeweb/playground/main/gallery/
-<!-- 
-# Prerequisites
-- [Font Awesome](http://fontawesome.io/) (required for icons)
 
-```npm install font-awesome --save```
-
-For angular-cli based projects insert styles into .angular-cli.json
-
-````
-"styles": [
-    ...
-    "../node_modules/font-awesome/css/font-awesome.css"
-]
-````
-
-- [Hammerjs](http://hammerjs.github.io/) (required for swipe)
-
-```npm install hammerjs --save```
-
-````
-import 'hammerjs';
-```` -->
-## Installation
-
-```bash
-  npm install ontimize-web-ngx-gallery --save
-```
-
-## GalleryOptions
-
-- `width` | Type: `string` | Default value: `'500px'` - gallery width
-- `height` | Type: `string` | Default value: `'400px'` - gallery height
-- `breakpoint` | Type: `number` | Default value: `undefined` - responsive breakpoint, works like media query max-width
-- `fullWidth` | Type: `boolean` | Default value: `false` - sets the same width as browser
-- `layout` | Type: `string` | Default value: `NgxGalleryLayout.Bottom` - sets thumbnails position
-- `startIndex` | Type: `number` | Default value: `0` - sets index of selected image on start
-- `linkTarget` | Type: `string` | Default value: `_blank` - sets target attribute of link
-- `lazyLoading` | Type: `boolean` | Default value: `true` - enables/disables lazy loading for images
-
-- `image` | Type: `boolean` | Default value: `true` - enables or disables image
-- `imageDescription` | Type: `boolean` | Default value: `true` - enables or disables description for images
-- `imagePercent` | Type: `number` | Default value: `75` - percentage height
-- `imageArrows` | Type: `boolean` | Default value: `true` - enables or disables arrows
-- `imageArrowsAutoHide` | Type: `boolean` | Default value: `false` - enables or disables arrows auto hide
-- `imageSwipe` | Type: `boolean` | Default value: `false` - enables or disables swipe
-- `imageAnimation` | Type: `string` | Default value: `NgxGalleryAnimation.Fade` - animation type
-- `imageSize` | Type: `string` | Default value: `NgxGalleryImageSize.Cover` - image size
-- `imageAutoPlay` | Type: `boolean` | Default value `false` - enables or disables auto play
-- `imageAutoPlayInterval` | Type: `number` | Default value: `2000` - interval for auto play (ms)
-- `imageAutoPlayPauseOnHover` | Type: `boolean` | Default value: `false` - enables or disables pouse auto play on hover
-- `imageInfinityMove` | Type: `boolean` | Default value: `false` - enables or disables infinity move by arrows
-- `imageActions` | Type: `NgxGalleryAction[]` | Default value: `[]` - Array of custom actions
-- `imageBullets` | Type: `boolean` | Default value: `false` - enables or disables navigation bullets
-
-- `thumbnails` | Type: `boolean` | Default value: `true` - enables or disables thumbnails
-- `thumbnailsColumns` | Type: `number` | Default value: `4` - columns count
-- `thumbnailsRows` | Type: `number` | Default value: `1` - rows count
-- `thumbnailsPercent` | Type: `number` | Default value: `25` - percentage height
-- `thumbnailsMargin` | Type: `number` | Default value: `10` - margin between thumbnails and image
-- `thumbnailsArrows` | Type: `boolean` | Default value: `true` - enables or disables arrows
-- `thumbnailsArrowsAutoHide` | boolean: `string` | Default value: `false` - enables or disables arrows auto hide
-- `thumbnailsSwipe` | Type: `boolean` | Default value: `false` - enables or disables swipe
-- `thumbnailsMoveSize` | Type: `number` | Default value: `1` - number of items to move on arrow click
-- `thumbnailsOrder` | Type: `number` | Default value: `NgxGalleryOrder.Column` - images order
-- `thumbnailsRemainingCount` | Type: `boolean` | Default value: `false` - if true arrows are disabled and last item has label with remaining count
-- `thumbnailsAsLinks` | Type: `boolean` | Default value: `false` - enables or disables links on thumbnails
-- `thumbnailsAutoHide` | Type: `boolean` | Default value: `false` - hides thumbnails if there is only one image
-- `thumbnailMargin` | Type: `number` | Default value: `10` - margin between images in thumbnails
-- `thumbnailSize` | Type: `string` | Default value: `NgxGalleryImageSize.Cover` - thumbnail size
-- `thumbnailActions` | Type: `NgxGalleryAction[]` | Default value: `[]` - Array of custom actions
-
-- `preview` | Type: `boolean` | Default value: `true` - enables or disables preview
-- `previewDescription` | Type: `boolean` | Default value: `true` - enables or disables description for images
-- `previewArrows` | Type: `boolean` | Default value: `true` - enables or disables arrows
-- `previewArrowsAutoHide` | boolean: `string` | Default value: `false` - enables or disables arrows auto hide
-- `previewSwipe` | Type: `boolean` | Default value: `false` - enables or disables swipe
-- `previewFullscreen` | Type: `boolean` | Default value: `false` - enables or disables fullscreen icon
-- `previewForceFullscreen` | Type: `boolean` | Default value: `false` - enables or disables opening preview in fullscreen mode
-- `previewCloseOnClick` | Type: `boolean` | Default value: `false` - enables or disables closing preview by click
-- `previewCloseOnEsc` | Type: `boolean` | Default value: `false` - enables or disables closing preview by esc keyboard
-- `previewKeyboardNavigation` | Type: `boolean` | Default value: `false` - enables or disables navigation by keyboard
-- `previewAnimation` | Type: `boolean` | Default value: `true` - enables or disables image loading animation
-- `previewAutoPlay` | Type: `boolean` | Default value `false` - enables or disables auto play
-- `previewAutoPlayInterval` | Type: `number` | Default value: `2000` - interval for auto play (ms)
-- `previewAutoPlayPauseOnHover` | Type: `boolean` | Default value: `false` - enables or disables pouse auto play on hover
-- `previewInfinityMove` | Type: `boolean` | Default value: `false` - enables or disables infinity move by arrows
-- `previewZoom` | Type: `boolean` | Default value: `false` - enables or disables zoom in and zoom out
-- `previewZoomStep` | Type: `number` | Default value: `0.1` - step for zoom change
-- `previewZoomMax` | Type: `number` | Default value: `2` - max value for zoom
-- `previewZoomMin` | Type: `number` | Default value: `0.5` - min value for zoom
-- `previewRotate` | Type: `boolean` | Default value: `false` - enables or disables rotate buttons
-- `previewDownload` | Type: `boolean` | Default value: `false` - enables or disables downoad button
-- `previewBullets` | Type: `boolean` | Default value: `false` - enables or disables navigation bullets
-
-- `arrowPrevIcon` | Type: `string` | Default value: `'fa fa-arrow-circle-left'` - icon for prev arrow
-- `arrowNextIcon` | Type: `string` | Default value: `'fa fa-arrow-circle-right'` - icon for next arrow
-- `closeIcon` | Type: `string` | Default value: `'fa fa-times-circle'` - icon for close button
-- `fullscreenIcon` | Type: `string` | Default value: `'fa fa-arrows-alt'` - icon for fullscreen button
-- `spinnerIcon` | Type: `string` | Default value: `'fa fa-spinner fa-pulse fa-3x fa-fw'` - icon for spinner
-- `zoomInIcon` | Type: `string` | Default value: `'fa fa-search-plus'` - icon for zoom in
-- `zoomOutIcon` | Type: `string` | Default value: `'fa fa-search-minus'` - icon for zoom out
-- `rotateLeftIcon` | Type: `string` | Default value: `'fa fa-undo'` - icon for rotate left
-- `rotateRightIcon` | Type: `string` | Default value: `'fa fa-repeat'` - icon for rotate right
-- `downloadIcon` | Type: `string` | Default value: `'fa fa-arrow-circle-down'` - icon for download
-- `actions` | Type: `NgxGalleryAction[]` | Default value: `[]` - Array of new custom actions that will be added to the left of the current close/zoom/fullscreen icons
-
-## GalleryImage
-- `small` | Type: `string | SafeResourceUrl` - url used in thumbnails
-- `medium` | Type: `string | SafeResourceUrl` - url used in image
-- `big` | Type: `string | SafeResourceUrl` - url used in preview
-- `description` | Type: `string` - description used in preview
-- `url` | Type: `string` - url used in link
-- `label` | Type: `string` - label used for aria-label when thumbnail is a link
-
-## GalleryAnimation
-- `Fade` (default)
-- `Slide`
-- `Rotate`
-- `Zoom`
-
-## GalleryImageSize
-- `Cover` (default)
-- `Contain`
-
-## GalleryLayout
-- `Top`
-- `Bottom` (default)
-
-## GalleryOrder
-- `Column` (default)
-- `Row`
-- `Page`
-
-## GalleryAction
-- `icon` | Type: `string` - icon for custom action
-- `disabled` | Type: `boolean` | Default value: `false` - if the icon should be disabled
-- `titleText` | Type: `string` | Default value: `''` - text to set the title attribute to
-- `onClick` | Type: `(event: Event, index: number) => void` - Output function to call when custom action icon is clicked
-
-## Events
-- `change` - triggered on image change
-- `imagesReady` - triggered when images length > 0
-- `previewOpen` - triggered on preview open
-- `previewClose` - triggered on preview close
-- `previewChange` - triggered on preview image change
-
-## Methods
-- `show(index: number): void` - shows image at index
-- `showNext(): void` - shows next image
-- `showPrev(): void` - shows prev image
-- `canShowNext(): boolean` - returns true if there is next image
-- `canShowPrev(): boolean` - returns true if there is prev image
-- `openPreview(index: number): void` - opens preview at index
-- `moveThumbnailsLeft(): void` - moves thumbnails to left
-- `moveThumbnailsRight(): void` - moves thumbnails to right
-- `canMoveThumbnailsLeft(): boolean` - returns true if you can move thumbnails to left
-- `canMoveThumbnailsRight(): boolean` - returns true if you can move thumbnails to right
 
 

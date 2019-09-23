@@ -1,3 +1,3 @@
-## 4.0.0 
+## 4.0.0 (2019-09-23)
 ### Features
-* **build:** first commit
+* **build:** initial version

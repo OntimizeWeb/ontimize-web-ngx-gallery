@@ -1,10 +1,10 @@
+import { IGalleryOptions } from '../interfaces/IGalleryOptions';
+import { GalleryAction } from './gallery-action.model';
 import { GalleryAnimation } from './gallery-animation.model';
 import { GalleryImageSize } from './gallery-image-size.model';
 import { GalleryLayout } from './gallery-layout.model';
 import { GalleryOrder } from './gallery-order.model';
-import { GalleryAction } from './gallery-action.model';
 
-import { IGalleryOptions } from '../interfaces/IGalleryOptions';
 
 export class GalleryOptions implements IGalleryOptions {
     width?: string;
@@ -159,8 +159,8 @@ export class GalleryOptions implements IGalleryOptions {
         this.previewCustom = use(obj.previewCustom, undefined);
         this.previewBullets = use(obj.previewBullets, false);
 
-        this.arrowPrevIcon = use(obj.arrowPrevIcon, 'undo');
-        this.arrowNextIcon = use(obj.arrowNextIcon, 'redo');
+        this.arrowPrevIcon = use(obj.arrowPrevIcon, 'navigate_before');
+        this.arrowNextIcon = use(obj.arrowNextIcon, 'navigate_next');
         this.closeIcon = use(obj.closeIcon, 'close');
         this.fullscreenIcon = use(obj.fullscreenIcon, 'fullscreen');
         this.spinnerIcon = use(obj.spinnerIcon, 'loop');
