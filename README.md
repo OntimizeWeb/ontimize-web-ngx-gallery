@@ -4,14 +4,18 @@ An implementation of a gallery of images and videos.
 
 
 * [Github repository](#github)
-* [Examples](#examples)
 * [Installation](#installation)
-* [Usage](#usage)
+* [Examples](#examples)
 
 
 ## Github
 Ontimize Web Gallery Module is stored in [github](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery) where you can also see/add todos, bugs or feature requests in the [issues](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues) section.
 
+## Installation
+
+```bash
+  npm install ontimize-web-ngx-gallery --save
+```
 
 ## Examples
 ````ts
@@ -127,27 +131,5 @@ o-gallery /deep/ o-gallery-preview .o-gallery-arrow {
 
 You can play with gallery using http://try.imatia.com/ontimizeweb/playground/main/gallery/
 
-## Installation
 
-```bash
-  npm install ontimize-web-ngx-gallery --save
-```
 
-## Usage
-Finally, you can use ontimize-web-ngx-gallery in your Ontimize Web project.
-
-Include the library gallery module into your app in the module where you want to use it.
-
-...
-import { OGalleryModule } from 'ontimize-web-ngx-gallery';
-...
-
-@NgModule({
-  imports: [
-    OGalleryModule,
-    /* other imports */
-  ],
-  declarations: ...
-  providers: ...
-})
-export class ExampleModule { }
