@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ontimize-web-ngx-gallery": [
+        "dist/ontimize-web-ngx-gallery"
+      ],
+      "ontimize-web-ngx-gallery/*": [
+        "dist/ontimize-web-ngx-gallery/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
