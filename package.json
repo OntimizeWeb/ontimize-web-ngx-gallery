@@ -1,12 +1,11 @@
 {
   "name": "ontimize-web-ngx-gallery",
-  "version": "8.0.0",
+  "version": "8.0.0-SNAPSHOT-0",
   "description": "An implementation of a multimedia Gallery for Ontimize Web",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "production": "ng build --prod=true"
+    "build": "ng build"
   },
   "repository": {
     "type": "git",
