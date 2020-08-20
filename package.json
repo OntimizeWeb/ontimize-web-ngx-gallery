@@ -1,6 +1,6 @@
 {
   "name": "ontimize-web-ngx-gallery",
-  "version": "8.0.0-SNAPSHOT-0",
+  "version": "8.0.0",
   "description": "An implementation of a multimedia Gallery for Ontimize Web",
   "scripts": {
     "ng": "ng",
@@ -26,7 +26,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
-    "ontimize-web-ngx": "8.0.0-rc.0",
+    "ontimize-web-ngx": "8.0.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
@@ -53,7 +53,7 @@
     "tsickle": "^0.37.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
-    "node-sass": "4.9.4",
+    "node-sass": "4.12.0",
     "node-sass-tilde-importer": "^1.0.0",
     "node-watch": "^0.5.2"
   }
