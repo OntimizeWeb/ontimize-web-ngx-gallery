@@ -92,7 +92,7 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
     this.setOptions();
     this.checkFullWidth();
     if (this.currentOptions) {
-      this.selectedIndex = <number>this.currentOptions.startIndex;
+      this.selectedIndex = this.currentOptions.startIndex as number;
     }
   }
 
@@ -110,7 +110,7 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
       }
 
       if (this.image) {
-        this.image.reset(<number>this.currentOptions.startIndex);
+        this.image.reset(this.currentOptions.startIndex as number);
       }
 
       if (this.currentOptions.thumbnailsAutoHide && this.currentOptions.thumbnails
@@ -470,7 +470,7 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
 
   private resetThumbnails() {
     if (this.thubmnails) {
-      this.thubmnails.reset(<number>this.currentOptions.startIndex);
+      this.thubmnails.reset(this.currentOptions.startIndex as number);
     }
   }
 
@@ -493,18 +493,18 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
 
   private setImages(): void {
     this.images.forEach((img) =>
-      img.type = this.helperService.getFileType(<string>img.url || <string>img.big || <string>img.medium || <string>img.small || '')
+      img.type = this.helperService.getFileType(img.url as string || img.big as string || img.medium as string || img.small as string || '')
     );
-    this.smallImages = this.images.map((img) => <string>img.small || <string>img.medium);
+    this.smallImages = this.images.map((img) => (img.small || img.medium) as string);
     this.mediumImages = this.images.map((img, i) => new GalleryOrderedImage({
       src: img.medium,
       type: img.type,
       index: i
     }));
-    this.bigImages = this.images.map((img) => <string>img.big || <string>img.medium);
-    this.descriptions = this.images.map((img) => <string>img.description);
-    this.links = this.images.map((img) => <string>img.url);
-    this.labels = this.images.map((img) => <string>img.label);
+    this.bigImages = this.images.map((img) => (img.big as string || img.medium as string));
+    this.descriptions = this.images.map((img) => img.description as string);
+    this.links = this.images.map((img) => img.url as string);
+    this.labels = this.images.map((img) => img.label as string);
   }
 
   private setBreakpoint(): void {
@@ -539,8 +539,8 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
       .filter((opt) => opt.breakpoint === undefined || opt.breakpoint >= this.breakpoint)
       .map((opt) => this.combineOptions(this.currentOptions, opt));
 
-    this.width = <string>this.currentOptions.width;
-    this.height = <string>this.currentOptions.height;
+    this.width = this.currentOptions.width as string;
+    this.height = this.currentOptions.height as string;
   }
 
   private combineOptions(first: GalleryOptions, second: GalleryOptions) {
