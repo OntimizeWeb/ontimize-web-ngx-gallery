@@ -104,27 +104,27 @@ export class AppComponent implements OnInit {
 ### Styling
 - Active thumbnail
 ```
-/deep/ .o-gallery-thumbnail.o-gallery-active {  
+::ng-deep .o-gallery-thumbnail.o-gallery-active {
     /* your styles */
 }
 ```
 
 - Arrow
 ```
-o-gallery /deep/ .o-gallery-arrow {
+o-gallery ::ng-deep .o-gallery-arrow {
     /* your styles */
 }
 ```
 
 - Arrow in particular element
 ```
-o-gallery /deep/ o-gallery-image .o-gallery-arrow {
+o-gallery ::ng-deep o-gallery-image .o-gallery-arrow {
     /* your styles */
 }
-o-gallery /deep/ o-gallery-thumbnails .o-gallery-arrow {
+o-gallery ::ng-deep o-gallery-thumbnails .o-gallery-arrow {
     /* your styles */
 }
-o-gallery /deep/ o-gallery-preview .o-gallery-arrow {
+o-gallery ::ng-deep o-gallery-preview .o-gallery-arrow {
     /* your styles */
 }
 ```
