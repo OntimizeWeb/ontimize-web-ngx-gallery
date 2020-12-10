@@ -317,8 +317,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
     }
 
     getSafeUrl(image: string): SafeUrl {
-        return image.substr(0, 10) === 'data:image' ?
-            image : this.sanitization.bypassSecurityTrustUrl(image);
+        return this.sanitization.bypassSecurityTrustUrl(image);
     }
 
     getFileType(fileSource: string): string {
