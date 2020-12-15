@@ -1,4 +1,7 @@
-## 4.0.1
+## 4.0.1 (2020-12-15)
+### DEPENDENCY UPDATES
+**Updated**: ontimize-web-ngx@4.2.0
+
 ### Feature
 * **GalleryImage**: allow use medium url to show all images ([19cb1a5](https://github.com/OntimizeWeb/ontimize-web-ngx/commit/19cb1a5)) Closes [#4](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/4)
 
