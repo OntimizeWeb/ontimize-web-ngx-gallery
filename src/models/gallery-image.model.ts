@@ -3,7 +3,7 @@ import { IGalleryImage } from '../interfaces/IGalleryImage';
 
 export class GalleryImage implements IGalleryImage {
     small?: string | SafeResourceUrl;
-    medium?: string | SafeResourceUrl;
+    medium: string | SafeResourceUrl;
     big?: string | SafeResourceUrl;
     description?: string;
     url?: string;
