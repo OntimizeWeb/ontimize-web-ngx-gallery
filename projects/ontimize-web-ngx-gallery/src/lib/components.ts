@@ -15,11 +15,11 @@ export * from './components/gallery-thumbnails/o-gallery-thumbnails.component';
 export * from './components/gallery/o-gallery.component';
 
 export const OGALLERY_DIRECTIVES: any[] = [
-    GalleryActionComponent,
-    GalleryArrowsComponent,
-    GalleryBulletsComponent,
-    GalleryImageComponent,
-    GalleryThumbnailsComponent,
-    GalleryPreviewComponent,
-    GalleryComponent
+  GalleryActionComponent,
+  GalleryArrowsComponent,
+  GalleryBulletsComponent,
+  GalleryImageComponent,
+  GalleryThumbnailsComponent,
+  GalleryPreviewComponent,
+  GalleryComponent
 ];

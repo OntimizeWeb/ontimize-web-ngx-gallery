@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  DoCheck,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, DoCheck, ElementRef, EventEmitter, HostBinding, HostListener, OnInit, ViewChild } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
