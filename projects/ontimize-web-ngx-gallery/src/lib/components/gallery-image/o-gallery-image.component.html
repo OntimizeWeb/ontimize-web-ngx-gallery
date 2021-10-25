@@ -1,8 +1,8 @@
 <div class="o-gallery-image-wrapper o-gallery-animation-{{animation}} o-gallery-image-size-{{size}}">
-  <div *ngFor="let image of getImages(); let i = index;">
-    <div *ngIf="image.type === 'image' || image.type === 'undefined'" class="o-gallery-image"
+  <div *ngFor="let image of images; let i = index;">
+    <div *ngIf="image.type === 'image' || image.type === 'undefined'" [oGalleryBackgroundImg]="image.src" class="o-gallery-image"
       [ngClass]="{ 'o-gallery-active': selectedIndex == image.index, 'o-gallery-inactive-left': selectedIndex > image.index, 'o-gallery-inactive-right': selectedIndex < image.index, 'o-gallery-clickable': clickable }"
-      [style.background-image]="getSafeUrl(image.src)" (click)="handleClick($event, image.index)">
+      (click)="handleClick($event, image.index)">
       <div class="o-gallery-icons-wrapper">
         <o-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText"
           (onClick)="action.onClick($event, image.index)"></o-gallery-action>
@@ -26,8 +26,9 @@
     </div>
   </div>
 </div>
-<o-gallery-bullets *ngIf="bullets" [count]="images.length" [active]="selectedIndex" (onChange)="show($event)">
-</o-gallery-bullets>
+
+<o-gallery-bullets *ngIf="bullets" [count]="images.length" [active]="selectedIndex" (onChange)="show($event)"></o-gallery-bullets>
+
 <o-gallery-arrows class="o-gallery-image-size-{{size}}" *ngIf="arrows" (onPrevClick)="showPrev()" (onNextClick)="showNext()"
-  [prev-disabled]="!canShowPrev()" [next-disabled]="!canShowNext()" [arrow-prev-icon]="arrowPrevIcon" [arrow-next-icon]="arrowNextIcon">
+  [prev-disabled]="!canShowPrev" [next-disabled]="!canShowNext" [arrow-prev-icon]="arrowPrevIcon" [arrow-next-icon]="arrowNextIcon">
 </o-gallery-arrows>

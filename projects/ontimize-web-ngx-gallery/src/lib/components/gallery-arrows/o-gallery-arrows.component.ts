@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core';
 import { InputConverter } from 'ontimize-web-ngx';
 
 @Component({
@@ -6,17 +6,19 @@ import { InputConverter } from 'ontimize-web-ngx';
   templateUrl: './o-gallery-arrows.component.html',
   styleUrls: ['./o-gallery-arrows.component.scss'],
   inputs: [
-    'prevDisabled : prev-disabled',
-    'nextDisabled : next-disabled',
-    'arrowPrevIcon : arrow-prev-icon',
-    'arrowNextIcon : arrow-next-icon'
+    'prevDisabled: prev-disabled',
+    'nextDisabled: next-disabled',
+    'arrowPrevIcon: arrow-prev-icon',
+    'arrowNextIcon: arrow-next-icon'
   ],
   outputs: [
     'onPrevClick',
     'onNextClick'
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GalleryArrowsComponent {
+
   @InputConverter()
   public prevDisabled: boolean;
   @InputConverter()
@@ -34,4 +36,5 @@ export class GalleryArrowsComponent {
   handleNextClick(): void {
     this.onNextClick.emit();
   }
+
 }
