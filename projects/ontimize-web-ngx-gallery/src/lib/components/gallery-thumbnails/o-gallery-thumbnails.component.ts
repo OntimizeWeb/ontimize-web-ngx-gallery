@@ -36,17 +36,44 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
     'onActiveChange'
   ]
 })
-
 export class GalleryThumbnailsComponent implements OnChanges {
 
-  thumbnailsLeft: string;
-  thumbnailsMarginLeft: string;
+  thumbnailsLeft: string = '0px';
+  thumbnailsMarginLeft: string = '0px';
   mouseenter: boolean;
   remainingCountValue: number;
 
   minStopIndex = 0;
 
-  public images: string[] | SafeResourceUrl[];
+  set images(val: string[] | SafeResourceUrl[]) {
+    this._imagesArray = val;
+  }
+  get images(): string[] | SafeResourceUrl[] {
+    this._images = this._imagesArray;
+    if (this.remainingCount) {
+      this._images = this._imagesArray.slice(0, this.rows * this.columns);
+    } else if (this.lazyLoading && this.order !== GalleryOrder.Row) {
+      let stopIndex = 0;
+
+      if (this.order === GalleryOrder.Column) {
+        stopIndex = (this.index + this.columns + this.moveSize) * this.rows;
+      } else if (this.order === GalleryOrder.Page) {
+        stopIndex = this.index + ((this.columns * this.rows) * 2);
+      }
+
+      if (stopIndex <= this.minStopIndex) {
+        stopIndex = this.minStopIndex;
+      } else {
+        this.minStopIndex = stopIndex;
+      }
+
+      this._images = this._imagesArray.slice(0, stopIndex);
+    }
+    return this._images;
+  }
+  private _images: string[] | SafeResourceUrl[] = []; // Contains images shown in this component
+  private _imagesArray: string[] | SafeResourceUrl[] = []; // Contains all images received through parameter `images`
+
   public links: string[];
   public labels: string[];
   public linkTarget: string;
@@ -77,15 +104,18 @@ export class GalleryThumbnailsComponent implements OnChanges {
 
   private index = 0;
 
-  constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
-    private helperService: GalleryHelperService) { }
+  constructor(
+    private sanitization: DomSanitizer,
+    private elementRef: ElementRef,
+    private helperService: GalleryHelperService
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedIndex']) {
+    if (changes.selectedIndex) {
       this.validateIndex();
     }
 
-    if (changes['swipe']) {
+    if (changes.swipe) {
       this.helperService.manageSwipe(this.swipe, this.elementRef,
         'thumbnails', () => this.moveRight(), () => this.moveLeft());
     }
@@ -111,34 +141,6 @@ export class GalleryThumbnailsComponent implements OnChanges {
     this.validateIndex();
   }
 
-  getImages(): string[] | SafeResourceUrl[] {
-    if (!this.images) {
-      return [];
-    }
-
-    if (this.remainingCount) {
-      return this.images.slice(0, this.rows * this.columns);
-    } else if (this.lazyLoading && this.order !== GalleryOrder.Row) {
-      let stopIndex = 0;
-
-      if (this.order === GalleryOrder.Column) {
-        stopIndex = (this.index + this.columns + this.moveSize) * this.rows;
-      } else if (this.order === GalleryOrder.Page) {
-        stopIndex = this.index + ((this.columns * this.rows) * 2);
-      }
-
-      if (stopIndex <= this.minStopIndex) {
-        stopIndex = this.minStopIndex;
-      } else {
-        this.minStopIndex = stopIndex;
-      }
-
-      return this.images.slice(0, stopIndex);
-    } else {
-      return this.images;
-    }
-  }
-
   handleClick(event: Event, index: number): void {
     if (!this.hasLink(index)) {
       this.selectedIndex = index;
@@ -157,9 +159,9 @@ export class GalleryThumbnailsComponent implements OnChanges {
   }
 
   moveRight(): void {
-    if (this.canMoveRight()) {
+    if (this.canMoveRight) {
       this.index += this.moveSize;
-      let maxIndex = this.getMaxIndex() - this.columns;
+      const maxIndex = this.getMaxIndex() - this.columns;
 
       if (this.index > maxIndex) {
         this.index = maxIndex;
@@ -170,7 +172,7 @@ export class GalleryThumbnailsComponent implements OnChanges {
   }
 
   moveLeft(): void {
-    if (this.canMoveLeft()) {
+    if (this.canMoveLeft) {
       this.index -= this.moveSize;
 
       if (this.index < 0) {
@@ -181,12 +183,12 @@ export class GalleryThumbnailsComponent implements OnChanges {
     }
   }
 
-  canMoveRight(): boolean {
-    return this.index + this.columns < this.getMaxIndex() ? true : false;
+  get canMoveRight(): boolean {
+    return this.index + this.columns < this.getMaxIndex();
   }
 
-  canMoveLeft(): boolean {
-    return this.index !== 0 ? true : false;
+  get canMoveLeft(): boolean {
+    return this.index !== 0;
   }
 
   getThumbnailLeft(index: number): SafeStyle {
@@ -221,19 +223,18 @@ export class GalleryThumbnailsComponent implements OnChanges {
     return this.getThumbnailPosition(calculatedIndex, this.rows);
   }
 
-  getThumbnailWidth(): SafeStyle {
+  get thumbnailWidth(): SafeStyle {
     return this.getThumbnailDimension(this.columns);
   }
 
-  getThumbnailHeight(): SafeStyle {
+  get thumbnailHeight(): SafeStyle {
     return this.getThumbnailDimension(this.rows);
   }
 
   setThumbnailsPosition(): void {
     this.thumbnailsLeft = - ((100 / this.columns) * this.index) + '%';
 
-    this.thumbnailsMarginLeft = - ((this.margin - (((this.columns - 1)
-      * this.margin) / this.columns)) * this.index) + 'px';
+    this.thumbnailsMarginLeft = - ((this.margin - (((this.columns - 1) * this.margin) / this.columns)) * this.index) + 'px';
   }
 
   setDefaultPosition(): void {
@@ -241,7 +242,7 @@ export class GalleryThumbnailsComponent implements OnChanges {
     this.thumbnailsMarginLeft = '0px';
   }
 
-  canShowArrows(): boolean {
+  get canShowArrows(): boolean {
     if (this.remainingCount) {
       return false;
     } else if (this.arrows && this.images && this.images.length > this.getVisibleCount()
@@ -273,10 +274,6 @@ export class GalleryThumbnailsComponent implements OnChanges {
         this.setThumbnailsPosition();
       }
     }
-  }
-
-  getSafeUrl(image: string): SafeStyle {
-    return this.sanitization.bypassSecurityTrustStyle(this.helperService.getBackgroundUrl(image));
   }
 
   getFileType(fileSource: string): string {
@@ -320,4 +317,5 @@ export class GalleryThumbnailsComponent implements OnChanges {
   private getSafeStyle(value: string): SafeStyle {
     return this.sanitization.bypassSecurityTrustStyle(value);
   }
+
 }

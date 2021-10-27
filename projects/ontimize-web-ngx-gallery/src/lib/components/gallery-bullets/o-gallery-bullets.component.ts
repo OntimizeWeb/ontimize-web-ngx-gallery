@@ -13,16 +13,14 @@ import { Component, EventEmitter } from '@angular/core';
   ]
 })
 export class GalleryBulletsComponent {
+
   public count: number;
   public active: number = 0;
 
   onChange = new EventEmitter();
 
-  getBullets(): number[] {
-    return Array(this.count);
-  }
-
   handleChange(_event: Event, index: number): void {
     this.onChange.emit(index);
   }
+
 }

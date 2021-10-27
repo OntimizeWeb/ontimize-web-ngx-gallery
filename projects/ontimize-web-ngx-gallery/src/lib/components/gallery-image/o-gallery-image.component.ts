@@ -1,5 +1,4 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { InputConverter } from 'ontimize-web-ngx';
 
 import { GalleryAction } from '../../models/gallery-action.model';
@@ -38,10 +37,41 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
   ]
 })
 export class GalleryImageComponent implements OnInit, OnChanges {
-  public images: GalleryOrderedImage[];
+
+  set images(val: GalleryOrderedImage[]) {
+    this._imagesArray = val;
+  }
+  get images(): GalleryOrderedImage[] {
+    if (this.lazyLoading) {
+      const indexes = [this.selectedIndex];
+      const prevIndex = this.selectedIndex - 1;
+
+      if (prevIndex === -1 && this.infinityMove) {
+        indexes.push(this._imagesArray.length - 1);
+      } else if (prevIndex >= 0) {
+        indexes.push(prevIndex);
+      }
+
+      const nextIndex = this.selectedIndex + 1;
+
+      if (nextIndex === this._imagesArray.length && this.infinityMove) {
+        indexes.push(0);
+      } else if (nextIndex < this._imagesArray.length) {
+        indexes.push(nextIndex);
+      }
+
+      this._images = this._imagesArray.filter((_img, i) => indexes.indexOf(i) !== -1);
+    } else {
+      this._images = this._imagesArray;
+    }
+    return this._images;
+  }
+  private _images: GalleryOrderedImage[] = []; // Contains images shown in this component
+  private _imagesArray: GalleryOrderedImage[] = []; // Contains all images received through parameter `images`
+
   @InputConverter()
   public clickable: boolean;
-  public selectedIndex: number;
+  public selectedIndex: number = -1;
   @InputConverter()
   public arrows: boolean;
   @InputConverter()
@@ -75,8 +105,10 @@ export class GalleryImageComponent implements OnInit, OnChanges {
 
   private timer;
 
-  constructor(private sanitization: DomSanitizer,
-    private elementRef: ElementRef, private helperService: GalleryHelperService) { }
+  constructor(
+    private elementRef: ElementRef,
+    private helperService: GalleryHelperService
+  ) { }
 
   ngOnInit(): void {
     if (this.arrows && this.arrowsAutoHide) {
@@ -89,7 +121,7 @@ export class GalleryImageComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['swipe']) {
+    if (changes.swipe) {
       this.helperService.manageSwipe(this.swipe, this.elementRef, 'image', () => this.showNext(), () => this.showPrev());
     }
   }
@@ -116,35 +148,6 @@ export class GalleryImageComponent implements OnInit, OnChanges {
 
   reset(index: number): void {
     this.selectedIndex = index;
-  }
-
-  getImages(): GalleryOrderedImage[] {
-    if (!this.images) {
-      return [];
-    }
-
-    if (this.lazyLoading) {
-      let indexes = [this.selectedIndex];
-      let prevIndex = this.selectedIndex - 1;
-
-      if (prevIndex === -1 && this.infinityMove) {
-        indexes.push(this.images.length - 1);
-      } else if (prevIndex >= 0) {
-        indexes.push(prevIndex);
-      }
-
-      let nextIndex = this.selectedIndex + 1;
-
-      if (nextIndex === this.images.length && this.infinityMove) {
-        indexes.push(0);
-      } else if (nextIndex < this.images.length) {
-        indexes.push(nextIndex);
-      }
-
-      return this.images.filter((_img, i) => indexes.indexOf(i) !== -1);
-    } else {
-      return this.images;
-    }
   }
 
   startAutoPlay(): void {
@@ -180,10 +183,10 @@ export class GalleryImageComponent implements OnInit, OnChanges {
   }
 
   showNext(): boolean {
-    if (this.canShowNext() && this.canChangeImage) {
+    if (this.canShowNext && this.canChangeImage) {
       this.selectedIndex++;
 
-      if (this.selectedIndex === this.images.length) {
+      if (this.selectedIndex === this._imagesArray.length) {
         this.selectedIndex = 0;
       }
 
@@ -197,11 +200,11 @@ export class GalleryImageComponent implements OnInit, OnChanges {
   }
 
   showPrev(): void {
-    if (this.canShowPrev() && this.canChangeImage) {
+    if (this.canShowPrev && this.canChangeImage) {
       this.selectedIndex--;
 
       if (this.selectedIndex < 0) {
-        this.selectedIndex = this.images.length - 1;
+        this.selectedIndex = this._imagesArray.length - 1;
       }
 
       this.onActiveChange.emit(this.selectedIndex);
@@ -223,28 +226,16 @@ export class GalleryImageComponent implements OnInit, OnChanges {
     }, timeout);
   }
 
-  canShowNext(): boolean {
-    if (this.images) {
-      return this.infinityMove || this.selectedIndex < this.images.length - 1
-        ? true : false;
-    } else {
-      return false;
-    }
+  get canShowNext(): boolean {
+    return this.infinityMove || (this.selectedIndex < this._imagesArray.length - 1);
   }
 
-  canShowPrev(): boolean {
-    if (this.images) {
-      return this.infinityMove || this.selectedIndex > 0 ? true : false;
-    } else {
-      return false;
-    }
-  }
-
-  getSafeUrl(image: string): SafeStyle {
-    return this.sanitization.bypassSecurityTrustStyle(this.helperService.getBackgroundUrl(image));
+  get canShowPrev(): boolean {
+    return this.infinityMove || (this.selectedIndex > 0);
   }
 
   getFileType(fileSource: string) {
     return this.helperService.getFileType(fileSource);
   }
+
 }

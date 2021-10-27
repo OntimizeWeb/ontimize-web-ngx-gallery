@@ -5,10 +5,11 @@ import {
   EventEmitter,
   HostListener,
   OnChanges,
+  OnDestroy,
   OnInit,
   Renderer2,
   SimpleChanges,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { InputConverter } from 'ontimize-web-ngx';
@@ -62,8 +63,7 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
     'onActiveChange'
   ]
 })
-
-export class GalleryPreviewComponent implements OnInit, OnChanges {
+export class GalleryPreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   src: SafeUrl;
   srcIndex: number;
@@ -142,7 +142,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
   private initialTop = 0;
   private isMove = false;
 
-  private keyDownListener: Function;
+  private keyDownListener: () => any;
 
   constructor(private sanitization: DomSanitizer, private elementRef: ElementRef,
     private helperService: GalleryHelperService, private renderer: Renderer2,
@@ -155,7 +155,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['swipe']) {
+    if (changes.swipe) {
       this.helperService.manageSwipe(this.swipe, this.elementRef,
         'preview', () => this.showNext(), () => this.showPrev());
     }
@@ -257,7 +257,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
   }
 
   showNext(): boolean {
-    if (this.canShowNext()) {
+    if (this.canShowNext) {
       this.index++;
 
       if (this.index === this.images.length) {
@@ -272,7 +272,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
   }
 
   showPrev(): void {
-    if (this.canShowPrev()) {
+    if (this.canShowPrev) {
       this.index--;
 
       if (this.index < 0) {
@@ -283,7 +283,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
     }
   }
 
-  canShowNext(): boolean {
+  get canShowNext(): boolean {
     if (this.loading) {
       return false;
     } else if (this.images) {
@@ -293,7 +293,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
     }
   }
 
-  canShowPrev(): boolean {
+  get canShowPrev(): boolean {
     if (this.loading) {
       return false;
     } else if (this.images) {
@@ -305,7 +305,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
 
   manageFullscreen(): void {
     if (this.fullscreen || this.forceFullscreen) {
-      const doc = <any>document;
+      const doc = document as any;
 
       if (!doc.fullscreenElement && !doc.mozFullScreenElement
         && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
@@ -325,7 +325,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
   }
 
   zoomIn(): void {
-    if (this.canZoomIn()) {
+    if (this.canZoomIn) {
       this.zoomValue += this.zoomStep;
 
       if (this.zoomValue > this.zoomMax) {
@@ -335,7 +335,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
   }
 
   zoomOut(): void {
-    if (this.canZoomOut()) {
+    if (this.canZoomOut) {
       this.zoomValue -= this.zoomStep;
 
       if (this.zoomValue < this.zoomMin) {
@@ -356,24 +356,24 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
     this.rotateValue += 90;
   }
 
-  getTransform(): SafeStyle {
+  get getTransform(): SafeStyle {
     return this.sanitization.bypassSecurityTrustStyle('scale(' + this.zoomValue + ') rotate(' + this.rotateValue + 'deg)');
   }
 
-  canZoomIn(): boolean {
+  get canZoomIn(): boolean {
     return this.zoomValue < this.zoomMax ? true : false;
   }
 
-  canZoomOut(): boolean {
+  get canZoomOut(): boolean {
     return this.zoomValue > this.zoomMin ? true : false;
   }
 
-  canDragOnZoom() {
+  get canDragOnZoom() {
     return this.zoom && this.zoomValue > 1;
   }
 
   mouseDownHandler(e): void {
-    if (this.canDragOnZoom()) {
+    if (this.canDragOnZoom) {
       this.initialX = this.getClientX(e);
       this.initialY = this.getClientY(e);
       this.initialLeft = this.positionLeft;
@@ -423,7 +423,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
   }
 
   private openFullscreen(): void {
-    const element = <any>document.documentElement;
+    const element = document.documentElement as any;
 
     if (element.requestFullscreen) {
       element.requestFullscreen();
@@ -438,7 +438,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
 
   private closeFullscreen(): void {
     if (this.isFullscreen()) {
-      const doc = <any>document;
+      const doc = document as any;
 
       if (doc.exitFullscreen) {
         doc.exitFullscreen();
@@ -453,13 +453,11 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
   }
 
   private isFullscreen() {
-    const doc = <any>document;
+    const doc = document as any;
 
     return doc.fullscreenElement || doc.webkitFullscreenElement
       || doc.mozFullScreenElement || doc.msFullscreenElement;
   }
-
-
 
   private show(first = false) {
     this.loading = true;
@@ -479,8 +477,8 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
     this.rotateValue = 0;
     this.resetPosition();
 
-    this.src = this.getSafeUrl(<string>this.images[this.index]);
-    this.type = this.getFileType(<string>this.images[this.index]);
+    this.src = this.getSafeUrl(this.images[this.index] as string);
+    this.type = this.getFileType(this.images[this.index] as string);
     this.srcIndex = this.index;
     this.description = this.descriptions[this.index];
     this.changeDetectorRef.markForCheck();
@@ -490,7 +488,6 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
         this.loading = false;
         this.startAutoPlay();
         this.changeDetectorRef.markForCheck();
-        // tslint:disable-next-line: no-empty
       } else if (this.type === 'video') {
         this.loading = false;
         this.startAutoPlay();
@@ -525,4 +522,5 @@ export class GalleryPreviewComponent implements OnInit, OnChanges {
 
     return true;
   }
+
 }
