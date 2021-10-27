@@ -11,19 +11,19 @@ export * from './models';
 export * from './components';
 
 export class CustomHammerConfig extends HammerGestureConfig {
-    overrides = <any>{
-        'pinch': { enable: false },
-        'rotate': { enable: false }
-    };
+  overrides = <any>{
+    'pinch': { enable: false },
+    'rotate': { enable: false }
+  };
 }
 
 @NgModule({
   imports: [
-      CommonModule,
-      OCustomMaterialModule
+    CommonModule,
+    OCustomMaterialModule
   ],
-  declarations: [ OGALLERY_DIRECTIVES ],
-  exports: [ OGALLERY_DIRECTIVES ],
+  declarations: [OGALLERY_DIRECTIVES],
+  exports: [OGALLERY_DIRECTIVES],
   providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }]
 })
 export class OGalleryModule { }

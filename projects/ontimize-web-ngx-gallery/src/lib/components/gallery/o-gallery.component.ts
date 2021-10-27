@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  DoCheck,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostBinding, HostListener, ViewChild } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
@@ -21,7 +11,6 @@ import { GalleryImageComponent } from '../gallery-image/o-gallery-image.componen
 import { GalleryPreviewComponent } from '../gallery-preview/o-gallery-preview.component';
 import { GalleryThumbnailsComponent } from '../gallery-thumbnails/o-gallery-thumbnails.component';
 
-
 export const DEFAULT_OUTPUTS_O_GALLERY = [
   'onImagesReady',
   'onChange',
@@ -30,8 +19,8 @@ export const DEFAULT_OUTPUTS_O_GALLERY = [
   'onPreviewChange'
 ];
 export const DEFAULT_INPUTS_O_GALLERY = [
-  'options : gallery-options',
-  'images : gallery-images'
+  'options: gallery-options',
+  'images: gallery-images'
 ];
 
 @Component({
@@ -42,12 +31,66 @@ export const DEFAULT_INPUTS_O_GALLERY = [
   inputs: DEFAULT_INPUTS_O_GALLERY,
   outputs: DEFAULT_OUTPUTS_O_GALLERY
 })
+export class GalleryComponent implements AfterViewInit {
 
-export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
+  set options(val: GalleryOptions[]) {
+    let options = val.map(option => new GalleryOptions(option));
 
-  public options: GalleryOptions[];
-  optionsLength: number;
-  public images: GalleryImage[];
+    // sort options
+    options = [
+      ...options.filter(o => o.breakpoint === undefined),
+      ...options
+        .filter(o => o.breakpoint !== undefined)
+        .sort((a, b) => b.breakpoint - a.breakpoint)
+    ];
+
+    this._options = options;
+
+    this.setBreakpoint();
+    this.setOptions();
+    this.checkFullWidth();
+    if (this.currentOptions) {
+      this.selectedIndex = this.currentOptions.startIndex as number;
+    }
+  }
+  get options(): GalleryOptions[] {
+    return this._options;
+  }
+  private _options: GalleryOptions[];
+
+  set images(val: GalleryImage[]) {
+    this._images = val;
+
+    const smallImages = [];
+    const mediumImages = [];
+    const bigImages = [];
+    const descriptions = [];
+    const links = [];
+    const labels = [];
+    this._images.forEach((img, i) => {
+      img.type = this.helperService.getFileType(img.url as string || img.big as string || img.medium as string || img.small as string || '');
+      smallImages.push(img.small || img.medium);
+      mediumImages.push(new GalleryOrderedImage({ src: img.medium, type: img.type, index: i }));
+      bigImages.push(img.big || img.medium);
+      descriptions.push(img.description);
+      links.push(img.url);
+      labels.push(img.label);
+    });
+    this.smallImages = smallImages;
+    this.mediumImages = mediumImages;
+    this.bigImages = bigImages;
+    this.descriptions = descriptions;
+    this.links = links;
+    this.labels = labels;
+
+    if (this.images && this.images.length) {
+      this.onImagesReady.emit();
+    }
+  }
+  get images(): GalleryImage[] {
+    return this._images;
+  }
+  private _images: GalleryImage[];
 
   onImagesReady = new EventEmitter();
   onChange = new EventEmitter<{ index: number; image: GalleryImage; }>();
@@ -62,72 +105,46 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
   links: string[];
   labels: string[];
 
-  oldImages: GalleryImage[];
-  oldImagesLength = 0;
-
   selectedIndex = 0;
   previewEnabled: boolean;
 
-  currentOptions: GalleryOptions;
+  currentOptions: GalleryOptions = new GalleryOptions({});
 
   private breakpoint: number | undefined = undefined;
   private prevBreakpoint: number | undefined = undefined;
   private fullWidthTimeout: any;
 
-  @ViewChild(GalleryPreviewComponent, { static: false }) preview: GalleryPreviewComponent;
-  @ViewChild(GalleryImageComponent, { static: false }) image: GalleryImageComponent;
-  @ViewChild(GalleryThumbnailsComponent, { static: false }) thubmnails: GalleryThumbnailsComponent;
+  @ViewChild(GalleryPreviewComponent, { static: false })
+  preview: GalleryPreviewComponent;
+  @ViewChild(GalleryImageComponent, { static: false })
+  galleryMainImage: GalleryImageComponent;
+  @ViewChild(GalleryThumbnailsComponent, { static: false })
+  thubmnails: GalleryThumbnailsComponent;
 
   @HostBinding('style.width') width: string;
   @HostBinding('style.height') height: string;
   @HostBinding('style.left') left: string;
 
-  constructor(private myElement: ElementRef, private helperService: GalleryHelperService) { }
-
-  ngOnInit() {
-    this.optionsLength = this.options.length;
-    this.options = this.options.map((opt) => new GalleryOptions(opt));
-    this.sortOptions();
-    this.setBreakpoint();
-    this.setOptions();
-    this.checkFullWidth();
-    if (this.currentOptions) {
-      this.selectedIndex = this.currentOptions.startIndex as number;
-    }
-  }
-
-  ngDoCheck(): void {
-    this.optionsLength = this.options.length;
-    this.setOptions();
-    if (this.images !== undefined && (this.images.length !== this.oldImagesLength)
-      || (this.images !== this.oldImages)) {
-      this.oldImagesLength = this.images.length;
-      this.oldImages = this.images;
-      this.setImages();
-
-      if (this.images && this.images.length) {
-        this.onImagesReady.emit();
-      }
-
-      if (this.image) {
-        this.image.reset(this.currentOptions.startIndex as number);
-      }
-
-      if (this.currentOptions.thumbnailsAutoHide && this.currentOptions.thumbnails
-        && this.images.length <= 1) {
-        this.currentOptions.thumbnails = false;
-        this.currentOptions.imageArrows = false;
-      }
-
-      this.resetThumbnails();
-    }
-  }
+  constructor(
+    private myElement: ElementRef,
+    private helperService: GalleryHelperService
+  ) { }
 
   ngAfterViewInit(): void {
+    if (this.galleryMainImage) {
+      this.galleryMainImage.reset(this.currentOptions.startIndex as number);
+    }
+
+    if (this.currentOptions.thumbnailsAutoHide && this.currentOptions.thumbnails && this.images.length <= 1) {
+      this.currentOptions.thumbnails = false;
+      this.currentOptions.imageArrows = false;
+    }
+
     this.checkFullWidth();
   }
 
-  @HostListener('window:resize') onResize() {
+  @HostListener('window:resize')
+  onResize() {
     this.setBreakpoint();
 
     if (this.prevBreakpoint !== this.breakpoint) {
@@ -147,36 +164,6 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
     }
   }
 
-  getImageHeight(): string {
-    return (this.currentOptions && this.currentOptions.thumbnails) ?
-      this.currentOptions.imagePercent + '%' : '100%';
-  }
-
-  getThumbnailsHeight(): string {
-    if (this.currentOptions && this.currentOptions.image) {
-      return 'calc(' + this.currentOptions.thumbnailsPercent + '% - '
-        + this.currentOptions.thumbnailsMargin + 'px)';
-    } else {
-      return '100%';
-    }
-  }
-
-  getThumbnailsMarginTop(): string {
-    if (this.currentOptions && this.currentOptions.layout === GalleryLayout.ThumbnailsBottom) {
-      return this.currentOptions.thumbnailsMargin + 'px';
-    } else {
-      return '0px';
-    }
-  }
-
-  getThumbnailsMarginBottom(): string {
-    if (this.currentOptions && this.currentOptions.layout === GalleryLayout.ThumbnailsTop) {
-      return this.currentOptions.thumbnailsMargin + 'px';
-    } else {
-      return '0px';
-    }
-  }
-
   openPreview(index: number): void {
     if (this.currentOptions.previewCustom) {
       this.currentOptions.previewCustom(index);
@@ -186,20 +173,20 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
     }
   }
 
-  PreviewOpen(): void {
+  previewOpened(): void {
     this.onPreviewOpen.emit();
 
-    if (this.image && this.image.autoPlay) {
-      this.image.stopAutoPlay();
+    if (this.galleryMainImage && this.galleryMainImage.autoPlay) {
+      this.galleryMainImage.stopAutoPlay();
     }
   }
 
-  PreviewClose(): void {
+  previewClosed(): void {
     this.previewEnabled = false;
     this.onPreviewClose.emit();
 
-    if (this.image && this.image.autoPlay) {
-      this.image.startAutoPlay();
+    if (this.galleryMainImage && this.galleryMainImage.autoPlay) {
+      this.galleryMainImage.startAutoPlay();
     }
   }
 
@@ -221,11 +208,11 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   showNext(): void {
-    this.image.showNext();
+    this.galleryMainImage.showNext();
   }
 
   showPrev(): void {
-    this.image.showPrev();
+    this.galleryMainImage.showPrev();
   }
 
   canShowNext(): boolean {
@@ -258,215 +245,97 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   canMoveThumbnailsRight() {
-    return this.thubmnails.canMoveRight();
+    return this.thubmnails.canMoveRight;
   }
 
   canMoveThumbnailsLeft() {
-    return this.thubmnails.canMoveLeft();
+    return this.thubmnails.canMoveLeft;
   }
 
   changeWidth(newWidth: string) {
-    for (let index = 0; index < this.optionsLength; index++) {
-      this.options[index].width = newWidth;
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.changeOptionsProp('width', newWidth);
   }
 
   changeHeight(newHeight: string) {
-    for (let index = 0; index < this.optionsLength; index++) {
-      this.options[index].height = newHeight;
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.changeOptionsProp('height', newHeight);
   }
 
   changeThumbPosition(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].layout === GalleryLayout.ThumbnailsTop) {
-        this.options[index].layout = GalleryLayout.ThumbnailsBottom;
-      } else {
-        this.options[index].layout = GalleryLayout.ThumbnailsTop;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.options = this.options.map(o => {
+      o.layout = o.layout === GalleryLayout.ThumbnailsTop ? GalleryLayout.ThumbnailsBottom : GalleryLayout.ThumbnailsTop;
+      return o;
+    });
   }
 
   changeImageSize(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].imageSize === GalleryImageSize.Cover) {
-        this.options[index].imageSize = GalleryImageSize.Contain;
-      } else {
-        this.options[index].imageSize = GalleryImageSize.Cover;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.options = this.options.map(o => {
+      o.imageSize = o.imageSize === GalleryImageSize.Cover ? GalleryImageSize.Contain : GalleryImageSize.Cover;
+      return o;
+    });
   }
 
   changeThumbnailSize(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].thumbnailSize === GalleryImageSize.Cover) {
-        this.options[index].thumbnailSize = GalleryImageSize.Contain;
-      } else {
-        this.options[index].thumbnailSize = GalleryImageSize.Cover;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.options = this.options.map(o => {
+      o.thumbnailSize = o.thumbnailSize === GalleryImageSize.Cover ? GalleryImageSize.Contain : GalleryImageSize.Cover;
+      return o;
+    });
   }
 
   changeImage(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].image === true) {
-        this.options[index].image = false;
-      } else {
-        this.options[index].image = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('image');
   }
 
   changeThumbnails(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].thumbnails === true) {
-        this.options[index].thumbnails = false;
-      } else {
-        this.options[index].thumbnails = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('thumbnails');
   }
 
   changePreview(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[0].preview === true) {
-        this.options[0].preview = false;
-      } else {
-        this.options[0].preview = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('preview');
   }
 
   changeImageArrows(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].imageArrows === true) {
-        this.options[index].imageArrows = false;
-      } else {
-        this.options[index].imageArrows = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('imageArrows');
   }
 
   changePreviewArrows(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewArrows === true) {
-        this.options[index].previewArrows = false;
-      } else {
-        this.options[index].previewArrows = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewArrows');
   }
 
   changePreviewAutoPlay(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewAutoPlay === true) {
-        this.options[index].previewAutoPlay = false;
-      } else {
-        this.options[index].previewAutoPlay = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewAutoPlay');
   }
 
-
   changePreviewDescription(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewDescription === true) {
-        this.options[index].previewDescription = false;
-      } else {
-        this.options[index].previewDescription = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewDescription');
   }
 
   changePreviewFullscreen(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewFullscreen === true) {
-        this.options[index].previewFullscreen = false;
-      } else {
-        this.options[index].previewFullscreen = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewFullscreen');
   }
 
   changePreviewCloseonClick(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewCloseOnClick === true) {
-        this.options[index].previewCloseOnClick = false;
-      } else {
-        this.options[index].previewCloseOnClick = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewCloseOnClick');
   }
 
   changePreviewCloseonEsc(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewCloseOnEsc === true) {
-        this.options[index].previewCloseOnEsc = false;
-      } else {
-        this.options[index].previewCloseOnEsc = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewCloseOnEsc');
   }
 
   changePreviewKeyboardNavigation(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewKeyboardNavigation === true) {
-        this.options[index].previewKeyboardNavigation = false;
-      } else {
-        this.options[index].previewKeyboardNavigation = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewKeyboardNavigation');
   }
 
   changePreviewZoom(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewZoom === true) {
-        this.options[index].previewZoom = false;
-      } else {
-        this.options[index].previewZoom = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewZoom');
   }
 
   changePreviewRotate(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewRotate === true) {
-        this.options[index].previewRotate = false;
-      } else {
-        this.options[index].previewRotate = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewRotate');
   }
 
   changePreviewDownload(): void {
-    for (let index = 0; index < this.optionsLength; index++) {
-      if (this.options[index].previewDownload === true) {
-        this.options[index].previewDownload = false;
-      } else {
-        this.options[index].previewDownload = true;
-      }
-    }
-    this.options = this.options.slice(0, this.options.length);
+    this.toggleOptionsProp('previewDownload');
   }
-
 
   private resetThumbnails() {
     if (this.thubmnails) {
@@ -491,22 +360,6 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
     }
   }
 
-  private setImages(): void {
-    this.images.forEach((img) =>
-      img.type = this.helperService.getFileType(img.url as string || img.big as string || img.medium as string || img.small as string || '')
-    );
-    this.smallImages = this.images.map((img) => (img.small || img.medium) as string);
-    this.mediumImages = this.images.map((img, i) => new GalleryOrderedImage({
-      src: img.medium,
-      type: img.type,
-      index: i
-    }));
-    this.bigImages = this.images.map((img) => (img.big as string || img.medium as string));
-    this.descriptions = this.images.map((img) => img.description as string);
-    this.links = this.images.map((img) => img.url as string);
-    this.labels = this.images.map((img) => img.label as string);
-  }
-
   private setBreakpoint(): void {
     this.prevBreakpoint = this.breakpoint;
     let breakpoints;
@@ -523,15 +376,6 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
     }
   }
 
-  private sortOptions(): void {
-    this.options = [
-      ...this.options.filter((a) => a.breakpoint === undefined),
-      ...this.options
-        .filter((a) => a.breakpoint !== undefined)
-        .sort((a, b) => b.breakpoint - a.breakpoint)
-    ];
-  }
-
   private setOptions(): void {
     this.currentOptions = new GalleryOptions({});
 
@@ -546,5 +390,20 @@ export class GalleryComponent implements OnInit, DoCheck, AfterViewInit {
   private combineOptions(first: GalleryOptions, second: GalleryOptions) {
     Object.keys(second).map((val) => first[val] = second[val] !== undefined ? second[val] : first[val]);
   }
+
+  private changeOptionsProp(prop: string, newValue: any) {
+    this.options = this.options.map(o => {
+      o[prop] = newValue;
+      return o;
+    });
+  }
+
+  private toggleOptionsProp(prop: string) {
+    this.options = this.options.map(o => {
+      o[prop] = !o[prop];
+      return o;
+    });
+  }
+
 }
 
