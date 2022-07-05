@@ -1,3 +1,7 @@
+## 8.1.0
+### Bug Fixes
+Solved code smells detected by Sonar ([1a704ba](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/1a704ba)) Closes [#34](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/34)
+
 ## 8.0.2 (2021-10-27)
 ### Features
 * **GalleryImage**: performance improvements ([fad3b49](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/fad3b49)) Closes [#25](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/25)
