@@ -19,7 +19,7 @@ export class GalleryHelperService {
           this.renderer.listen(element.nativeElement, 'swiperight', () => prevHandler())
         ]);
       } else if (!status && handlers) {
-        handlers.map((handler) => handler());
+        handlers.forEach((handler) => handler());
         this.removeSwipeHandlers(id);
       }
     } catch (e) { }
@@ -27,7 +27,7 @@ export class GalleryHelperService {
 
   validateUrl(url: string): string {
     if (url.replace) {
-      return url.replace(new RegExp(' ', 'g'), '%20')
+      return url.replace("/ /g", '%20')
         .replace(new RegExp('\'', 'g'), '%27');
     } else {
       return url;
@@ -48,7 +48,7 @@ export class GalleryHelperService {
 
   getFileType(fileSource: string): string {
     if (fileSource.startsWith('data:')) {
-      return fileSource.substr(5, Math.min(fileSource.indexOf(';'), fileSource.indexOf('/')) - 5);
+      return fileSource.substring(5, Math.min(fileSource.indexOf(';'), fileSource.indexOf('/')) - 5);
     }
     let fileExtension = fileSource.split('.').pop().toLowerCase();
     if (!fileExtension
