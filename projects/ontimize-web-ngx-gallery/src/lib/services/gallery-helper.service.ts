@@ -28,7 +28,7 @@ export class GalleryHelperService {
   validateUrl(url: string): string {
     if (url.replace) {
       return url.replace("/ /g", '%20')
-        .replace(new RegExp('\'', 'g'), '%27');
+        .replace("/\, g", '%27');
     } else {
       return url;
     }
