@@ -49,7 +49,7 @@ export class GalleryComponent implements AfterViewInit {
     this.setBreakpoint();
     this.setOptions();
     this.checkFullWidth();
-    if (this.currentOptions && this.currentOptions.startIndex as number) {
+    if (this.currentOptions) {
       this.selectedIndex = this.currentOptions.startIndex;
     }
   }
@@ -131,7 +131,7 @@ export class GalleryComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit(): void {
-    if (this.galleryMainImage && this.currentOptions.startIndex as number) {
+    if (this.galleryMainImage) {
       this.galleryMainImage.reset(this.currentOptions.startIndex);
     }
 
@@ -338,7 +338,7 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   private resetThumbnails() {
-    if (this.thubmnails && this.currentOptions.startIndex as number) {
+    if (this.thubmnails) {
       this.thubmnails.reset(this.currentOptions.startIndex);
     }
   }
@@ -383,8 +383,8 @@ export class GalleryComponent implements AfterViewInit {
       .filter((opt) => opt.breakpoint === undefined || opt.breakpoint >= this.breakpoint)
       .forEach((opt) => this.combineOptions(this.currentOptions, opt));
 
-    this.width = this.currentOptions.width as string;
-    this.height = this.currentOptions.height as string;
+    this.width = this.currentOptions.width;
+    this.height = this.currentOptions.height;
   }
 
   private combineOptions(first: GalleryOptions, second: GalleryOptions) {
