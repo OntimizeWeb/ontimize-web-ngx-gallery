@@ -7,14 +7,6 @@
   table-layout: fixed;
 }
 
-.o-gallery-arrow-left {
-  left: 0;
-}
-
-.o-gallery-arrow-right {
-  right: 0;
-}
-
 .o-gallery-arrow {
   top: 50%;
   transform: translateY(-50%);
@@ -27,12 +19,16 @@
 }
 
 .o-gallery-arrow-left {
+  left: 0;
+
   .o-gallery-arrow {
     left: 10px;
   }
 }
 
 .o-gallery-arrow-right {
+  right: 0;
+
   .o-gallery-arrow {
     right: 10px;
   }
