@@ -50,7 +50,7 @@ export class GalleryComponent implements AfterViewInit {
     this.setOptions();
     this.checkFullWidth();
     if (this.currentOptions) {
-      this.selectedIndex = this.currentOptions.startIndex as number;
+      this.selectedIndex = this.currentOptions.startIndex;
     }
   }
   get options(): GalleryOptions[] {
@@ -132,7 +132,7 @@ export class GalleryComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.galleryMainImage) {
-      this.galleryMainImage.reset(this.currentOptions.startIndex as number);
+      this.galleryMainImage.reset(this.currentOptions.startIndex);
     }
 
     if (this.currentOptions.thumbnailsAutoHide && this.currentOptions.thumbnails && this.images.length <= 1) {
@@ -339,7 +339,7 @@ export class GalleryComponent implements AfterViewInit {
 
   private resetThumbnails() {
     if (this.thubmnails) {
-      this.thubmnails.reset(this.currentOptions.startIndex as number);
+      this.thubmnails.reset(this.currentOptions.startIndex);
     }
   }
 
@@ -381,14 +381,14 @@ export class GalleryComponent implements AfterViewInit {
 
     this.options
       .filter((opt) => opt.breakpoint === undefined || opt.breakpoint >= this.breakpoint)
-      .map((opt) => this.combineOptions(this.currentOptions, opt));
+      .forEach((opt) => this.combineOptions(this.currentOptions, opt));
 
-    this.width = this.currentOptions.width as string;
-    this.height = this.currentOptions.height as string;
+    this.width = this.currentOptions.width;
+    this.height = this.currentOptions.height;
   }
 
   private combineOptions(first: GalleryOptions, second: GalleryOptions) {
-    Object.keys(second).map((val) => first[val] = second[val] !== undefined ? second[val] : first[val]);
+    Object.keys(second).forEach((val) => first[val] = second[val] !== undefined ? second[val] : first[val]);
   }
 
   private changeOptionsProp(prop: string, newValue: any) {

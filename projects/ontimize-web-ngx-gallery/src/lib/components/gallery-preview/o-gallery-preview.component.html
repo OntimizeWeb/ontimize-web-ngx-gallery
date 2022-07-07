@@ -6,7 +6,7 @@
     <o-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText"
       (onClick)="action.onClick($event, index)"></o-gallery-action>
     <a *ngIf="download && src" [href]="src" class="o-gallery-icon" aria-hidden="true" download>
-      <i class="o-gallery-icon-content">{{ downloadIcon }}</i>
+      <em class="o-gallery-icon-content">{{ downloadIcon }}</em>
     </a>
     <o-gallery-action *ngIf="zoom" [icon]="zoomOutIcon" [disabled]="!canZoomOut" (onClick)="zoomOut()"></o-gallery-action>
     <o-gallery-action *ngIf="zoom" [icon]="zoomInIcon" [disabled]="!canZoomIn" (onClick)="zoomIn()"></o-gallery-action>
@@ -22,7 +22,7 @@
 <div class="o-gallery-preview-wrapper" (click)="closeOnClick && close()" (mouseup)="mouseUpHandler($event)" (mousemove)="mouseMoveHandler($event)"
   (touchend)="mouseUpHandler($event)" (touchmove)="mouseMoveHandler($event)">
   <div class="o-gallery-preview-img-wrapper">
-    <img *ngIf="src && type === 'image'" #previewImage class="o-gallery-preview-img o-gallery-center" [src]="src" (click)="$event.stopPropagation()"
+    <img alt="previewImage" *ngIf="src && type === 'image'" #previewImage class="o-gallery-preview-img o-gallery-center" [src]="src" (click)="$event.stopPropagation()"
       (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)" (touchstart)="mouseDownHandler($event)"
       [class.o-gallery-active]="!loading" [class.animation]="animation" [class.o-gallery-grab]="canDragOnZoom" [style.transform]="getTransform"
       [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'" />
