@@ -50,16 +50,30 @@ export class GalleryHelperService {
     if (fileSource.startsWith('data:')) {
       return fileSource.substr(5, Math.min(fileSource.indexOf(';'), fileSource.indexOf('/')) - 5);
     }
-    let fileExtension = fileSource.split('.').pop().toLowerCase();
-    if (!fileExtension
-      || fileExtension === 'jpeg' || fileExtension === 'jpg'
-      || fileExtension === 'png' || fileExtension === 'bmp'
-      || fileExtension === 'gif') {
-      return 'image';
-    } else if (fileExtension === 'avi' || fileExtension === 'flv'
-      || fileExtension === 'wmv' || fileExtension === 'mov'
-      || fileExtension === 'mp4') {
-      return 'video';
+    try {
+      const url = new URL(fileSource);
+      if (url == undefined) {
+        return 'unknown';
+      }
+
+      const fileName = url.pathname.split('/').pop();
+      if (fileName == undefined || fileName.length == 0) {
+        return 'unknown';
+      }
+
+      let fileExtension = fileName.split('.').pop().toLowerCase();
+      if (!fileExtension
+        || fileExtension === 'jpeg' || fileExtension === 'jpg'
+        || fileExtension === 'png' || fileExtension === 'bmp'
+        || fileExtension === 'gif') {
+        return 'image';
+      } else if (fileExtension === 'avi' || fileExtension === 'flv'
+        || fileExtension === 'wmv' || fileExtension === 'mov'
+        || fileExtension === 'mp4') {
+        return 'video';
+      }
+    } catch (error) {
+      console.warn("Impossible to parse file source url");
     }
     return 'unknown';
   }
