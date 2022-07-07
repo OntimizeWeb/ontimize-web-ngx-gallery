@@ -1,3 +1,7 @@
+## 8.0.3 (2022-07-07)
+### Bug Fixes
+* **GalleryImage**: fix image type detection when url contains query parameters ([983376d](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/983376d2b08154fd67eba224289f4f931ad17246)) Closes [#42](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/42)
+
 ## 8.0.2 (2021-10-27)
 ### Features
 * **GalleryImage**: performance improvements ([fad3b49](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/fad3b49)) Closes [#25](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/25)
