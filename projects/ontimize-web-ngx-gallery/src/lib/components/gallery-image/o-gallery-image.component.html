@@ -1,6 +1,6 @@
 <div class="o-gallery-image-wrapper o-gallery-animation-{{animation}} o-gallery-image-size-{{size}}">
   <div *ngFor="let image of images; let i = index;">
-    <div *ngIf="image.type === 'image' || image.type === 'undefined'" [oGalleryBackgroundImg]="image.src" class="o-gallery-image"
+    <div *ngIf="image.type === 'image' || image.type === 'unknown'" [oGalleryBackgroundImg]="image.src" class="o-gallery-image"
       [ngClass]="{ 'o-gallery-active': selectedIndex == image.index, 'o-gallery-inactive-left': selectedIndex > image.index, 'o-gallery-inactive-right': selectedIndex < image.index, 'o-gallery-clickable': clickable }"
       (click)="handleClick($event, image.index)">
       <div class="o-gallery-icons-wrapper">
