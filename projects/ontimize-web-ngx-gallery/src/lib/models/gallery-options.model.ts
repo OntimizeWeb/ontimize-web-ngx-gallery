@@ -101,7 +101,7 @@ export class GalleryOptions implements IGalleryOptions {
     this.imagePercent = use(obj.imagePercent, 75);
     this.imageArrows = use(obj.imageArrows, true);
     this.imageArrowsAutoHide = use(obj.imageArrowsAutoHide, false);
-    this.imageSwipe = use(obj.imageSwipe, false);
+    this.imageSwipe = use(obj.imageSwipe, true);
     this.imageAnimation = use(obj.imageAnimation, GalleryAnimation.Fade);
     this.imageSize = use(obj.imageSize, GalleryImageSize.Cover);
     this.imageAutoPlay = use(obj.imageAutoPlay, false);
@@ -122,7 +122,7 @@ export class GalleryOptions implements IGalleryOptions {
     this.thumbnailsMargin = use(obj.thumbnailsMargin, 10);
     this.thumbnailsArrows = use(obj.thumbnailsArrows, true);
     this.thumbnailsArrowsAutoHide = use(obj.thumbnailsArrowsAutoHide, false);
-    this.thumbnailsSwipe = use(obj.thumbnailsSwipe, false);
+    this.thumbnailsSwipe = use(obj.thumbnailsSwipe, true);
     this.thumbnailsMoveSize = use(obj.thumbnailsMoveSize, 1);
     this.thumbnailsOrder = use(obj.thumbnailsOrder, GalleryOrder.Column);
     this.thumbnailsRemainingCount = use(obj.thumbnailsRemainingCount, false);
@@ -139,7 +139,7 @@ export class GalleryOptions implements IGalleryOptions {
     this.previewDescription = use(obj.previewDescription, false);
     this.previewArrows = use(obj.previewArrows, true);
     this.previewArrowsAutoHide = use(obj.previewArrowsAutoHide, false);
-    this.previewSwipe = use(obj.previewSwipe, false);
+    this.previewSwipe = use(obj.previewSwipe, true);
     this.previewFullscreen = use(obj.previewFullscreen, true);
     this.previewForceFullscreen = use(obj.previewForceFullscreen, false);
     this.previewCloseOnClick = use(obj.previewCloseOnClick, true);
