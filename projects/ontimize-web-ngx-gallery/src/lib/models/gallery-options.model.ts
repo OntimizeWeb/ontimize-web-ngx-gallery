@@ -82,10 +82,8 @@ export class GalleryOptions implements IGalleryOptions {
 
   constructor(obj: IGalleryOptions) {
 
-    const preventDefaults = obj.breakpoint === undefined ? false : true;
-
     function use<T>(source: T, defaultValue: T): T {
-      return obj && (source !== undefined || preventDefaults) ? source : defaultValue;
+      return obj && (source !== undefined) ? source : defaultValue;
     }
 
     this.breakpoint = use(obj.breakpoint, undefined);
