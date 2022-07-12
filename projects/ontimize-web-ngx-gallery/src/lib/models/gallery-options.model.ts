@@ -83,7 +83,7 @@ export class GalleryOptions implements IGalleryOptions {
   constructor(obj: IGalleryOptions) {
 
     function use<T>(source: T, defaultValue: T): T {
-      return obj && (source !== undefined) ? source : defaultValue;
+      return obj && source !== undefined ? source : defaultValue;
     }
 
     this.breakpoint = use(obj.breakpoint, undefined);
