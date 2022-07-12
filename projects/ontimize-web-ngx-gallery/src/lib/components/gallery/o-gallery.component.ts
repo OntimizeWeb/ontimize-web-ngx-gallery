@@ -337,6 +337,19 @@ export class GalleryComponent implements AfterViewInit {
     this.toggleOptionsProp('previewDownload');
   }
 
+  changeImageSwipe(): void {
+    this.toggleOptionsProp('imageSwipe');
+  }
+
+  changeThumbnailsSwipe(): void {
+    this.toggleOptionsProp('thumbnailsSwipe');
+  }
+
+  changePreviewSwipe(): void {
+    this.toggleOptionsProp('previewSwipe');
+  }
+
+
   private resetThumbnails() {
     if (this.thubmnails) {
       this.thubmnails.reset(this.currentOptions.startIndex);
