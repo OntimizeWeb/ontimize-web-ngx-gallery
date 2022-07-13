@@ -23,20 +23,4 @@
     [order]="currentOptions?.thumbnailsOrder" [remaining-count]="currentOptions?.thumbnailsRemainingCount"
     [lazy-loading]="currentOptions?.lazyLoading" [actions]="currentOptions?.thumbnailActions" (onActiveChange)="selectFromThumbnails($event)">
   </o-gallery-thumbnails>
-
-  <o-gallery-preview [images]="bigImages" [descriptions]="descriptions" [show-description]="currentOptions?.previewDescription"
-    [arrow-prev-icon]="currentOptions?.arrowPrevIcon" [arrow-next-icon]="currentOptions?.arrowNextIcon" [close-icon]="currentOptions?.closeIcon"
-    [fullscreen-icon]="currentOptions?.fullscreenIcon" [spinner-icon]="currentOptions?.spinnerIcon" [arrows]="currentOptions?.previewArrows"
-    [arrows-auto-hide]="currentOptions?.previewArrowsAutoHide" [swipe]="currentOptions?.previewSwipe" [fullscreen]="currentOptions?.previewFullscreen"
-    [force-fullscreen]="currentOptions?.previewForceFullscreen" [close-on-click]="currentOptions?.previewCloseOnClick"
-    [close-on-esc]="currentOptions?.previewCloseOnEsc" [keyboard-navigation]="currentOptions?.previewKeyboardNavigation"
-    [animation]="currentOptions?.previewAnimation" [auto-play]="currentOptions?.previewAutoPlay"
-    [auto-play-interval]="currentOptions?.previewAutoPlayInterval" [auto-play-pause-on-hover]="currentOptions?.previewAutoPlayPauseOnHover"
-    [infinity-move]="currentOptions?.previewInfinityMove" [zoom]="currentOptions?.previewZoom" [zoom-step]="currentOptions?.previewZoomStep"
-    [zoom-max]="currentOptions?.previewZoomMax" [zoom-min]="currentOptions?.previewZoomMin" [zoom-in-icon]="currentOptions?.zoomInIcon"
-    [zoom-out-icon]="currentOptions?.zoomOutIcon" [actions]="currentOptions?.actions" [rotate]="currentOptions?.previewRotate"
-    [rotate-left-icon]="currentOptions?.rotateLeftIcon" [rotate-right-icon]="currentOptions?.rotateRightIcon"
-    [download]="currentOptions?.previewDownload" [download-icon]="currentOptions?.downloadIcon" [bullets]="currentOptions?.previewBullets"
-    (onClose)="previewClosed()" (onOpen)="previewOpened()" (onActiveChange)="previewSelect($event)" [class.o-gallery-active]="previewEnabled">
-  </o-gallery-preview>
 </div>
