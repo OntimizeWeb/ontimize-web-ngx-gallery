@@ -1,4 +1,4 @@
-import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig, OverlayRef, PositionStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { AfterViewInit, Component, ComponentRef, ElementRef, EventEmitter, HostBinding, HostListener, NgZone, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
@@ -41,7 +41,6 @@ export class GalleryComponent implements AfterViewInit {
   protected subscription: Subscription = new Subscription();
   private _previewPortal: ComponentPortal<GalleryPreviewComponent>;
   private _popupComponentRef: ComponentRef<GalleryPreviewComponent> | null;
-  protected fakeElement: ElementRef = new ElementRef({ nativeElement: '' });
   _popupRef: OverlayRef;
   set options(val: GalleryOptions[]) {
     let options = val.map(option => new GalleryOptions(option));
@@ -181,18 +180,6 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   openPreview(index: number): void {
-    /*const overlayRef = this.overlay.create({
-      hasBackdrop: false,
-      panelClass: ['o-gallery'],
-      scrollStrategy: this.scrollStrategy.close()
-    });
-    this.attachContextMenu(overlayRef);*/
-    /*if (this.currentOptions.previewCustom) {
-      this.currentOptions.previewCustom(index);
-    } else {
-      this.previewEnabled = true;
-      this.preview.open(index);
-    }*/
     this.openAsPopup();
   }
   previewOpened(): void {
@@ -468,18 +455,18 @@ export class GalleryComponent implements AfterViewInit {
       backdropClass: 'mat-overlay-transparent-backdrop',
       panelClass: 'gallery-preview-popup',
       scrollStrategy: this.scrollStrategy.close(),
-      height: '400px',
-      width: '600px',
+      height: '100%',
+      width: '90%'
     });
 
     this._popupRef = this._overlay.create(overlayConfig);
     this.attachGalleryPreview(this._popupRef);
     setTimeout(() => {
       // Workaround to delete first level menu trigger
-      this._popupRef.hostElement.classList.add('overlay-ref-display-none');
+      this._popupRef.hostElement.classList.add('overlay-gallery-preview');
       const nextSibling = this._popupRef.hostElement.nextElementSibling;
       if (nextSibling) {
-        const top = nextSibling.getBoundingClientRect().top;
+        nextSibling.getBoundingClientRect().top;
       }
     })
 

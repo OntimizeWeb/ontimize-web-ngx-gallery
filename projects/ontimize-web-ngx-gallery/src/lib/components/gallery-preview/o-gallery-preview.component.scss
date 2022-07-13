@@ -10,7 +10,8 @@
 }
 
 :host {
-  display: none;
+  width: 90%;
+  height: 100%;
 
   ::ng-deep .o-gallery-arrow {
     font-size: 50px;

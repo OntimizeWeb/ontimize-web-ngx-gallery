@@ -21,6 +21,7 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
   selector: 'o-gallery-preview',
   templateUrl: './o-gallery-preview.component.html',
   styleUrls: ['./o-gallery-preview.component.scss'],
+  providers: [GalleryHelperService],
   inputs: [
     'images',
     'descriptions',
@@ -485,6 +486,10 @@ export class GalleryPreviewComponent implements OnInit, OnChanges, OnDestroy {
 
     setTimeout(() => {
       if (this.isLoaded(this.previewImage.nativeElement) || this.type === 'video') {
+        this.loading = false;
+        this.startAutoPlay();
+        this.changeDetectorRef.markForCheck();
+      } else if (this.type === 'video') {
         this.loading = false;
         this.startAutoPlay();
         this.changeDetectorRef.markForCheck();
