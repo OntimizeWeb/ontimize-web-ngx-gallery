@@ -489,10 +489,6 @@ export class GalleryPreviewComponent implements OnInit, OnChanges, OnDestroy {
         this.loading = false;
         this.startAutoPlay();
         this.changeDetectorRef.markForCheck();
-      } else if (this.type === 'video') {
-        this.loading = false;
-        this.startAutoPlay();
-        this.changeDetectorRef.markForCheck();
       } else {
         setTimeout(() => {
           if (this.loading) {

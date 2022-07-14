@@ -1,4 +1,4 @@
-import { Overlay, OverlayConfig, OverlayRef, PositionStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { AfterViewInit, Component, ComponentRef, ElementRef, EventEmitter, HostBinding, HostListener, NgZone, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
