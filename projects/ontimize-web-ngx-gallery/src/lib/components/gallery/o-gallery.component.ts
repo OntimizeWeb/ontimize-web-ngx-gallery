@@ -1,5 +1,8 @@
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { merge } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { ESCAPE, UP_ARROW } from '@angular/cdk/keycodes';
 import {
   AfterViewInit,
   Component,
@@ -15,7 +18,6 @@ import {
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
 import { GalleryImage } from '../../models/gallery-image.model';
 import { GalleryLayout } from '../../models/gallery-layout.model';
@@ -25,6 +27,7 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
 import { GalleryImageComponent } from '../gallery-image/o-gallery-image.component';
 import { GalleryPreviewComponent } from '../gallery-preview/o-gallery-preview.component';
 import { GalleryThumbnailsComponent } from '../gallery-thumbnails/o-gallery-thumbnails.component';
+
 
 
 export const DEFAULT_OUTPUTS_O_GALLERY = [
@@ -205,6 +208,15 @@ export class GalleryComponent implements AfterViewInit {
 
     if (this.galleryMainImage && this.galleryMainImage.autoPlay) {
       this.galleryMainImage.startAutoPlay();
+    }
+    if (this._popupRef && this._popupRef.hasAttached()) {
+      this._popupRef.detach();
+    }
+    if (this._viewContainerRef) {
+      this._viewContainerRef.detach();
+    }
+    if (this._previewPortal && this._previewPortal.isAttached) {
+      this._previewPortal.detach();
     }
   }
 
@@ -470,6 +482,16 @@ export class GalleryComponent implements AfterViewInit {
 
     this._popupRef = this._overlay.create(overlayConfig);
     this.attachGalleryPreview(this._popupRef, index);
+
+    merge(
+      this._popupRef.backdropClick(),
+      this._popupRef.detachments(),
+      this._popupRef.keydownEvents().pipe(filter(event => {
+        // Closing on alt + up is only valid when there's an input associated with the datepicker.
+        return event.keyCode === ESCAPE ||
+          (this._el && event.altKey && event.keyCode === UP_ARROW);
+      }))
+    ).subscribe(() => this.previewClosed());
   }
 
   protected attachGalleryPreview(overlay: OverlayRef, index: number): void {
