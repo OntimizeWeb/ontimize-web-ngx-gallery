@@ -461,17 +461,6 @@ export class GalleryComponent implements AfterViewInit {
 
     this._popupRef = this._overlay.create(overlayConfig);
     this.attachGalleryPreview(this._popupRef);
-    setTimeout(() => {
-      // Workaround to delete first level menu trigger
-      this._popupRef.hostElement.classList.add('overlay-gallery-preview');
-      const nextSibling = this._popupRef.hostElement.nextElementSibling;
-      if (nextSibling) {
-        nextSibling.getBoundingClientRect().top;
-      }
-    })
-
-
-
   }
 
   protected attachGalleryPreview(overlay: OverlayRef): void {
