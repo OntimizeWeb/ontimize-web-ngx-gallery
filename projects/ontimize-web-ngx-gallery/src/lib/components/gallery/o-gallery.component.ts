@@ -1,10 +1,21 @@
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { AfterViewInit, Component, ComponentRef, ElementRef, EventEmitter, HostBinding, HostListener, NgZone, ViewChild, ViewContainerRef } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import {
+  AfterViewInit,
+  Component,
+  ComponentRef,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  NgZone,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
 import { GalleryImage } from '../../models/gallery-image.model';
 import { GalleryLayout } from '../../models/gallery-layout.model';
@@ -40,7 +51,6 @@ export class GalleryComponent implements AfterViewInit {
 
   protected subscription: Subscription = new Subscription();
   private _previewPortal: ComponentPortal<GalleryPreviewComponent>;
-  private _popupComponentRef: ComponentRef<GalleryPreviewComponent> | null;
   _popupRef: OverlayRef;
   set options(val: GalleryOptions[]) {
     let options = val.map(option => new GalleryOptions(option));
@@ -123,8 +133,6 @@ export class GalleryComponent implements AfterViewInit {
   private prevBreakpoint: number | undefined = undefined;
   private fullWidthTimeout: any;
 
-
-  preview: GalleryPreviewComponent;
   @ViewChild(GalleryImageComponent, { static: false })
   galleryMainImage: GalleryImageComponent;
   @ViewChild(GalleryThumbnailsComponent, { static: false })
@@ -135,7 +143,6 @@ export class GalleryComponent implements AfterViewInit {
   @HostBinding('style.left') left: string;
 
   constructor(
-    private _dialog: MatDialog,
     public _viewContainerRef: ViewContainerRef,
     private myElement: ElementRef,
     private _ngZone: NgZone,
@@ -180,8 +187,10 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   openPreview(index: number): void {
-    this.openAsPopup();
+    this.previewEnabled = true;
+    this.openAsPopup(index);
   }
+
   previewOpened(): void {
     this.onPreviewOpen.emit();
 
@@ -426,20 +435,20 @@ export class GalleryComponent implements AfterViewInit {
       return o;
     });
   }
-  public openAsPopup(): void {
+
+  public openAsPopup(index: number): void {
     if (!this._previewPortal) {
       this._previewPortal = new ComponentPortal<GalleryPreviewComponent>(GalleryPreviewComponent,
         this._viewContainerRef);
     }
 
     if (!this._popupRef) {
-      this._createPopup();
+      this._createPopup(index);
     }
 
 
     if (!this._popupRef.hasAttached()) {
-      this._popupComponentRef = this._popupRef.attach(this._previewPortal);
-
+      this._popupRef.attach(this._previewPortal);
 
       // Update the position once the calendar has rendered.
       this._ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
@@ -448,7 +457,7 @@ export class GalleryComponent implements AfterViewInit {
     }
   }
   /** Create the popup. */
-  private _createPopup(): void {
+  private _createPopup(index: number): void {
 
     const overlayConfig = new OverlayConfig({
       hasBackdrop: true,
@@ -456,14 +465,14 @@ export class GalleryComponent implements AfterViewInit {
       panelClass: 'gallery-preview-popup',
       scrollStrategy: this.scrollStrategy.close(),
       height: '100%',
-      width: '90%'
+      width: '100%'
     });
 
     this._popupRef = this._overlay.create(overlayConfig);
-    this.attachGalleryPreview(this._popupRef);
+    this.attachGalleryPreview(this._popupRef, index);
   }
 
-  protected attachGalleryPreview(overlay: OverlayRef): void {
+  protected attachGalleryPreview(overlay: OverlayRef, index: number): void {
     const galleryPreviewContent: ComponentRef<GalleryPreviewComponent> = overlay.attach(new ComponentPortal(GalleryPreviewComponent));
     galleryPreviewContent.instance.images = this.bigImages;
     galleryPreviewContent.instance.descriptions = this.descriptions;
@@ -498,11 +507,13 @@ export class GalleryComponent implements AfterViewInit {
     galleryPreviewContent.instance.rotateRightIcon = this.currentOptions.rotateRightIcon;
     galleryPreviewContent.instance.download = this.currentOptions.previewDownload;
     galleryPreviewContent.instance.downloadIcon = this.currentOptions.downloadIcon;
+    galleryPreviewContent.instance.previewEnabled = this.previewEnabled;
 
-    galleryPreviewContent.instance.onClose = this.onPreviewClose;
-    galleryPreviewContent.instance.onOpen = this.onPreviewOpen;
+    this.subscription.add(galleryPreviewContent.instance.onClose.subscribe(() => this.previewClosed()))
+    this.subscription.add(galleryPreviewContent.instance.onOpen.subscribe(() => this.previewOpened()))
+    this.subscription.add(galleryPreviewContent.instance.onActiveChange.subscribe((arg) => this.previewSelect(arg)))
 
-    this.subscription.add(galleryPreviewContent.instance.close());
+    galleryPreviewContent.instance.open(index || 0);
   }
 
 }
