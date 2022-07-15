@@ -1,4 +1,4 @@
-## 8.1.0
+## 8.1.0 (2022-07-15)
 ### Features
 * **o-gallery**: New methods `changeImageSwipe`, `changeThumbnailsSwipe`,`changePreviewSwipe` ([92ca941](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/92ca941))
 ### Bug Fixes
