@@ -9,7 +9,8 @@ import {
   OnInit,
   Renderer2,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { InputConverter } from 'ontimize-web-ngx';
@@ -21,6 +22,7 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
   selector: 'o-gallery-preview',
   templateUrl: './o-gallery-preview.component.html',
   styleUrls: ['./o-gallery-preview.component.scss'],
+  providers: [GalleryHelperService],
   inputs: [
     'images',
     'descriptions',
@@ -55,13 +57,19 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
     'rotateRightIcon : rotate-right-icon',
     'download',
     'downloadIcon : download-icon',
-    'bullets'
+    'bullets',
+    'previewEnabled'
   ],
   outputs: [
     'onOpen',
     'onClose',
     'onActiveChange'
-  ]
+  ],
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class.o-gallery-preview]': 'true',
+    '[class.o-gallery-active]': 'previewEnabled'
+  }
 })
 export class GalleryPreviewComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -127,6 +135,8 @@ export class GalleryPreviewComponent implements OnInit, OnChanges, OnDestroy {
   public download: boolean;
   public downloadIcon: string;
   public bullets: string;
+  @InputConverter()
+  public previewEnabled: boolean;
 
   onOpen = new EventEmitter();
   onClose = new EventEmitter();
