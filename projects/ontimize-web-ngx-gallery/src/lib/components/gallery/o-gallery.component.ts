@@ -486,7 +486,6 @@ export class GalleryComponent implements AfterViewInit {
       this.galleryOverlayRef.backdropClick(),
       this.galleryOverlayRef.detachments(),
       this.galleryOverlayRef.keydownEvents().pipe(filter(event => {
-        // Closing on alt + up is only valid when there's an input associated with the datepicker.
         return event.keyCode === ESCAPE ||
           (this.el && event.altKey && event.keyCode === UP_ARROW);
       }))
