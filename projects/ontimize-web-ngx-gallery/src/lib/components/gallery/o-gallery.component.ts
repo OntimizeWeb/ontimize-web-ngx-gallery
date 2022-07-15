@@ -1,6 +1,21 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostBinding, HostListener, ViewChild } from '@angular/core';
+import { ESCAPE, UP_ARROW } from '@angular/cdk/keycodes';
+import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import {
+  AfterViewInit,
+  Component,
+  ComponentRef,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  NgZone,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
-
+import { merge, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
 import { GalleryImage } from '../../models/gallery-image.model';
 import { GalleryLayout } from '../../models/gallery-layout.model';
@@ -10,6 +25,8 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
 import { GalleryImageComponent } from '../gallery-image/o-gallery-image.component';
 import { GalleryPreviewComponent } from '../gallery-preview/o-gallery-preview.component';
 import { GalleryThumbnailsComponent } from '../gallery-thumbnails/o-gallery-thumbnails.component';
+
+
 
 export const DEFAULT_OUTPUTS_O_GALLERY = [
   'onImagesReady',
@@ -33,6 +50,10 @@ export const DEFAULT_INPUTS_O_GALLERY = [
 })
 export class GalleryComponent implements AfterViewInit {
 
+  protected subscription: Subscription = new Subscription();
+  protected previewComponentPortal: ComponentPortal<GalleryPreviewComponent>;
+  protected galleryOverlayRef: OverlayRef;
+
   set options(val: GalleryOptions[]) {
     let options = val.map(option => new GalleryOptions(option));
 
@@ -50,9 +71,10 @@ export class GalleryComponent implements AfterViewInit {
     this.setOptions();
     this.checkFullWidth();
     if (this.currentOptions) {
-      this.selectedIndex = this.currentOptions.startIndex as number;
+      this.selectedIndex = this.currentOptions.startIndex;
     }
   }
+
   get options(): GalleryOptions[] {
     return this._options;
   }
@@ -68,7 +90,7 @@ export class GalleryComponent implements AfterViewInit {
     const links = [];
     const labels = [];
     this._images.forEach((img, i) => {
-      img.type = this.helperService.getFileType(img.url as string || img.big as string || img.medium as string || img.small as string || '');
+      img.type = this.helperService.getFileType(img.url || img.big as string || img.medium as string || img.small as string || '');
       smallImages.push(img.small || img.medium);
       mediumImages.push(new GalleryOrderedImage({ src: img.medium, type: img.type, index: i }));
       bigImages.push(img.big || img.medium);
@@ -114,8 +136,6 @@ export class GalleryComponent implements AfterViewInit {
   private prevBreakpoint: number | undefined = undefined;
   private fullWidthTimeout: any;
 
-  @ViewChild(GalleryPreviewComponent, { static: false })
-  preview: GalleryPreviewComponent;
   @ViewChild(GalleryImageComponent, { static: false })
   galleryMainImage: GalleryImageComponent;
   @ViewChild(GalleryThumbnailsComponent, { static: false })
@@ -126,13 +146,18 @@ export class GalleryComponent implements AfterViewInit {
   @HostBinding('style.left') left: string;
 
   constructor(
+    public viewContainerRef: ViewContainerRef,
     private myElement: ElementRef,
-    private helperService: GalleryHelperService
+    private ngZone: NgZone,
+    private helperService: GalleryHelperService,
+    private overlay: Overlay,
+    public el: ElementRef,
+    private scrollStrategy: ScrollStrategyOptions,
   ) { }
 
   ngAfterViewInit(): void {
     if (this.galleryMainImage) {
-      this.galleryMainImage.reset(this.currentOptions.startIndex as number);
+      this.galleryMainImage.reset(this.currentOptions.startIndex);
     }
 
     if (this.currentOptions.thumbnailsAutoHide && this.currentOptions.thumbnails && this.images.length <= 1) {
@@ -165,12 +190,8 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   openPreview(index: number): void {
-    if (this.currentOptions.previewCustom) {
-      this.currentOptions.previewCustom(index);
-    } else {
-      this.previewEnabled = true;
-      this.preview.open(index);
-    }
+    this.previewEnabled = true;
+    this.openGalleryPreview(index);
   }
 
   previewOpened(): void {
@@ -187,6 +208,14 @@ export class GalleryComponent implements AfterViewInit {
 
     if (this.galleryMainImage && this.galleryMainImage.autoPlay) {
       this.galleryMainImage.startAutoPlay();
+    }
+    if (this.galleryOverlayRef && this.galleryOverlayRef.hasAttached()) {
+      this.galleryOverlayRef.detach();
+      this.galleryOverlayRef.dispose();
+      this.galleryOverlayRef = null;
+    }
+    if (this.previewComponentPortal && this.previewComponentPortal.isAttached) {
+      this.previewComponentPortal.detach();
     }
   }
 
@@ -337,9 +366,22 @@ export class GalleryComponent implements AfterViewInit {
     this.toggleOptionsProp('previewDownload');
   }
 
+  changeImageSwipe(): void {
+    this.toggleOptionsProp('imageSwipe');
+  }
+
+  changeThumbnailsSwipe(): void {
+    this.toggleOptionsProp('thumbnailsSwipe');
+  }
+
+  changePreviewSwipe(): void {
+    this.toggleOptionsProp('previewSwipe');
+  }
+
+
   private resetThumbnails() {
     if (this.thubmnails) {
-      this.thubmnails.reset(this.currentOptions.startIndex as number);
+      this.thubmnails.reset(this.currentOptions.startIndex);
     }
   }
 
@@ -381,14 +423,14 @@ export class GalleryComponent implements AfterViewInit {
 
     this.options
       .filter((opt) => opt.breakpoint === undefined || opt.breakpoint >= this.breakpoint)
-      .map((opt) => this.combineOptions(this.currentOptions, opt));
+      .forEach((opt) => this.combineOptions(this.currentOptions, opt));
 
-    this.width = this.currentOptions.width as string;
-    this.height = this.currentOptions.height as string;
+    this.width = this.currentOptions.width;
+    this.height = this.currentOptions.height;
   }
 
   private combineOptions(first: GalleryOptions, second: GalleryOptions) {
-    Object.keys(second).map((val) => first[val] = second[val] !== undefined ? second[val] : first[val]);
+    Object.keys(second).forEach((val) => first[val] = second[val] !== undefined ? second[val] : first[val]);
   }
 
   private changeOptionsProp(prop: string, newValue: any) {
@@ -405,5 +447,95 @@ export class GalleryComponent implements AfterViewInit {
     });
   }
 
+  public openGalleryPreview(index: number): void {
+    if (!this.previewComponentPortal) {
+      this.previewComponentPortal = new ComponentPortal<GalleryPreviewComponent>(GalleryPreviewComponent,
+        this.viewContainerRef);
+    }
+
+    if (!this.galleryOverlayRef) {
+      this.createGalleryOverlay(index);
+    }
+
+
+    if (!this.galleryOverlayRef.hasAttached()) {
+      this.galleryOverlayRef.attach(this.previewComponentPortal);
+
+      // Update the position once the calendar has rendered.
+      this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
+        this.galleryOverlayRef.updatePosition();
+      });
+    }
+  }
+
+  /** Create the popup. */
+  protected createGalleryOverlay(index: number): void {
+    const overlayConfig = new OverlayConfig({
+      hasBackdrop: true,
+      backdropClass: 'mat-overlay-transparent-backdrop',
+      panelClass: 'gallery-preview-popup',
+      scrollStrategy: this.scrollStrategy.close(),
+      height: '100%',
+      width: '100%'
+    });
+
+    this.galleryOverlayRef = this.overlay.create(overlayConfig);
+    this.attachGalleryPreview(this.galleryOverlayRef, index);
+
+    merge(
+      this.galleryOverlayRef.backdropClick(),
+      this.galleryOverlayRef.detachments(),
+      this.galleryOverlayRef.keydownEvents().pipe(filter(event => {
+        return event.keyCode === ESCAPE ||
+          (this.el && event.altKey && event.keyCode === UP_ARROW);
+      }))
+    ).subscribe(() => this.previewClosed());
+  }
+
+  protected attachGalleryPreview(overlay: OverlayRef, index: number): void {
+    const galleryPreviewContent: ComponentRef<GalleryPreviewComponent> = overlay.attach(new ComponentPortal(GalleryPreviewComponent));
+    galleryPreviewContent.instance.images = this.bigImages;
+    galleryPreviewContent.instance.descriptions = this.descriptions;
+    galleryPreviewContent.instance.showDescription = this.currentOptions.previewDescription;
+    galleryPreviewContent.instance.arrowPrevIcon = this.currentOptions.arrowPrevIcon;
+    galleryPreviewContent.instance.arrowNextIcon = this.currentOptions.arrowNextIcon;
+    galleryPreviewContent.instance.closeIcon = this.currentOptions.closeIcon;
+    galleryPreviewContent.instance.fullscreenIcon = this.currentOptions.fullscreenIcon;
+    galleryPreviewContent.instance.spinnerIcon = this.currentOptions.spinnerIcon;
+    galleryPreviewContent.instance.arrows = this.currentOptions.previewArrows;
+    galleryPreviewContent.instance.arrowsAutoHide = this.currentOptions.previewArrowsAutoHide;
+    galleryPreviewContent.instance.swipe = this.currentOptions.previewSwipe;
+    galleryPreviewContent.instance.fullscreen = this.currentOptions.previewFullscreen;
+    galleryPreviewContent.instance.forceFullscreen = this.currentOptions.previewForceFullscreen;
+    galleryPreviewContent.instance.closeOnClick = this.currentOptions.previewCloseOnClick;
+    galleryPreviewContent.instance.closeOnEsc = this.currentOptions.previewCloseOnEsc;
+    galleryPreviewContent.instance.keyboardNavigation = this.currentOptions.previewKeyboardNavigation;
+    galleryPreviewContent.instance.animation = this.currentOptions.previewAnimation;
+    galleryPreviewContent.instance.autoPlay = this.currentOptions.imageAutoPlay;
+    galleryPreviewContent.instance.autoPlayInterval = this.currentOptions.imageAutoPlayInterval;
+    galleryPreviewContent.instance.autoPlayPauseOnHover = this.currentOptions.imageAutoPlayPauseOnHover;
+    galleryPreviewContent.instance.infinityMove = this.currentOptions.previewInfinityMove;
+    galleryPreviewContent.instance.zoom = this.currentOptions.previewZoom;
+    galleryPreviewContent.instance.zoomStep = this.currentOptions.previewZoomStep;
+    galleryPreviewContent.instance.zoomMax = this.currentOptions.previewZoomMax;
+    galleryPreviewContent.instance.zoomMin = this.currentOptions.previewZoomMin;
+    galleryPreviewContent.instance.zoomInIcon = this.currentOptions.zoomInIcon;
+    galleryPreviewContent.instance.zoomOutIcon = this.currentOptions.zoomOutIcon;
+    galleryPreviewContent.instance.actions = this.currentOptions.actions;
+    galleryPreviewContent.instance.rotate = this.currentOptions.previewRotate;
+    galleryPreviewContent.instance.rotateLeftIcon = this.currentOptions.rotateLeftIcon;
+    galleryPreviewContent.instance.rotateRightIcon = this.currentOptions.rotateRightIcon;
+    galleryPreviewContent.instance.download = this.currentOptions.previewDownload;
+    galleryPreviewContent.instance.downloadIcon = this.currentOptions.downloadIcon;
+    galleryPreviewContent.instance.previewEnabled = this.previewEnabled;
+
+    this.subscription.add(galleryPreviewContent.instance.onClose.subscribe(() => this.previewClosed()))
+    this.subscription.add(galleryPreviewContent.instance.onOpen.subscribe(() => this.previewOpened()))
+    this.subscription.add(galleryPreviewContent.instance.onActiveChange.subscribe((arg) => this.previewSelect(arg)))
+
+    galleryPreviewContent.instance.open(index || 0);
+  }
+
 }
+
 

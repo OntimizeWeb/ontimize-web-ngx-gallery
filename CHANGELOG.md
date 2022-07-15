@@ -1,3 +1,15 @@
+## 8.1.0 (2022-07-15)
+### Features
+* **o-gallery**: New methods `changeImageSwipe`, `changeThumbnailsSwipe`,`changePreviewSwipe` ([92ca941](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/92ca941))
+### Bug Fixes
+* **o-gallery-preview**: Fixed issue that caused the left navigation arrow to be hidden under the menu ([c079cc5](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/c079cc5)) Closes [#24](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/24)
+* Solved code smells detected by Sonar ([1a704ba](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/1a704ba)) Closes [#34](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/34)
+### BREAKING CHANGES
+* **o-gallery-options**:
+  * now values ​​of `imageSwipe`, `thumbnailsSwipe`, `previewSwipe` inputs have been replaced by `true` by default ([5c447fa](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5c447fa)) Closes [#36](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/36)
+  * now it is not necessary to add the properties with the default values ([ffea97c](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/ffea97c))
+
+
 ## 8.0.3 (2022-07-07)
 ### Bug Fixes
 * **GalleryImage**: fix image type detection when url contains query parameters ([983376d](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/983376d2b08154fd67eba224289f4f931ad17246)) Closes [#42](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/42)

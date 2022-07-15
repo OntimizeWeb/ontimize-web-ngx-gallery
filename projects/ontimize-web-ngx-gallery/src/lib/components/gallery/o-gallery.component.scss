@@ -1,7 +1,7 @@
 :host {
   display: inline-block;
 
-  & > * {
+  &>* {
     float: left;
   }
 
@@ -11,7 +11,7 @@
     }
 
     .o-gallery-icon {
-      font-family: 'Material Icons';
+      font-family: 'Material Icons', sans-serif;
       color: white;
       font-size: 25px;
       position: absolute;
