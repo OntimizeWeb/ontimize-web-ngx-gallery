@@ -2,6 +2,7 @@
 ### Features
 * **o-gallery**: New methods `changeImageSwipe`, `changeThumbnailsSwipe`,`changePreviewSwipe` ([92ca941](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/92ca941))
 ### Bug Fixes
+* **o-gallery-preview**: The o-gallery-component now opens a ComponentPortal of the o-gallery-preview component instead of directly ([c079cc5](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/c079cc5)) Closes [#24](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/24)
 Solved code smells detected by Sonar ([1a704ba](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/1a704ba)) Closes [#34](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/34)
 ### BREAKING CHANGES
 * **o-gallery-options**:
