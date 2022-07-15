@@ -1,8 +1,6 @@
+import { ESCAPE, UP_ARROW } from '@angular/cdk/keycodes';
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { merge } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { ESCAPE, UP_ARROW } from '@angular/cdk/keycodes';
 import {
   AfterViewInit,
   Component,
@@ -16,8 +14,8 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { merge, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
 import { GalleryImage } from '../../models/gallery-image.model';
 import { GalleryLayout } from '../../models/gallery-layout.model';
