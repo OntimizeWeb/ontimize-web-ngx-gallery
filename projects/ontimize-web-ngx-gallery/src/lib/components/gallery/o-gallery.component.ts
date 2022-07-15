@@ -53,8 +53,9 @@ export const DEFAULT_INPUTS_O_GALLERY = [
 export class GalleryComponent implements AfterViewInit {
 
   protected subscription: Subscription = new Subscription();
-  private _previewPortal: ComponentPortal<GalleryPreviewComponent>;
-  _popupRef: OverlayRef;
+  protected previewComponentPortal: ComponentPortal<GalleryPreviewComponent>;
+  protected galleryOverlayRef: OverlayRef;
+
   set options(val: GalleryOptions[]) {
     let options = val.map(option => new GalleryOptions(option));
 
@@ -75,6 +76,7 @@ export class GalleryComponent implements AfterViewInit {
       this.selectedIndex = this.currentOptions.startIndex;
     }
   }
+
   get options(): GalleryOptions[] {
     return this._options;
   }
@@ -146,12 +148,12 @@ export class GalleryComponent implements AfterViewInit {
   @HostBinding('style.left') left: string;
 
   constructor(
-    public _viewContainerRef: ViewContainerRef,
+    public viewContainerRef: ViewContainerRef,
     private myElement: ElementRef,
-    private _ngZone: NgZone,
+    private ngZone: NgZone,
     private helperService: GalleryHelperService,
-    private _overlay: Overlay,
-    public _el: ElementRef,
+    private overlay: Overlay,
+    public el: ElementRef,
     private scrollStrategy: ScrollStrategyOptions,
   ) { }
 
@@ -191,7 +193,7 @@ export class GalleryComponent implements AfterViewInit {
 
   openPreview(index: number): void {
     this.previewEnabled = true;
-    this.openAsPopup(index);
+    this.openGalleryPreview(index);
   }
 
   previewOpened(): void {
@@ -209,14 +211,13 @@ export class GalleryComponent implements AfterViewInit {
     if (this.galleryMainImage && this.galleryMainImage.autoPlay) {
       this.galleryMainImage.startAutoPlay();
     }
-    if (this._popupRef && this._popupRef.hasAttached()) {
-      this._popupRef.detach();
+    if (this.galleryOverlayRef && this.galleryOverlayRef.hasAttached()) {
+      this.galleryOverlayRef.detach();
+      this.galleryOverlayRef.dispose();
+      this.galleryOverlayRef = null;
     }
-    if (this._viewContainerRef) {
-      this._viewContainerRef.detach();
-    }
-    if (this._previewPortal && this._previewPortal.isAttached) {
-      this._previewPortal.detach();
+    if (this.previewComponentPortal && this.previewComponentPortal.isAttached) {
+      this.previewComponentPortal.detach();
     }
   }
 
@@ -448,29 +449,29 @@ export class GalleryComponent implements AfterViewInit {
     });
   }
 
-  public openAsPopup(index: number): void {
-    if (!this._previewPortal) {
-      this._previewPortal = new ComponentPortal<GalleryPreviewComponent>(GalleryPreviewComponent,
-        this._viewContainerRef);
+  public openGalleryPreview(index: number): void {
+    if (!this.previewComponentPortal) {
+      this.previewComponentPortal = new ComponentPortal<GalleryPreviewComponent>(GalleryPreviewComponent,
+        this.viewContainerRef);
     }
 
-    if (!this._popupRef) {
-      this._createPopup(index);
+    if (!this.galleryOverlayRef) {
+      this.createGalleryOverlay(index);
     }
 
 
-    if (!this._popupRef.hasAttached()) {
-      this._popupRef.attach(this._previewPortal);
+    if (!this.galleryOverlayRef.hasAttached()) {
+      this.galleryOverlayRef.attach(this.previewComponentPortal);
 
       // Update the position once the calendar has rendered.
-      this._ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
-        this._popupRef.updatePosition();
+      this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
+        this.galleryOverlayRef.updatePosition();
       });
     }
   }
-  /** Create the popup. */
-  private _createPopup(index: number): void {
 
+  /** Create the popup. */
+  protected createGalleryOverlay(index: number): void {
     const overlayConfig = new OverlayConfig({
       hasBackdrop: true,
       backdropClass: 'mat-overlay-transparent-backdrop',
@@ -480,16 +481,16 @@ export class GalleryComponent implements AfterViewInit {
       width: '100%'
     });
 
-    this._popupRef = this._overlay.create(overlayConfig);
-    this.attachGalleryPreview(this._popupRef, index);
+    this.galleryOverlayRef = this.overlay.create(overlayConfig);
+    this.attachGalleryPreview(this.galleryOverlayRef, index);
 
     merge(
-      this._popupRef.backdropClick(),
-      this._popupRef.detachments(),
-      this._popupRef.keydownEvents().pipe(filter(event => {
+      this.galleryOverlayRef.backdropClick(),
+      this.galleryOverlayRef.detachments(),
+      this.galleryOverlayRef.keydownEvents().pipe(filter(event => {
         // Closing on alt + up is only valid when there's an input associated with the datepicker.
         return event.keyCode === ESCAPE ||
-          (this._el && event.altKey && event.keyCode === UP_ARROW);
+          (this.el && event.altKey && event.keyCode === UP_ARROW);
       }))
     ).subscribe(() => this.previewClosed());
   }
