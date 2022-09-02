@@ -48,7 +48,7 @@ export class GalleryHelperService {
 
   getFileType(fileSource: string): string {
     if (fileSource.startsWith('data:')) {
-      return fileSource.substring(5, Math.min(fileSource.indexOf(';'), fileSource.indexOf('/')) - 5);
+      return fileSource.substring(fileSource.indexOf(':') + 1, fileSource.indexOf('/')).replace("\"","'");
     }
     try {
       const url = new URL(fileSource);
