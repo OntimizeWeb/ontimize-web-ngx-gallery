@@ -48,19 +48,26 @@ export class GalleryHelperService {
 
   getFileType(fileSource: string): string {
     if (fileSource.startsWith('data:')) {
-      return fileSource.substring(fileSource.indexOf(':') + 1, fileSource.indexOf('/')).replace("\"","'");
+      const regExp = /^\s*data:([a-z]+\/[a-z\*]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
+      const mimeType = fileSource.match(regExp)[1];
+      if (mimeType != undefined) {
+        switch (mimeType.split("/")[0]) {
+          case 'image': return 'image';
+          case 'video': return 'video';
+          default: return 'unknown';
+        }
+      }
+      else { return 'unknown' }
     }
     try {
       const url = new URL(fileSource);
       if (url == undefined) {
         return 'unknown';
       }
-
       const fileName = url.pathname.split('/').pop();
       if (fileName == undefined || fileName.length == 0) {
         return 'unknown';
       }
-
       let fileExtension = fileName.split('.').pop().toLowerCase();
       if (!fileExtension
         || fileExtension === 'jpeg' || fileExtension === 'jpg'
