@@ -1,3 +1,7 @@
+## 8.1.1 (2022-09-05)
+### Bug Fixes
+* **gallery-helper-service**: solved error getting file type ([5185eb1](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5185eb1)) Closes [#60](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/60)
+
 ## 8.1.0 (2022-07-15)
 ### Features
 * **o-gallery**: New methods `changeImageSwipe`, `changeThumbnailsSwipe`,`changePreviewSwipe` ([92ca941](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/92ca941))
@@ -8,7 +12,6 @@
 * **o-gallery-options**:
   * now values ​​of `imageSwipe`, `thumbnailsSwipe`, `previewSwipe` inputs have been replaced by `true` by default ([5c447fa](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5c447fa)) Closes [#36](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/36)
   * now it is not necessary to add the properties with the default values ([ffea97c](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/ffea97c))
-
 
 ## 8.0.3 (2022-07-07)
 ### Bug Fixes

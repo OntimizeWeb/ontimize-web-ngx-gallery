@@ -1,4 +1,5 @@
 import { Injectable, ElementRef, Renderer2 } from '@angular/core';
+import { Util } from '../util/util';
 
 @Injectable()
 export class GalleryHelperService {
@@ -47,20 +48,28 @@ export class GalleryHelperService {
   }
 
   getFileType(fileSource: string): string {
-    if (fileSource.startsWith('data:')) {
-      return fileSource.substring(5, Math.min(fileSource.indexOf(';'), fileSource.indexOf('/')) - 5);
+    //First we check if the filesouce starts with data:
+    if (!Util.isUrl(fileSource)) {
+      //We get the mimeType and check that it is a valid type
+      let mimeType = Util.getMimeType(fileSource);
+      if (mimeType != undefined) {
+        switch (mimeType.split("/")[0]) {
+          case 'image': return 'image';
+          case 'video': return 'video';
+          default: return 'unknown';
+        }
+      }
+      else { return 'unknown' }
     }
     try {
       const url = new URL(fileSource);
       if (url == undefined) {
         return 'unknown';
       }
-
       const fileName = url.pathname.split('/').pop();
       if (fileName == undefined || fileName.length == 0) {
         return 'unknown';
       }
-
       let fileExtension = fileName.split('.').pop().toLowerCase();
       if (!fileExtension
         || fileExtension === 'jpeg' || fileExtension === 'jpg'
