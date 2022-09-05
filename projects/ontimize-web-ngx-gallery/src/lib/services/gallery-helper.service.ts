@@ -48,8 +48,10 @@ export class GalleryHelperService {
   }
 
   getFileType(fileSource: string): string {
-    let mimeType = Util.getMimeType(fileSource);
-    if (mimeType != null) {
+    //First we check if the filesouce starts with data:
+    if (!Util.isUrl(fileSource)) {
+      //We get the mimeType and check that it is a valid type
+      let mimeType = Util.getMimeType(fileSource);
       if (mimeType != undefined) {
         switch (mimeType.split("/")[0]) {
           case 'image': return 'image';
