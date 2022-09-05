@@ -48,8 +48,11 @@ export class GalleryHelperService {
 
   getFileType(fileSource: string): string {
     if (fileSource.startsWith('data:')) {
-      const regExp = /^\s*data:([a-z]+\/[a-z\*]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
-      const mimeType = fileSource.match(regExp)[1];
+      let base64ContentArray = fileSource.split(",")
+
+      const regExp = /^\s*data:([a-z]+\/[a-z\*]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?\s*$/i;
+      let mimeType = base64ContentArray[0].match(regExp)[1];
+
       if (mimeType != undefined) {
         switch (mimeType.split("/")[0]) {
           case 'image': return 'image';
