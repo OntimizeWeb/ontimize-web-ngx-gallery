@@ -1,15 +1,11 @@
-name: Build CI
+name: Build manually
 
 on:
-  pull_request:
-    types: [closed]
-    branches: [8.x.x, hotfix/8.*]
-    paths: ['projects/ontimize-web-ngx-gallery/**']
+  workflow_dispatch:
 
 jobs:
   build:
-    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: 'Checkout code'
@@ -32,3 +28,4 @@ jobs:
         run: |
           npm i
           npm run build
+
