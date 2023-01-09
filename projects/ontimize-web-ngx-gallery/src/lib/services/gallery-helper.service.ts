@@ -50,20 +50,12 @@ export class GalleryHelperService {
   getFileType(fileSource: string): string {
     //First we check if the filesouce starts with data:
     if (!Util.isUrl(fileSource)) {
-      //We get the mimeType and check that it is a valid type
-      let mimeType = Util.getMimeType(fileSource);
-      if (mimeType != undefined) {
-        switch (mimeType.split("/")[0]) {
-          case 'image': return 'image';
-          case 'video': return 'video';
-          default: return 'unknown';
-        }
-      }
-      else { return 'unknown' }
+      this.getFileTypeByMime(fileSource);
     }
+
     try {
-      let url:URL;
-      if (this.isUrlAbsolute(fileSource)) {
+      let url: URL;
+      if (Util.isUrlAbsolute(fileSource)) {
         url = new URL(fileSource);
       } else {
         url = new URL(fileSource, document.baseURI);
@@ -71,22 +63,10 @@ export class GalleryHelperService {
 
       if (url == undefined) {
         return 'unknown';
+      } else {
+        return this.getFileTypeByURL(url);
       }
-      const fileName = url.pathname.split('/').pop();
-      if (fileName == undefined || fileName.length == 0) {
-        return 'unknown';
-      }
-      let fileExtension = fileName.split('.').pop().toLowerCase();
-      if (!fileExtension
-        || fileExtension === 'jpeg' || fileExtension === 'jpg'
-        || fileExtension === 'png' || fileExtension === 'bmp'
-        || fileExtension === 'gif') {
-        return 'image';
-      } else if (fileExtension === 'avi' || fileExtension === 'flv'
-        || fileExtension === 'wmv' || fileExtension === 'mov'
-        || fileExtension === 'mp4') {
-        return 'video';
-      }
+
     } catch (error) {
       console.warn("Impossible to parse file source url");
     }
@@ -94,12 +74,45 @@ export class GalleryHelperService {
   }
 
   /**
-   * Determines whether url absolute is
-   * @param url
-   * @returns
+   * Gets file type by mime
+   * @param fileSource
+   * @returns file type by mime
    */
-  isUrlAbsolute(url: string) {
-    return (url.indexOf('://') > 0 || url.indexOf('//') === 0);
+  getFileTypeByMime(fileSource: string): string {
+    //We get the mimeType and check that it is a valid type
+    let mimeType = Util.getMimeType(fileSource);
+    if (mimeType != undefined) {
+      switch (mimeType.split("/")[0]) {
+        case 'image': return 'image';
+        case 'video': return 'video';
+        default: return 'unknown';
+      }
+    } else { return 'unknown' }
+
   }
+
+  /**
+   * Gets file type by URL
+   * @param url
+   * @returns file type by URL
+   */
+  getFileTypeByURL(url: URL): string {
+    const fileName = url.pathname.split('/').pop();
+    if (fileName == undefined || fileName.length == 0) {
+      return 'unknown';
+    }
+    let fileExtension = fileName.split('.').pop().toLowerCase();
+    if (!fileExtension
+      || fileExtension === 'jpeg' || fileExtension === 'jpg'
+      || fileExtension === 'png' || fileExtension === 'bmp'
+      || fileExtension === 'gif') {
+      return 'image';
+    } else if (fileExtension === 'avi' || fileExtension === 'flv'
+      || fileExtension === 'wmv' || fileExtension === 'mov'
+      || fileExtension === 'mp4') {
+      return 'video';
+    }
+  }
+
 
 }
