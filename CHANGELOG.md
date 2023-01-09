@@ -17,7 +17,6 @@
   * now values ​​of `imageSwipe`, `thumbnailsSwipe`, `previewSwipe` inputs have been replaced by `true` by default ([5c447fa](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5c447fa)) Closes [#36](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/36)
   * now it is not necessary to add the properties with the default values ([ffea97c](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/ffea97c))
 
-
 ## 8.0.3 (2022-07-07)
 ### Bug Fixes
 * **GalleryImage**: fix image type detection when url contains query parameters ([983376d](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/983376d2b08154fd67eba224289f4f931ad17246)) Closes [#42](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/42)
