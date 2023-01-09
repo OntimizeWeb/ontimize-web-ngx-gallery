@@ -14,7 +14,7 @@ export class Util {
   * @returns
   */
   static isUrlAbsolute(url: string): boolean {
-    return url.search(/^http['s']?\:\/\//) > -1;
+    return url.search(/^(http|https)\:\/\//) > -1;
   }
 
   static getMimeType(fileSource: string): string {
