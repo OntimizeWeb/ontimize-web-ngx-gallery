@@ -7,6 +7,16 @@ export class Util {
     }
     else { return true }
   }
+
+  /**
+  * Determines whether url absolute is
+  * @param url
+  * @returns
+  */
+  static isUrlAbsolute(url: string): boolean {
+    return url.search(/^(http|https)\:\/\//) > -1;
+  }
+
   static getMimeType(fileSource: string): string {
     const regExp = /^\s*data:([a-z]+\/[a-z\*]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?\s*$/i;
     let base64ContentArray = fileSource.split(",")
