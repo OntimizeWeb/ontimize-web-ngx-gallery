@@ -62,7 +62,13 @@ export class GalleryHelperService {
       else { return 'unknown' }
     }
     try {
-      const url = new URL(fileSource);
+      let url:URL;
+      if (this.isUrlAbsolute(fileSource)) {
+        url = new URL(fileSource);
+      } else {
+        url = new URL(fileSource, document.baseURI);
+      }
+
       if (url == undefined) {
         return 'unknown';
       }
@@ -86,4 +92,14 @@ export class GalleryHelperService {
     }
     return 'unknown';
   }
+
+  /**
+   * Determines whether url absolute is
+   * @param url
+   * @returns
+   */
+  isUrlAbsolute(url: string) {
+    return (url.indexOf('://') > 0 || url.indexOf('//') === 0);
+  }
+
 }
