@@ -1,3 +1,7 @@
+## 8.1.2 (2023-01-09)
+### Bug Fixes
+* **gallery-helper-service**: Fixed warning when the file source url is relative  ([2a7ffc9](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/2a7ffc9)) Closes [#78](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/78)
+
 ## 8.1.1 (2022-09-05)
 ### Bug Fixes
 * **gallery-helper-service**: solved error getting file type ([5185eb1](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5185eb1)) Closes [#60](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/60)
