@@ -10,6 +10,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
+    "emitDecoratorMetadata": true,
     "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
@@ -29,6 +30,7 @@
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
+    "strictMetadataEmit": true,
     "strictInjectionParameters": true
   }
 }
