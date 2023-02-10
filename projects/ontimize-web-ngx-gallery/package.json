@@ -2,8 +2,8 @@
   "name": "ontimize-web-ngx-gallery",
   "version": "9.0.0",
   "peerDependencies": {
-    "@angular/common": "^8.2.14",
-    "@angular/core": "^8.2.14",
-    "@angular/cdk": "^8.2.3"
+    "@angular/common": "~9.1.13",
+    "@angular/core": "~9.1.13",
+    "@angular/cdk": "~9.2.4"
   }
 }
