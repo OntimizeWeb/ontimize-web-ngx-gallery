@@ -136,9 +136,9 @@ export class GalleryComponent implements AfterViewInit {
   private prevBreakpoint: number | undefined = undefined;
   private fullWidthTimeout: any;
 
-  @ViewChild(GalleryImageComponent, { static: false })
+  @ViewChild(GalleryImageComponent)
   galleryMainImage: GalleryImageComponent;
-  @ViewChild(GalleryThumbnailsComponent, { static: false })
+  @ViewChild(GalleryThumbnailsComponent)
   thubmnails: GalleryThumbnailsComponent;
 
   @HostBinding('style.width') width: string;

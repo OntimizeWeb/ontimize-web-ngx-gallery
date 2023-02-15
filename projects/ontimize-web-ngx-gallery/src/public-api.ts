@@ -3,3 +3,5 @@
  */
 
 export * from './lib/ontimize-web-ngx-gallery.module';
+
+export * from './lib/components/gallery-image/index'

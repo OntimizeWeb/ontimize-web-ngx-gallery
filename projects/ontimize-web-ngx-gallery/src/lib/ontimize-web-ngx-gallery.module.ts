@@ -1,6 +1,6 @@
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { OCustomMaterialModule } from 'ontimize-web-ngx';
 
@@ -11,6 +11,7 @@ export * from './services';
 export * from './models';
 export * from './components';
 
+@Injectable()
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = <any>{
     'pinch': { enable: false },

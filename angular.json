@@ -14,6 +14,11 @@
           "options": {
             "tsConfig": "projects/ontimize-web-ngx-gallery/tsconfig.lib.json",
             "project": "projects/ontimize-web-ngx-gallery/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ontimize-web-ngx-gallery/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -37,6 +42,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "ontimize-web-ngx-gallery"
 }

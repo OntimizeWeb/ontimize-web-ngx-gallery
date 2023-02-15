@@ -142,7 +142,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges, OnDestroy {
   onClose = new EventEmitter();
   onActiveChange = new EventEmitter<number>();
 
-  @ViewChild('previewImage', { static: false }) previewImage: ElementRef;
+  @ViewChild('previewImage') previewImage: ElementRef;
 
   private isOpen = false;
   private timer;
