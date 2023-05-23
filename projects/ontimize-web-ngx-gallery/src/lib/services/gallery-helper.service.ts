@@ -50,7 +50,7 @@ export class GalleryHelperService {
   getFileType(fileSource: string): string {
     //First we check if the filesouce starts with data:
     if (!Util.isUrl(fileSource)) {
-      this.getFileTypeByMime(fileSource);
+      return this.getFileTypeByMime(fileSource);
     }
 
     try {
