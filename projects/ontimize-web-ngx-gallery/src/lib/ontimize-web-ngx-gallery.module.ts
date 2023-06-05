@@ -20,14 +20,13 @@ export class CustomHammerConfig extends HammerGestureConfig {
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    OCustomMaterialModule,
-    PortalModule
-  ],
-  declarations: [OGALLERY_DIRECTIVES],
-  exports: [OGALLERY_DIRECTIVES],
-  entryComponents: [GalleryPreviewComponent],
-  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }]
+    imports: [
+        CommonModule,
+        OCustomMaterialModule,
+        PortalModule
+    ],
+    declarations: [OGALLERY_DIRECTIVES],
+    exports: [OGALLERY_DIRECTIVES],
+    providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }]
 })
 export class OGalleryModule { }
