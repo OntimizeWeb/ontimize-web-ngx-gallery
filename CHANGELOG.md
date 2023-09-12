@@ -1,3 +1,7 @@
+## 8.1.4 (2023-09-13)
+### Bug Fixes
+Fixed bug using `imageBullets` option since it is showing only one bullet. Closes [#112](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/112)
+
 ## 8.1.3 (2023-05-23)
 ### Bug Fixes
 * **gallery-helper-service**: Fixed problem in utility method `getFileType`  ([02327f3](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/02327f3179e9ea15568ca9a3c0198c584ab892f4))
