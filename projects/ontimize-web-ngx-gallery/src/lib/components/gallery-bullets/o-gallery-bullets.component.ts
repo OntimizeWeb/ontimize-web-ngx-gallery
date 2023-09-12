@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'o-gallery-bullets',
@@ -10,17 +10,22 @@ import { Component, EventEmitter } from '@angular/core';
   ],
   outputs: [
     'onChange'
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GalleryBulletsComponent {
+export class GalleryBulletsComponent implements OnInit {
 
   public count: number;
   public active: number = 0;
+  public countArray = [];
 
   onChange = new EventEmitter();
 
   handleChange(_event: Event, index: number): void {
     this.onChange.emit(index);
+  }
+  ngOnInit(): void {
+    this.countArray = new Array(this.count);
   }
 
 }
