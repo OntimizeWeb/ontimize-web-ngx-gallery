@@ -51,6 +51,7 @@ jobs:
         id: project
         run: |
           echo "version=$(node -pe "require('./package.json')['version']")" >> "$GITHUB_OUTPUT"
+
       - name: abort if SNAPSHOT
         if: "contains(steps.project.outputs.version, 'SNAPSHOT')"
         run: |
