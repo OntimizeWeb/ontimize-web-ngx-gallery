@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { InputConverter } from 'ontimize-web-ngx';
 
 import { GalleryAction } from '../../models/gallery-action.model';
@@ -37,37 +37,7 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
   ]
 })
 export class GalleryImageComponent implements OnInit, OnChanges {
-
-  set images(val: GalleryOrderedImage[]) {
-    this._imagesArray = val;
-  }
-  get images(): GalleryOrderedImage[] {
-    if (this.lazyLoading) {
-      const indexes = [this.selectedIndex];
-      const prevIndex = this.selectedIndex - 1;
-
-      if (prevIndex === -1 && this.infinityMove) {
-        indexes.push(this._imagesArray.length - 1);
-      } else if (prevIndex >= 0) {
-        indexes.push(prevIndex);
-      }
-
-      const nextIndex = this.selectedIndex + 1;
-
-      if (nextIndex === this._imagesArray.length && this.infinityMove) {
-        indexes.push(0);
-      } else if (nextIndex < this._imagesArray.length) {
-        indexes.push(nextIndex);
-      }
-
-      this._images = this._imagesArray.filter((_img, i) => indexes.indexOf(i) !== -1);
-    } else {
-      this._images = this._imagesArray;
-    }
-    return this._images;
-  }
-  private _images: GalleryOrderedImage[] = []; // Contains images shown in this component
-  private _imagesArray: GalleryOrderedImage[] = []; // Contains all images received through parameter `images`
+  @Input() images: GalleryOrderedImage[];
 
   @InputConverter()
   public clickable: boolean;
@@ -150,6 +120,35 @@ export class GalleryImageComponent implements OnInit, OnChanges {
     this.selectedIndex = index;
   }
 
+  getImages(): GalleryOrderedImage[] {
+    if (!this.images) {
+      return [];
+    }
+
+    if (this.lazyLoading) {
+      let indexes = [this.selectedIndex];
+      let prevIndex = this.selectedIndex - 1;
+
+      if (prevIndex === -1 && this.infinityMove) {
+        indexes.push(this.images.length - 1)
+      } else if (prevIndex >= 0) {
+        indexes.push(prevIndex);
+      }
+
+      let nextIndex = this.selectedIndex + 1;
+
+      if (nextIndex == this.images.length && this.infinityMove) {
+        indexes.push(0);
+      } else if (nextIndex < this.images.length) {
+        indexes.push(nextIndex);
+      }
+
+      return this.images.filter((img, i) => indexes.indexOf(i) != -1);
+    } else {
+      return this.images;
+    }
+  }
+
   startAutoPlay(): void {
     this.stopAutoPlay();
 
@@ -186,7 +185,7 @@ export class GalleryImageComponent implements OnInit, OnChanges {
     if (this.canShowNext && this.canChangeImage) {
       this.selectedIndex++;
 
-      if (this.selectedIndex === this._imagesArray.length) {
+      if (this.selectedIndex === this.getImages().length) {
         this.selectedIndex = 0;
       }
 
@@ -204,7 +203,7 @@ export class GalleryImageComponent implements OnInit, OnChanges {
       this.selectedIndex--;
 
       if (this.selectedIndex < 0) {
-        this.selectedIndex = this._imagesArray.length - 1;
+        this.selectedIndex = this.getImages().length - 1;
       }
 
       this.onActiveChange.emit(this.selectedIndex);
@@ -227,7 +226,7 @@ export class GalleryImageComponent implements OnInit, OnChanges {
   }
 
   get canShowNext(): boolean {
-    return this.infinityMove || (this.selectedIndex < this._imagesArray.length - 1);
+    return this.infinityMove || (this.selectedIndex < this.getImages().length - 1);
   }
 
   get canShowPrev(): boolean {
