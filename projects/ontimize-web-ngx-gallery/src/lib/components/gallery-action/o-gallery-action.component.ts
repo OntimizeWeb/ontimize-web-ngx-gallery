@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core';
-import { InputConverter } from 'ontimize-web-ngx';
+import { BooleanInputConverter } from 'ontimize-web-ngx';
 
 @Component({
   selector: 'o-gallery-action',
@@ -16,7 +16,7 @@ import { InputConverter } from 'ontimize-web-ngx';
 })
 export class GalleryActionComponent {
   public icon: string;
-  @InputConverter()
+  @BooleanInputConverter()
   public disabled: boolean = false;
   public titleText: string = '';
 

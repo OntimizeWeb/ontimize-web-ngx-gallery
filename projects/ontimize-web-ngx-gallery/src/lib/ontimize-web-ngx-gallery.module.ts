@@ -1,10 +1,10 @@
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { NgModule, Injectable } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { OCustomMaterialModule } from 'ontimize-web-ngx';
 
-import { GalleryPreviewComponent, OGALLERY_DIRECTIVES } from './components';
+import { OGALLERY_DIRECTIVES } from './components';
 
 export * from './interfaces';
 export * from './services';

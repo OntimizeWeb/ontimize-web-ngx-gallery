@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { InputConverter } from 'ontimize-web-ngx';
+import { BooleanInputConverter } from 'ontimize-web-ngx';
 
 import { GalleryAction } from '../../models/gallery-action.model';
 import { GalleryAnimation } from '../../models/gallery-animation.model';
@@ -69,33 +69,33 @@ export class GalleryImageComponent implements OnInit, OnChanges {
   private _images: GalleryOrderedImage[] = []; // Contains images shown in this component
   private _imagesArray: GalleryOrderedImage[] = []; // Contains all images received through parameter `images`
 
-  @InputConverter()
+  @BooleanInputConverter()
   public clickable: boolean;
   public selectedIndex: number = -1;
-  @InputConverter()
+  @BooleanInputConverter()
   public arrows: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public arrowsAutoHide: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public swipe: boolean;
   public animation: string;
   public size: string;
   public arrowPrevIcon: string;
   public arrowNextIcon: string;
-  @InputConverter()
+  @BooleanInputConverter()
   public autoPlay: boolean;
   public autoPlayInterval: number;
-  @InputConverter()
+  @BooleanInputConverter()
   public autoPlayPauseOnHover: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public infinityMove: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public lazyLoading: boolean;
   public actions: GalleryAction[];
   public descriptions: string[];
-  @InputConverter()
+  @BooleanInputConverter()
   public showDescription: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public bullets: boolean;
 
   onClick = new EventEmitter();

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core';
-import { InputConverter } from 'ontimize-web-ngx';
+import { BooleanInputConverter } from 'ontimize-web-ngx';
 
 @Component({
   selector: 'o-gallery-arrows',
@@ -19,9 +19,9 @@ import { InputConverter } from 'ontimize-web-ngx';
 })
 export class GalleryArrowsComponent {
 
-  @InputConverter()
+  @BooleanInputConverter()
   public prevDisabled: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public nextDisabled: boolean;
   public arrowPrevIcon: string;
   public arrowNextIcon: string;
