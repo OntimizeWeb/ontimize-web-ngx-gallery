@@ -13,7 +13,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeStyle, SafeUrl } from '@angular/platform-browser';
-import { InputConverter } from 'ontimize-web-ngx';
+import { BooleanInputConverter } from 'ontimize-web-ngx';
 
 import { GalleryAction } from '../../models/gallery-action.model';
 import { GalleryHelperService } from '../../services/gallery-helper.service';
@@ -87,55 +87,55 @@ export class GalleryPreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   public images: string[] | SafeResourceUrl[];
   public descriptions: string[];
-  @InputConverter()
+  @BooleanInputConverter()
   public showDescription: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public arrows: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public arrowsAutoHide: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public swipe: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public fullscreen: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public forceFullscreen: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public closeOnClick: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public closeOnEsc: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public keyboardNavigation: boolean;
   public arrowPrevIcon: string;
   public arrowNextIcon: string;
   public closeIcon: string;
   public fullscreenIcon: string;
   public spinnerIcon: string;
-  @InputConverter()
+  @BooleanInputConverter()
   public autoPlay: boolean;
   public autoPlayInterval: number;
-  @InputConverter()
+  @BooleanInputConverter()
   public autoPlayPauseOnHover: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public infinityMove: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public zoom: boolean;
   public zoomStep: number;
   public zoomMax: number;
   public zoomMin: number;
   public zoomInIcon: string;
   public zoomOutIcon: string;
-  @InputConverter()
+  @BooleanInputConverter()
   public animation: boolean;
   public actions: GalleryAction[];
-  @InputConverter()
+  @BooleanInputConverter()
   public rotate: boolean;
   public rotateLeftIcon: string;
   public rotateRightIcon: string;
-  @InputConverter()
+  @BooleanInputConverter()
   public download: boolean;
   public downloadIcon: string;
   public bullets: string;
-  @InputConverter()
+  @BooleanInputConverter()
   public previewEnabled: boolean;
 
   onOpen = new EventEmitter();
