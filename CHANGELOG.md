@@ -1,3 +1,16 @@
+## 15.0.0-beta.0 (2023-09-29)
+### Features
+* Migration to Angular 15.
+* Migration to Angular Material 15.
+
+## 8.1.4 (2023-09-13)
+### Bug Fixes
+Fixed bug using `imageBullets` option since it is showing only one bullet. ([79832b8](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/79832b8)) Closes [#112](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/112)
+
+## 8.1.3 (2023-05-23)
+### Bug Fixes
+* **gallery-helper-service**: Fixed problem in utility method `getFileType`  ([02327f3](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/02327f3179e9ea15568ca9a3c0198c584ab892f4))
+
 ## 8.1.2 (2023-01-09)
 ### Bug Fixes
 * **gallery-helper-service**: Fixed warning when the file source url is relative  ([2a7ffc9](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/2a7ffc9)) Closes [#78](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/78)

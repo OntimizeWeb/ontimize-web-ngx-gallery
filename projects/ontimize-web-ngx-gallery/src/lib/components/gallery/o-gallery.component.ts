@@ -16,6 +16,7 @@ import {
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { merge, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
+
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
 import { GalleryImage } from '../../models/gallery-image.model';
 import { GalleryLayout } from '../../models/gallery-layout.model';

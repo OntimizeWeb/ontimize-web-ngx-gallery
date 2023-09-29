@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeStyle } from '@angular/platform-browser';
-import { InputConverter } from 'ontimize-web-ngx';
+import { BooleanInputConverter } from 'ontimize-web-ngx';
 
 import { GalleryAction } from '../../models/gallery-action.model';
 import { GalleryOrder } from '../../models/gallery-order.model';
@@ -79,24 +79,24 @@ export class GalleryThumbnailsComponent implements OnChanges {
   public linkTarget: string;
   public columns: number;
   public rows: number;
-  @InputConverter()
+  @BooleanInputConverter()
   public arrows: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public arrowsAutoHide: boolean;
   public margin: number;
   public selectedIndex: number;
-  @InputConverter()
+  @BooleanInputConverter()
   public clickable: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public swipe: boolean;
   public size: string;
   public arrowPrevIcon: string;
   public arrowNextIcon: string;
   public moveSize: number;
   public order: number;
-  @InputConverter()
+  @BooleanInputConverter()
   public remainingCount: boolean;
-  @InputConverter()
+  @BooleanInputConverter()
   public lazyLoading: boolean;
   public actions: GalleryAction[];
 

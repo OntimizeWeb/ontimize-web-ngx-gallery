@@ -12,7 +12,7 @@
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -27,7 +27,8 @@
       "ontimize-web-ngx-gallery/*": [
         "dist/ontimize-web-ngx-gallery/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
