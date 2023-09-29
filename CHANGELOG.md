@@ -1,3 +1,8 @@
+## 15.0.0-beta.0 (2023-09-29)
+### Features
+* Migration to Angular 15.
+* Migration to Angular Material 15.
+
 ## 8.1.4 (2023-09-13)
 ### Bug Fixes
 Fixed bug using `imageBullets` option since it is showing only one bullet. ([79832b8](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/79832b8)) Closes [#112](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/112)
