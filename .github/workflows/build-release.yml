@@ -4,14 +4,14 @@ name: Build Release
 on:
   pull_request:
     types: [closed]
-    branches: ['main.15.x']
-    paths: ['projects/ontimize-web-ngx-gallery/**']
+    branches: ["main.15.x"]
+    paths: ["projects/ontimize-web-ngx-gallery/**"]
   workflow_dispatch:
     inputs:
       BASELINE:
-        description: 'Release branch'
+        description: "Release branch"
         required: true
-        default: 'main.15.x'
+        default: "main.15.x"
 
 env:
   NPM_REGISTRY: https://registry.npmjs.org/
@@ -34,7 +34,7 @@ jobs:
           ref: ${{ env.BASELINE_BRANCH }}
           fetch-depth: 0
 
-      - name: 'Cache node modules'
+      - name: "Cache node modules"
         uses: actions/cache@v3
         with:
           path: ~/.npm
@@ -70,6 +70,7 @@ jobs:
       - name: GitHub Release / Create release
         uses: ncipollo/release-action@2792aea87063cfd0d27953ac38e3ab45afacc154
         with:
+          commit: ${{ env.BASELINE_BRANCH }}
           tag: ${{ steps.project.outputs.version }}
           name: ${{ steps.project.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
