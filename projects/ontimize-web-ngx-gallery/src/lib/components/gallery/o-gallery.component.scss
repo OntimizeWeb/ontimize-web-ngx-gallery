@@ -47,6 +47,11 @@
     flex-direction: column;
   }
 
+  .o-gallery-layout.thumbnails-left,
+  .o-gallery-layout.thumbnails-right {
+    flex-direction: row;
+  }
+
   .o-gallery-layout.thumbnails-top {
     o-gallery-image {
       order: 2;
