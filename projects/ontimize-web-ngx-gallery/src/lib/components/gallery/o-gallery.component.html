@@ -13,7 +13,7 @@
   <o-gallery-thumbnails *ngIf="currentOptions?.thumbnails"
     [style.marginTop]="(currentOptions && currentOptions.layout === 'thumbnails-bottom') ? currentOptions.thumbnailsMargin + 'px' : '0px'"
     [style.marginBottom]="(this.currentOptions && this.currentOptions.layout === 'thumbnails-top') ? this.currentOptions.thumbnailsMargin + 'px' : '0px'"
-    [style.height]="(this.currentOptions && this.currentOptions.image) ? 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)' : '100%'"
+    [style.height]="(this.currentOptions && this.currentOptions.image && (currentOptions.layout !== 'thumbnails-left' && currentOptions.layout !== 'thumbnails-right') ) ? 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)' : '100%'"
     [images]="smallImages" [links]="currentOptions?.thumbnailsAsLinks ? links : []" [labels]="labels" [link-target]="currentOptions?.linkTarget"
     [selected-index]="selectedIndex" [columns]="currentOptions?.thumbnailsColumns" [rows]="currentOptions?.thumbnailsRows"
     [margin]="currentOptions?.thumbnailMargin" [arrows]="currentOptions?.thumbnailsArrows"
@@ -21,6 +21,7 @@
     [arrow-next-icon]="currentOptions?.arrowNextIcon" [clickable]="currentOptions?.image || currentOptions?.preview"
     [swipe]="currentOptions?.thumbnailsSwipe" [size]="currentOptions?.thumbnailSize" [move-size]="currentOptions?.thumbnailsMoveSize"
     [order]="currentOptions?.thumbnailsOrder" [remaining-count]="currentOptions?.thumbnailsRemainingCount"
-    [lazy-loading]="currentOptions?.lazyLoading" [actions]="currentOptions?.thumbnailActions" (onActiveChange)="selectFromThumbnails($event)">
+    [lazy-loading]="currentOptions?.lazyLoading" [actions]="currentOptions?.thumbnailActions" (onActiveChange)="selectFromThumbnails($event)"
+    [layout]="currentOptions?.layout">
   </o-gallery-thumbnails>
 </div>

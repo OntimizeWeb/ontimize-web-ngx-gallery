@@ -4,3 +4,10 @@ export class GalleryLayout {
   static ThumbnailsLeft = 'thumbnails-left';
   static ThumbnailsRight = 'thumbnails-right';
 }
+
+export enum ThumbnailPosition {
+  ThumbnailsTop = 'top',
+  ThumbnailsBottom = 'bottom',
+  ThumbnailsLeft = 'left',
+  ThumbnailsRight = 'right'
+}

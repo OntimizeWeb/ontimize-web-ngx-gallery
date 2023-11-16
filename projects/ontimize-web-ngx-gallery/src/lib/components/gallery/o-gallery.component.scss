@@ -47,7 +47,10 @@
     flex-direction: column;
   }
 
-  .o-gallery-layout.thumbnails-left,
+  .o-gallery-layout.thumbnails-left{
+    flex-direction: row-reverse;
+  }
+
   .o-gallery-layout.thumbnails-right {
     flex-direction: row;
   }

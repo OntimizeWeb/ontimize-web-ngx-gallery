@@ -18,15 +18,13 @@ import { merge, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
 import { GalleryImage } from '../../models/gallery-image.model';
-import { GalleryLayout } from '../../models/gallery-layout.model';
+import { GalleryLayout, ThumbnailPosition } from '../../models/gallery-layout.model';
 import { GalleryOptions } from '../../models/gallery-options.model';
 import { GalleryOrderedImage } from '../../models/gallery-ordered-image.model';
 import { GalleryHelperService } from '../../services/gallery-helper.service';
 import { GalleryImageComponent } from '../gallery-image/o-gallery-image.component';
 import { GalleryPreviewComponent } from '../gallery-preview/o-gallery-preview.component';
 import { GalleryThumbnailsComponent } from '../gallery-thumbnails/o-gallery-thumbnails.component';
-
-
 
 export const DEFAULT_OUTPUTS_O_GALLERY = [
   'onImagesReady',
@@ -289,9 +287,21 @@ export class GalleryComponent implements AfterViewInit {
     this.changeOptionsProp('height', newHeight);
   }
 
-  changeThumbPosition(): void {
+  changeThumbPosition(layout: ThumbnailPosition): void {
     this.options = this.options.map(o => {
-      o.layout = o.layout === GalleryLayout.ThumbnailsTop ? GalleryLayout.ThumbnailsBottom : GalleryLayout.ThumbnailsTop;
+      switch (layout) {
+        case ThumbnailPosition.ThumbnailsBottom:
+          o.layout = GalleryLayout.ThumbnailsBottom;
+          break;
+        case ThumbnailPosition.ThumbnailsTop:
+          o.layout = GalleryLayout.ThumbnailsTop;
+          break;
+        case ThumbnailPosition.ThumbnailsLeft:
+          o.layout = GalleryLayout.ThumbnailsLeft;
+          break;
+        case ThumbnailPosition.ThumbnailsRight:
+          o.layout = GalleryLayout.ThumbnailsRight;
+      }
       return o;
     });
   }

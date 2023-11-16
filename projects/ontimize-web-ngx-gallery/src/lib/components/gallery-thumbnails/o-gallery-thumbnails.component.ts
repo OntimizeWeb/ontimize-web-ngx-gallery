@@ -30,7 +30,8 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
     'order',
     'remainingCount : remaining-count',
     'lazyLoading : lazy-loading',
-    'actions'
+    'actions',
+    'layout'
   ],
   outputs: [
     'onActiveChange'
@@ -42,6 +43,7 @@ export class GalleryThumbnailsComponent implements OnChanges {
   thumbnailsMarginLeft: string = '0px';
   mouseenter: boolean;
   remainingCountValue: number;
+  layout;
 
   minStopIndex = 0;
 
@@ -209,7 +211,6 @@ export class GalleryThumbnailsComponent implements OnChanges {
 
   getThumbnailTop(index: number): SafeStyle {
     let calculatedIndex;
-
     if (this.order === GalleryOrder.Column) {
       calculatedIndex = index % this.rows;
     } else if (this.order === GalleryOrder.Page) {

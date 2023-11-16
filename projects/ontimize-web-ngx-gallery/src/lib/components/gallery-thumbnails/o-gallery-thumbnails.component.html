@@ -1,8 +1,11 @@
 <div class="o-gallery-thumbnails-wrapper o-gallery-thumbnail-size-{{size}}">
   <div class="o-gallery-thumbnails" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
     <div *ngFor="let image of images; let i = index;">
-      <a [href]="hasLink(i) ? links[i] : '#'" [target]="linkTarget" class="o-gallery-thumbnail" [style.width]="thumbnailWidth"
-        (click)="handleClick($event, i)" [style.height]="thumbnailHeight" [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)"
+      <a [href]="hasLink(i) ? links[i] : '#'" [target]="linkTarget" class="o-gallery-thumbnail"
+        [style.width]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')? thumbnailWidth:thumbnailHeight"
+        (click)="handleClick($event, i)"
+        [style.height]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?thumbnailHeight:thumbnailWidth"
+        [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)"
         [ngClass]="{ 'o-gallery-active': i == selectedIndex, 'o-gallery-clickable': clickable }" [attr.aria-label]="labels[i]">
         <div *ngIf="getFileType(image) == 'image'" [oGalleryBackgroundImg]="image" class="o-gallery-thumbnail"
           [ngClass]="{ 'o-gallery-active': i == selectedIndex, 'o-gallery-clickable': clickable }"
