@@ -5,6 +5,7 @@ import { InputConverter } from 'ontimize-web-ngx';
 import { GalleryAction } from '../../models/gallery-action.model';
 import { GalleryOrder } from '../../models/gallery-order.model';
 import { GalleryHelperService } from '../../services/gallery-helper.service';
+import { GalleryLayout } from '../../models/gallery-layout.model';
 
 @Component({
   selector: 'o-gallery-thumbnails',
@@ -197,7 +198,7 @@ export class GalleryThumbnailsComponent implements OnChanges {
     let calculatedIndex;
 
     if (this.order === GalleryOrder.Column) {
-      calculatedIndex = Math.floor(index / this.rows);
+      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? Math.floor(index / this.rows) : (index % this.rows);
     } else if (this.order === GalleryOrder.Page) {
       calculatedIndex = (index % this.columns) + (Math.floor(index / (this.rows * this.columns)) * this.columns);
     } else if (this.order === GalleryOrder.Row && this.remainingCount) {
@@ -206,22 +207,23 @@ export class GalleryThumbnailsComponent implements OnChanges {
       calculatedIndex = index % Math.ceil(this.images.length / this.rows);
     }
 
-    return this.getThumbnailPosition(calculatedIndex, this.columns);
+    return this.getThumbnailPosition(calculatedIndex, (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? this.columns : this.rows);
   }
 
   getThumbnailTop(index: number): SafeStyle {
     let calculatedIndex;
+
     if (this.order === GalleryOrder.Column) {
-      calculatedIndex = index % this.rows;
+      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? (index % this.rows) : Math.floor(index / this.rows);
     } else if (this.order === GalleryOrder.Page) {
-      calculatedIndex = Math.floor(index / this.columns) - (Math.floor(index / (this.rows * this.columns)) * this.rows);
+      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? Math.floor(index / this.columns) - (Math.floor(index / (this.rows * this.columns)) * this.rows) : (index % this.columns) + (Math.floor(index / (this.rows * this.columns)) * this.columns);
     } else if (this.order === GalleryOrder.Row && this.remainingCount) {
-      calculatedIndex = Math.floor(index / this.columns);
+      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? Math.floor(index / this.columns) : index % this.columns;
     } else {
-      calculatedIndex = Math.floor(index / Math.ceil(this.images.length / this.rows));
+      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? Math.floor(index / Math.ceil(this.images.length / this.rows)) : index % Math.ceil(this.images.length / this.rows);
     }
 
-    return this.getThumbnailPosition(calculatedIndex, this.rows);
+    return this.getThumbnailPosition(calculatedIndex, (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? this.rows : this.columns);
   }
 
   get thumbnailWidth(): SafeStyle {
