@@ -195,10 +195,33 @@ export class GalleryThumbnailsComponent implements OnChanges {
   }
 
   getThumbnailLeft(index: number): SafeStyle {
+    return (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? this.calculateIndexHorizontal(index) : this.calculateIndexVertical(index);
+
+  }
+
+  getThumbnailTop(index: number): SafeStyle {
+    return (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? this.calculateIndexVertical(index) : this.calculateIndexHorizontal(index);
+  }
+
+  calculateIndexVertical(index: number): SafeStyle {
+    let calculatedIndex;
+    if (this.order === GalleryOrder.Column) {
+      calculatedIndex = index % this.rows;
+    } else if (this.order === GalleryOrder.Page) {
+      calculatedIndex = Math.floor(index / this.columns) - (Math.floor(index / (this.rows * this.columns)) * this.rows);
+    } else if (this.order === GalleryOrder.Row && this.remainingCount) {
+      calculatedIndex = Math.floor(index / this.columns);
+    } else {
+      calculatedIndex = Math.floor(index / Math.ceil(this.images.length / this.rows));
+    }
+
+    return this.getThumbnailPosition(calculatedIndex, this.columns);
+  }
+  calculateIndexHorizontal(index: number): SafeStyle {
     let calculatedIndex;
 
     if (this.order === GalleryOrder.Column) {
-      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? Math.floor(index / this.rows) : (index % this.rows);
+      calculatedIndex = Math.floor(index / this.rows);
     } else if (this.order === GalleryOrder.Page) {
       calculatedIndex = (index % this.columns) + (Math.floor(index / (this.rows * this.columns)) * this.columns);
     } else if (this.order === GalleryOrder.Row && this.remainingCount) {
@@ -206,24 +229,7 @@ export class GalleryThumbnailsComponent implements OnChanges {
     } else {
       calculatedIndex = index % Math.ceil(this.images.length / this.rows);
     }
-
-    return this.getThumbnailPosition(calculatedIndex, (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? this.columns : this.rows);
-  }
-
-  getThumbnailTop(index: number): SafeStyle {
-    let calculatedIndex;
-
-    if (this.order === GalleryOrder.Column) {
-      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? (index % this.rows) : Math.floor(index / this.rows);
-    } else if (this.order === GalleryOrder.Page) {
-      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? Math.floor(index / this.columns) - (Math.floor(index / (this.rows * this.columns)) * this.rows) : (index % this.columns) + (Math.floor(index / (this.rows * this.columns)) * this.columns);
-    } else if (this.order === GalleryOrder.Row && this.remainingCount) {
-      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? Math.floor(index / this.columns) : index % this.columns;
-    } else {
-      calculatedIndex = (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? Math.floor(index / Math.ceil(this.images.length / this.rows)) : index % Math.ceil(this.images.length / this.rows);
-    }
-
-    return this.getThumbnailPosition(calculatedIndex, (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? this.rows : this.columns);
+    return this.getThumbnailPosition(calculatedIndex, this.columns);
   }
 
   get thumbnailWidth(): SafeStyle {
