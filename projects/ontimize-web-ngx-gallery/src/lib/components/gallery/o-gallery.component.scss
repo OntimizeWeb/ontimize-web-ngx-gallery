@@ -47,12 +47,14 @@
     flex-direction: column;
   }
 
-  .o-gallery-layout.thumbnails-left{
+  .o-gallery-layout.thumbnails-left {
     flex-direction: row-reverse;
+    justify-content: space-between;
   }
 
   .o-gallery-layout.thumbnails-right {
     flex-direction: row;
+    justify-content: space-between;
   }
 
   .o-gallery-layout.thumbnails-top {
