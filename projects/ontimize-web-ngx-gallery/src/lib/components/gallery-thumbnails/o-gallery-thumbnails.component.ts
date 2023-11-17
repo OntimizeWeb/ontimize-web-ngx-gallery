@@ -195,12 +195,12 @@ export class GalleryThumbnailsComponent implements OnChanges {
   }
 
   getThumbnailLeft(index: number): SafeStyle {
-    return (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? this.calculateIndexHorizontal(index) : this.calculateIndexVertical(index);
+    return (GalleryLayout.ThumbnailsBottom === this.layout || GalleryLayout.ThumbnailsTop === this.layout) ? this.calculateIndexHorizontal(index) : this.calculateIndexVertical(index);
 
   }
 
   getThumbnailTop(index: number): SafeStyle {
-    return (GalleryLayout.ThumbnailsBottom || GalleryLayout.ThumbnailsTop) === this.layout ? this.calculateIndexVertical(index) : this.calculateIndexHorizontal(index);
+    return (GalleryLayout.ThumbnailsBottom === this.layout || GalleryLayout.ThumbnailsTop === this.layout) ? this.calculateIndexVertical(index) : this.calculateIndexHorizontal(index);
   }
 
   calculateIndexVertical(index: number): SafeStyle {
