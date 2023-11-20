@@ -42,16 +42,9 @@ o-gallery-thumbnails {
     height: 1px;
 
     .o-gallery-arrow-wrapper {
-
-      //position: relative;
-      .o-gallery-arrow {
-        // top: 0%;
-        // transform: translateY(0%);
-      }
-
       &.o-gallery-arrow-top,
       &.o-gallery-arrow-bottom {
-        left: 50%;
+        left: calc(50% - 12px);
       }
 
       &.o-gallery-arrow-top {
