@@ -1,5 +1,8 @@
 <div class="o-gallery-thumbnails-wrapper o-gallery-thumbnail-size-{{size}}">
-  <div class="o-gallery-thumbnails" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
+  <div class="o-gallery-thumbnails"
+    [style.transform]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?'translateX('+ thumbnailsLeft + ')':'translateY(' + thumbnailsLeft + ')'"
+    [style.marginLeft]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?thumbnailsMarginLeft:'0px'"
+    [style.marginTop]="(layout === 'thumbnails-right' || layout === 'thumbnails-left')?thumbnailsMarginLeft:'0px'">
     <div *ngFor="let image of images; let i = index;">
       <a [href]="hasLink(i) ? links[i] : '#'" [target]="linkTarget" class="o-gallery-thumbnail"
         [style.width]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')? thumbnailWidth:thumbnailHeight"
