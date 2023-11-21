@@ -18,7 +18,7 @@ import { merge, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
 import { GalleryImage } from '../../models/gallery-image.model';
-import { GalleryLayout, ThumbnailPosition } from '../../models/gallery-layout.model';
+import { GalleryLayout, GalleryLayouts } from '../../models/gallery-layout.model';
 import { GalleryOptions } from '../../models/gallery-options.model';
 import { GalleryOrderedImage } from '../../models/gallery-ordered-image.model';
 import { GalleryHelperService } from '../../services/gallery-helper.service';
@@ -287,19 +287,19 @@ export class GalleryComponent implements AfterViewInit {
     this.changeOptionsProp('height', newHeight);
   }
 
-  changeThumbPosition(layout: ThumbnailPosition): void {
+  changeThumbPosition(layout: GalleryLayouts): void {
     this.options = this.options.map(o => {
       switch (layout) {
-        case ThumbnailPosition.ThumbnailsBottom:
+        case GalleryLayout.ThumbnailsBottom:
           o.layout = GalleryLayout.ThumbnailsBottom;
           break;
-        case ThumbnailPosition.ThumbnailsTop:
+        case GalleryLayout.ThumbnailsTop:
           o.layout = GalleryLayout.ThumbnailsTop;
           break;
-        case ThumbnailPosition.ThumbnailsLeft:
+        case GalleryLayout.ThumbnailsLeft:
           o.layout = GalleryLayout.ThumbnailsLeft;
           break;
-        case ThumbnailPosition.ThumbnailsRight:
+        case GalleryLayout.ThumbnailsRight:
           o.layout = GalleryLayout.ThumbnailsRight;
       }
       return o;
