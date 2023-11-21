@@ -271,12 +271,28 @@ export class GalleryComponent implements AfterViewInit {
     this.thubmnails.moveLeft();
   }
 
+  moveThumbnailsTop() {
+    this.thubmnails.moveTop();
+  }
+
+  moveThumbnailsBottom() {
+    this.thubmnails.moveBottom();
+  }
+
   canMoveThumbnailsRight() {
     return this.thubmnails.canMoveRight;
   }
 
   canMoveThumbnailsLeft() {
     return this.thubmnails.canMoveLeft;
+  }
+
+  canMoveThumbnailsTop() {
+    return this.thubmnails.canMoveTop;
+  }
+
+  canMoveThumbnailsBottom() {
+    return this.thubmnails.canMoveBottom;
   }
 
   changeWidth(newWidth: string) {
@@ -286,6 +302,15 @@ export class GalleryComponent implements AfterViewInit {
   changeHeight(newHeight: string) {
     this.changeOptionsProp('height', newHeight);
   }
+
+  changeThumbnailsColumns(columns: number) {
+    this.changeOptionsProp('thumbnailsColumns', columns);
+  }
+
+  changeThumbnailsRows(rows: number) {
+    this.changeOptionsProp('thumbnailsRows', rows);
+  }
+
 
   changeThumbPosition(layout: GalleryLayouts): void {
     this.options = this.options.map(o => {
