@@ -1,3 +1,9 @@
+## 8.2.0
+### Features
+* Added the ability to place thumbnails to the **left** or **right** of the main image  Closes [#128](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/128)
+  * New types `ThumbnailsLeft` and `ThumbnailsRight` in `GalleryLayout`
+  * New methods `moveThumbnailsTop`, `moveThumbnailsBottom`, `canMoveThumbnailsTop`, `canMoveThumbnailsBottom`, `changeThumbnailsColumns`, `changeThumbnailsRows`
+
 ## 8.1.4 (2023-09-13)
 ### Bug Fixes
 Fixed bug using `imageBullets` option since it is showing only one bullet. ([79832b8](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/79832b8)) Closes [#112](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/112)
