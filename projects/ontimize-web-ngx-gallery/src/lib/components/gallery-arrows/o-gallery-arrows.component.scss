@@ -42,14 +42,18 @@ o-gallery-thumbnails {
     height: 1px;
 
     .o-gallery-arrow-wrapper {
+
       &.o-gallery-arrow-top,
       &.o-gallery-arrow-bottom {
         left: calc(50% - 12px);
+
+
       }
 
       &.o-gallery-arrow-top {
         .o-gallery-arrow {
-          top: 10px;
+          top: 0;
+          transform: translateY(50%);
 
           .o-gallery-icon-content {
             transform: rotate(90deg);
@@ -59,8 +63,9 @@ o-gallery-thumbnails {
 
       &.o-gallery-arrow-bottom {
         .o-gallery-arrow {
-          bottom: 10px;
+          bottom: 0;
           top: inherit;
+          //transform: translateY(-50%);
 
           .o-gallery-icon-content {
             transform: rotate(90deg);
