@@ -12,13 +12,12 @@
 
     .o-gallery-icon {
       font-family: 'Material Icons', sans-serif;
-      color: white;
-      font-size: 25px;
       position: absolute;
       z-index: 2000;
       display: inline-block;
 
       .o-gallery-icon-content {
+        border-radius: 50%;
         display: block;
       }
     }
@@ -45,6 +44,16 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+  }
+
+  .o-gallery-layout.thumbnails-left {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .o-gallery-layout.thumbnails-right {
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   .o-gallery-layout.thumbnails-top {

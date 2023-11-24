@@ -1,8 +1,14 @@
 <div class="o-gallery-thumbnails-wrapper o-gallery-thumbnail-size-{{size}}">
-  <div class="o-gallery-thumbnails" [style.transform]="'translateX(' + thumbnailsLeft + ')'" [style.marginLeft]="thumbnailsMarginLeft">
+  <div class="o-gallery-thumbnails"
+    [style.transform]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?'translateX('+ thumbnailsLeft + ')':'translateY(' + thumbnailsLeft + ')'"
+    [style.marginLeft]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?thumbnailsMarginLeft : '0px'"
+    [style.marginTop]="(layout === 'thumbnails-right' || layout === 'thumbnails-left')?thumbnailsMarginLeft : '0px'">
     <div *ngFor="let image of images; let i = index;">
-      <a [href]="hasLink(i) ? links[i] : '#'" [target]="linkTarget" class="o-gallery-thumbnail" [style.width]="thumbnailWidth"
-        (click)="handleClick($event, i)" [style.height]="thumbnailHeight" [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)"
+      <a [href]="hasLink(i) ? links[i] : '#'" [target]="linkTarget" class="o-gallery-thumbnail"
+        [style.width]="thumbnailWidth"
+        (click)="handleClick($event, i)"
+        [style.height]="thumbnailHeight"
+        [style.left]="getThumbnailLeft(i)" [style.top]="getThumbnailTop(i)"
         [ngClass]="{ 'o-gallery-active': i == selectedIndex, 'o-gallery-clickable': clickable }" [attr.aria-label]="labels[i]">
         <div *ngIf="getFileType(image) == 'image'" [oGalleryBackgroundImg]="image" class="o-gallery-thumbnail"
           [ngClass]="{ 'o-gallery-active': i == selectedIndex, 'o-gallery-clickable': clickable }"
@@ -25,5 +31,9 @@
   </div>
 </div>
 
-<o-gallery-arrows *ngIf="canShowArrows" (onPrevClick)="moveLeft()" (onNextClick)="moveRight()" [prev-disabled]="!canMoveLeft"
-  [next-disabled]="!canMoveRight" [arrow-prev-icon]="arrowPrevIcon" [arrow-next-icon]="arrowNextIcon"></o-gallery-arrows>
+<o-gallery-arrows *ngIf="canShowArrows"
+  (onPrevClick)="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?moveLeft():moveTop()"
+  (onNextClick)="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?moveRight():moveBottom()"
+  [prev-disabled]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?!canMoveLeft:!canMoveTop"
+  [next-disabled]="(layout === 'thumbnails-top' || layout === 'thumbnails-bottom')?!canMoveRight:!canMoveBottom"
+  [arrow-prev-icon]="arrowPrevIcon" [arrow-next-icon]="arrowNextIcon" [layout]="layout"></o-gallery-arrows>
