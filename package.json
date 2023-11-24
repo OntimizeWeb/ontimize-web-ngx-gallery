@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build"
+    "build": "ng build && npm run copy-files",
+    "copy-files": "copyfiles -u 5 ./projects/ontimize-web-ngx-gallery/src/lib/theming/o-gallery-theme.scss ./dist"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "codelyzer": "^5.0.0",
+    "copyfiles": "~2.2.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
