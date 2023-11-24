@@ -1,3 +1,17 @@
+## 8.2.0 (2023-11-24)
+### Features
+* Added the ability to place thumbnails to the **left** or **right** of the main image ([d16c33f](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/d16c33f)) Closes [#128](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/128)
+  * New types `ThumbnailsLeft` and `ThumbnailsRight` in `GalleryLayout`
+  * New methods `moveThumbnailsTop`, `moveThumbnailsBottom`, `canMoveThumbnailsTop`, `canMoveThumbnailsBottom`, `changeThumbnailsColumns`, `changeThumbnailsRows`
+  * Changed arrow styles
+  * New file `o-gallery-theme.scss`
+    In your application '*app.scss*' file you should add the library theme.
+
+    ```
+    @import 'node_modules/ontimize-web-ngx-gallery/o-gallery-theme.scss';
+    @include o-gallery-theme($theme);
+    ```
+
 ## 8.1.4 (2023-09-13)
 ### Bug Fixes
 Fixed bug using `imageBullets` option since it is showing only one bullet. ([79832b8](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/79832b8)) Closes [#112](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/112)
