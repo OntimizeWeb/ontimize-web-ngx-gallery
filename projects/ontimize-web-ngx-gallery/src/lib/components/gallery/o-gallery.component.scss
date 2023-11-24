@@ -12,13 +12,12 @@
 
     .o-gallery-icon {
       font-family: 'Material Icons', sans-serif;
-      color: white;
-      font-size: 25px;
       position: absolute;
       z-index: 2000;
       display: inline-block;
 
       .o-gallery-icon-content {
+        border-radius: 50%;
         display: block;
       }
     }
