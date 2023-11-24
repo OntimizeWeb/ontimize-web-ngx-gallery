@@ -1,6 +1,6 @@
 ## 8.2.1 (2023-11-24)
 ### Bug Fixes
-* new script copy-files ([5ec9902](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5ec9902))
+* Fixed problem of building distributable package ([5ec9902](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5ec9902))
 
 ## 8.2.0 (2023-11-24)
 ### Features
