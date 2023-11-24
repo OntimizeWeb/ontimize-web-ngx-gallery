@@ -94,16 +94,12 @@ o-gallery-thumbnails {
 
 .o-gallery-preview {
   .o-gallery-arrow {
-    .o-gallery-icon-content {
+    top:calc(50% - #{$previewimage-width-arrow-icon / 2}) .o-gallery-icon-content {
       height: $previewimage-width-arrow-icon;
       width: $previewimage-width-arrow-icon;
       font-size: $previewimage-width-arrow-icon;
       border-radius: 50%;
     }
-  }
-
-  .o-gallery-arrow {
-    top:calc(50% - #{$previewimage-width-arrow-icon / 2})
   }
 
   .o-gallery-arrow-left {
