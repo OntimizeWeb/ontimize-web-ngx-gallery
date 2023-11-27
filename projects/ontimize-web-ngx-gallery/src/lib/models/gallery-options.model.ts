@@ -114,8 +114,13 @@ export class GalleryOptions implements IGalleryOptions {
     this.imageBullets = use(obj.imageBullets, false);
 
     this.thumbnails = use(obj.thumbnails, true);
-    this.thumbnailsColumns = use(obj.thumbnailsColumns, 4);
-    this.thumbnailsRows = use(obj.thumbnailsRows, 1);
+    if (obj.layout === GalleryLayout.ThumbnailsRight || obj.layout === GalleryLayout.ThumbnailsLeft) {
+      this.thumbnailsColumns = use(obj.thumbnailsColumns, 1);
+      this.thumbnailsRows = use(obj.thumbnailsRows, 4);
+    } else {
+      this.thumbnailsColumns = use(obj.thumbnailsColumns, 4);
+      this.thumbnailsRows = use(obj.thumbnailsRows, 1);
+    }
     this.thumbnailsPercent = use(obj.thumbnailsPercent, 25);
     this.thumbnailsMargin = use(obj.thumbnailsMargin, 10);
     this.thumbnailsArrows = use(obj.thumbnailsArrows, true);
