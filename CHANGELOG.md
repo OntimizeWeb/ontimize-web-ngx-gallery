@@ -1,3 +1,9 @@
+## 15.0.0 (2023-11-27)
+> [!NOTE]
+> Ontimize Web Gallery v15 based in [Angular 15](https://blog.angular.io/angular-v15-is-now-available-df7be7f2f4c8) is now available!!!
+### Features
+* Merged changes from [8.2.0](#820-2023-11-24) and [8.2.1](#821-2023-11-24) version to 15
+
 ## 8.2.1 (2023-11-24)
 ### Bug Fixes
 * Fixed problem of building distributable package ([5ec9902](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5ec9902))
