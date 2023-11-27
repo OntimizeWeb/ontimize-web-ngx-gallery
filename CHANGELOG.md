@@ -1,3 +1,7 @@
+## 8.2.1 (2023-11-24)
+### Bug Fixes
+* Fixed problem of building distributable package ([5ec9902](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5ec9902))
+
 ## 8.2.0 (2023-11-24)
 ### Features
 * Added the ability to place thumbnails to the **left** or **right** of the main image ([d16c33f](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/d16c33f)) Closes [#128](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/128)
