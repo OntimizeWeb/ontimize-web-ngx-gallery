@@ -1,4 +1,4 @@
-## 15.0.0 (2023-11-27)
+## 15.0.0 (2023-11-28)
 > Ontimize Web Gallery v15 based in [Angular 15](https://blog.angular.io/angular-v15-is-now-available-df7be7f2f4c8) is now available!!!
 ### Features
 * Merged changes from [8.2.0](#820-2023-11-24) and [8.2.1](#821-2023-11-24) version to 15
