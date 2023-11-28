@@ -312,7 +312,6 @@ export class GalleryComponent implements AfterViewInit {
     this.changeOptionsProp('thumbnailsRows', rows);
   }
 
-
   changeThumbPosition(layout: GalleryLayouts): void {
     this.options = this.options.map(o => {
       switch (layout) {
