@@ -1,7 +1,7 @@
 <div class="o-gallery-image-wrapper o-gallery-animation-{{animation}} o-gallery-image-size-{{size}}">
   <div *ngFor="let image of images; let i = index;">
     <div *ngIf="image.type === 'image' || image.type === 'unknown'" [oGalleryBackgroundImg]="image.src" class="o-gallery-image"
-      [ngClass]="{ 'o-gallery-active': selectedIndex == image.index, 'o-gallery-inactive-left': selectedIndex > image.index, 'o-gallery-inactive-right': selectedIndex < image.index, 'o-gallery-clickable': clickable }"
+      [ngClass]="{ 'o-gallery-active': selectedIndex === image.index, 'o-gallery-inactive-left': selectedIndex > image.index, 'o-gallery-inactive-right': selectedIndex < image.index, 'o-gallery-clickable': clickable }"
       (click)="handleClick($event, image.index)">
       <div class="o-gallery-icons-wrapper">
         <o-gallery-action *ngFor="let action of actions" [icon]="action.icon" [disabled]="action.disabled" [titleText]="action.titleText"
@@ -11,7 +11,7 @@
         (click)="$event.stopPropagation()"></div>
     </div>
     <div *ngIf="image.type === 'video'" class="o-gallery-image"
-      [ngClass]="{ 'o-gallery-active': selectedIndex == image.index, 'o-gallery-inactive-left': selectedIndex > image.index, 'o-gallery-inactive-right': selectedIndex < image.index, 'o-gallery-clickable': clickable }"
+      [ngClass]="{ 'o-gallery-active': selectedIndex === image.index, 'o-gallery-inactive-left': selectedIndex > image.index, 'o-gallery-inactive-right': selectedIndex < image.index, 'o-gallery-clickable': clickable }"
       (click)="handleClick($event, image.index)">
       <video controls style="width: 100%; height: 100%;">
         <source [src]="image.src">
