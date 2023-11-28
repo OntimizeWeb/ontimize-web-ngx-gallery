@@ -134,4 +134,4 @@ o-gallery ::ng-deep o-gallery-preview .o-gallery-arrow {
 }
 ```
 
-You can play with gallery using http://try.imatia.com/ontimizeweb/v8/playground/main/media/gallery/playground
+You can play with gallery using http://try.imatia.com/ontimizeweb/v15/playground/main/media/gallery/playground
