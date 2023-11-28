@@ -1,8 +1,38 @@
+## 15.0.0 (2023-11-28)
+> Ontimize Web Gallery v15 based in [Angular 15](https://blog.angular.io/angular-v15-is-now-available-df7be7f2f4c8) is now available!!!
+### Features
+* Merged changes from [8.2.0](#820-2023-11-24)([ba89f16](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/ba89f16)) , [8.2.1](#821-2023-11-24)([ba89f16](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/ba89f16)) and [8.2.2](#822-2023-11-28)([74e73ec](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/74e73ec)) version to 15
+
+### Bug Fixes
+Fixed deprecation warning about using / operation ([af62350](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/af62350))
+
+## 8.2.2 (2023-11-28)
+### Bug Fixes
+* Fixed bug into navigation over main image that does not navigate to the last item([15ff9e2](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/15ff9e2)) Closes [#142](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/142)
+
+## 8.2.1 (2023-11-24)
+### Bug Fixes
+* Fixed problem of building distributable package ([5ec9902](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5ec9902))
+
+## 8.2.0 (2023-11-24)
+### Features
+* Added the ability to place thumbnails to the **left** or **right** of the main image ([d16c33f](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/d16c33f)) Closes [#128](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/128)
+  * New types `ThumbnailsLeft` and `ThumbnailsRight` in `GalleryLayout`
+  * New methods `moveThumbnailsTop`, `moveThumbnailsBottom`, `canMoveThumbnailsTop`, `canMoveThumbnailsBottom`, `changeThumbnailsColumns`, `changeThumbnailsRows`
+  * Changed arrow styles
+  * New file `o-gallery-theme.scss`
+    In your application '*app.scss*' file you should add the library theme.
+
+    ```
+    @import 'node_modules/ontimize-web-ngx-gallery/o-gallery-theme.scss';
+    @include o-gallery-theme($theme);
+
 ## 15.0.0-beta.0 (2023-09-29)
 ### Features
 * Migration to Angular 15.
 * Migration to Angular Material 15.
 
+    ```
 ## 8.1.4 (2023-09-13)
 ### Bug Fixes
 Fixed bug using `imageBullets` option since it is showing only one bullet. ([79832b8](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/79832b8)) Closes [#112](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/112)
@@ -29,7 +59,6 @@ Fixed bug using `imageBullets` option since it is showing only one bullet. ([798
 * **o-gallery-options**:
   * now values ​​of `imageSwipe`, `thumbnailsSwipe`, `previewSwipe` inputs have been replaced by `true` by default ([5c447fa](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5c447fa)) Closes [#36](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/36)
   * now it is not necessary to add the properties with the default values ([ffea97c](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/ffea97c))
-
 
 ## 8.0.3 (2022-07-07)
 ### Bug Fixes

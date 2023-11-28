@@ -1,8 +1,9 @@
-import { Component, ElementRef, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnChanges, SimpleChange } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeStyle } from '@angular/platform-browser';
 import { BooleanInputConverter } from 'ontimize-web-ngx';
 
 import { GalleryAction } from '../../models/gallery-action.model';
+import { GalleryLayout } from '../../models/gallery-layout.model';
 import { GalleryOrder } from '../../models/gallery-order.model';
 import { GalleryHelperService } from '../../services/gallery-helper.service';
 
@@ -30,7 +31,8 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
     'order',
     'remainingCount : remaining-count',
     'lazyLoading : lazy-loading',
-    'actions'
+    'actions',
+    'layout'
   ],
   outputs: [
     'onActiveChange'
@@ -42,8 +44,11 @@ export class GalleryThumbnailsComponent implements OnChanges {
   thumbnailsMarginLeft: string = '0px';
   mouseenter: boolean;
   remainingCountValue: number;
+  public layout;
 
   minStopIndex = 0;
+  private visibleThumbnails = 0;
+  private thumbnailLayoutCount: number = 0;
 
   set images(val: string[] | SafeResourceUrl[]) {
     this._imagesArray = val;
@@ -110,9 +115,20 @@ export class GalleryThumbnailsComponent implements OnChanges {
     private helperService: GalleryHelperService
   ) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
     if (changes.selectedIndex) {
       this.validateIndex();
+    }
+
+    if (changes.layout) {
+
+      if (changes.layout.currentValue === 'thumbnails-top' || changes.layout.currentValue === 'thumbnails-bottom') {
+        this.visibleThumbnails = this.columns;
+        this.thumbnailLayoutCount = this.rows;
+      } else {
+        this.visibleThumbnails = this.rows;
+        this.thumbnailLayoutCount = this.columns;
+      }
     }
 
     if (changes.swipe) {
@@ -123,6 +139,7 @@ export class GalleryThumbnailsComponent implements OnChanges {
     if (this.images) {
       this.remainingCountValue = this.images.length - (this.rows * this.columns);
     }
+
   }
 
   @HostListener('mouseenter') onMouseEnter() {
@@ -171,8 +188,32 @@ export class GalleryThumbnailsComponent implements OnChanges {
     }
   }
 
+  moveBottom(): void {
+    if (this.canMoveBottom) {
+      this.index += this.moveSize;
+      const maxIndex = this.getMaxIndex() - this.rows;
+
+      if (this.index > maxIndex) {
+        this.index = maxIndex;
+      }
+
+      this.setThumbnailsPosition();
+    }
+  }
+
   moveLeft(): void {
     if (this.canMoveLeft) {
+      this.index -= this.moveSize;
+
+      if (this.index < 0) {
+        this.index = 0;
+      }
+
+      this.setThumbnailsPosition();
+    }
+  }
+  moveTop(): void {
+    if (this.canMoveTop) {
       this.index -= this.moveSize;
 
       if (this.index < 0) {
@@ -187,54 +228,72 @@ export class GalleryThumbnailsComponent implements OnChanges {
     return this.index + this.columns < this.getMaxIndex();
   }
 
+  get canMoveBottom(): boolean {
+    return this.index + this.rows < this.getMaxIndex();
+  }
+
   get canMoveLeft(): boolean {
     return this.index !== 0;
   }
 
+  get canMoveTop(): boolean {
+    return this.index !== 0;
+  }
+
   getThumbnailLeft(index: number): SafeStyle {
-    let calculatedIndex;
+    return this.hasHorizontalDirection() ? this.calculateIndexHorizontal(index, this.rows) : this.calculateIndexVertical(index, this.columns);
 
-    if (this.order === GalleryOrder.Column) {
-      calculatedIndex = Math.floor(index / this.rows);
-    } else if (this.order === GalleryOrder.Page) {
-      calculatedIndex = (index % this.columns) + (Math.floor(index / (this.rows * this.columns)) * this.columns);
-    } else if (this.order === GalleryOrder.Row && this.remainingCount) {
-      calculatedIndex = index % this.columns;
-    } else {
-      calculatedIndex = index % Math.ceil(this.images.length / this.rows);
-    }
-
-    return this.getThumbnailPosition(calculatedIndex, this.columns);
   }
 
   getThumbnailTop(index: number): SafeStyle {
+    return this.hasHorizontalDirection() ? this.calculateIndexVertical(index, this.rows) : this.calculateIndexHorizontal(index, this.columns);
+  }
+
+  calculateIndexVertical(index: number, numThumbnailLayout: number): SafeStyle {
+    let calculatedIndex;
+    if (this.order === GalleryOrder.Column) {
+      calculatedIndex = index % numThumbnailLayout;
+    } else if (this.order === GalleryOrder.Page) {
+      calculatedIndex = Math.floor(index / this.visibleThumbnails) - (Math.floor(index / (this.rows * this.columns)) * numThumbnailLayout);
+    } else if (this.order === GalleryOrder.Row && this.remainingCount) {
+      calculatedIndex = Math.floor(index / this.visibleThumbnails);
+    } else {
+      calculatedIndex = Math.floor(index / Math.ceil(this.images.length / numThumbnailLayout));
+    }
+
+    return this.getThumbnailPosition(calculatedIndex, this.visibleThumbnails);
+  }
+  calculateIndexHorizontal(index: number, numThumbnailLayout: number): SafeStyle {
     let calculatedIndex;
 
     if (this.order === GalleryOrder.Column) {
-      calculatedIndex = index % this.rows;
+      calculatedIndex = Math.floor(index / numThumbnailLayout);
     } else if (this.order === GalleryOrder.Page) {
-      calculatedIndex = Math.floor(index / this.columns) - (Math.floor(index / (this.rows * this.columns)) * this.rows);
+      calculatedIndex = (index % this.visibleThumbnails) + (Math.floor(index / (this.rows * this.columns)) * this.visibleThumbnails);
     } else if (this.order === GalleryOrder.Row && this.remainingCount) {
-      calculatedIndex = Math.floor(index / this.columns);
+      calculatedIndex = index % this.visibleThumbnails;
     } else {
-      calculatedIndex = Math.floor(index / Math.ceil(this.images.length / this.rows));
+      calculatedIndex = index % Math.ceil(this.images.length / numThumbnailLayout);
     }
-
-    return this.getThumbnailPosition(calculatedIndex, this.rows);
+    return this.getThumbnailPosition(calculatedIndex, this.visibleThumbnails);
   }
 
+  /* if layout is right or left, get proportion about rows else about columns*/
   get thumbnailWidth(): SafeStyle {
-    return this.getThumbnailDimension(this.columns);
+    return this.getThumbnailDimension(this.hasHorizontalDirection() ? this.visibleThumbnails : 1);
   }
 
   get thumbnailHeight(): SafeStyle {
-    return this.getThumbnailDimension(this.rows);
+    return this.getThumbnailDimension(this.hasHorizontalDirection() ? 1 : this.visibleThumbnails);
   }
 
+  hasHorizontalDirection(): boolean {
+    return (GalleryLayout.ThumbnailsBottom === this.layout || GalleryLayout.ThumbnailsTop === this.layout)
+  }
   setThumbnailsPosition(): void {
-    this.thumbnailsLeft = - ((100 / this.columns) * this.index) + '%';
+    this.thumbnailsLeft = - ((100 / this.visibleThumbnails) * this.index) + '%';
 
-    this.thumbnailsMarginLeft = - ((this.margin - (((this.columns - 1) * this.margin) / this.columns)) * this.index) + 'px';
+    this.thumbnailsMarginLeft = - ((this.margin - (((this.visibleThumbnails - 1) * this.margin) / this.visibleThumbnails)) * this.index) + 'px';
   }
 
   setDefaultPosition(): void {
@@ -258,17 +317,17 @@ export class GalleryThumbnailsComponent implements OnChanges {
       let newIndex;
 
       if (this.order === GalleryOrder.Column) {
-        newIndex = Math.floor(this.selectedIndex / this.rows);
+        newIndex = Math.floor(this.selectedIndex / this.visibleThumbnails);
       } else {
-        newIndex = this.selectedIndex % Math.ceil(this.images.length / this.rows);
+        newIndex = this.selectedIndex % Math.ceil(this.images.length / this.visibleThumbnails);
       }
 
       if (this.remainingCount) {
         newIndex = 0;
       }
 
-      if (newIndex < this.index || newIndex >= this.index + this.columns) {
-        const maxIndex = this.getMaxIndex() - this.columns;
+      if (newIndex < this.index || newIndex >= this.index + this.visibleThumbnails) {
+        const maxIndex = this.getMaxIndex() - this.visibleThumbnails;
         this.index = newIndex > maxIndex ? maxIndex : newIndex;
 
         this.setThumbnailsPosition();
@@ -295,18 +354,19 @@ export class GalleryThumbnailsComponent implements OnChanges {
   }
 
   private getMaxIndex(): number {
-    if (this.order === GalleryOrder.Page) {
-      let maxIndex = (Math.floor(this.images.length / this.getVisibleCount()) * this.columns);
 
-      if (this.images.length % this.getVisibleCount() > this.columns) {
-        maxIndex += this.columns;
+    if (this.order === GalleryOrder.Page) {
+      let maxIndex = (Math.floor(this.images.length / this.getVisibleCount()) * this.visibleThumbnails);
+
+      if (this.images.length % this.getVisibleCount() > this.visibleThumbnails) {
+        maxIndex += this.visibleThumbnails;
       } else {
         maxIndex += this.images.length % this.getVisibleCount();
       }
 
       return maxIndex;
     } else {
-      return Math.ceil(this.images.length / this.rows);
+      return Math.ceil(this.images.length / this.thumbnailLayoutCount);
     }
   }
 

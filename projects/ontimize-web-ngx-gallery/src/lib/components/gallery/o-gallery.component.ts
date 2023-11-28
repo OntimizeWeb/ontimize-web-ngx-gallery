@@ -19,15 +19,13 @@ import { filter, take } from 'rxjs/operators';
 
 import { GalleryImageSize } from '../../models/gallery-image-size.model';
 import { GalleryImage } from '../../models/gallery-image.model';
-import { GalleryLayout } from '../../models/gallery-layout.model';
+import { GalleryLayout, GalleryLayouts } from '../../models/gallery-layout.model';
 import { GalleryOptions } from '../../models/gallery-options.model';
 import { GalleryOrderedImage } from '../../models/gallery-ordered-image.model';
 import { GalleryHelperService } from '../../services/gallery-helper.service';
 import { GalleryImageComponent } from '../gallery-image/o-gallery-image.component';
 import { GalleryPreviewComponent } from '../gallery-preview/o-gallery-preview.component';
 import { GalleryThumbnailsComponent } from '../gallery-thumbnails/o-gallery-thumbnails.component';
-
-
 
 export const DEFAULT_OUTPUTS_O_GALLERY = [
   'onImagesReady',
@@ -274,12 +272,28 @@ export class GalleryComponent implements AfterViewInit {
     this.thubmnails.moveLeft();
   }
 
+  moveThumbnailsTop() {
+    this.thubmnails.moveTop();
+  }
+
+  moveThumbnailsBottom() {
+    this.thubmnails.moveBottom();
+  }
+
   canMoveThumbnailsRight() {
     return this.thubmnails.canMoveRight;
   }
 
   canMoveThumbnailsLeft() {
     return this.thubmnails.canMoveLeft;
+  }
+
+  canMoveThumbnailsTop() {
+    return this.thubmnails.canMoveTop;
+  }
+
+  canMoveThumbnailsBottom() {
+    return this.thubmnails.canMoveBottom;
   }
 
   changeWidth(newWidth: string) {
@@ -290,9 +304,29 @@ export class GalleryComponent implements AfterViewInit {
     this.changeOptionsProp('height', newHeight);
   }
 
-  changeThumbPosition(): void {
+  changeThumbnailsColumns(columns: number) {
+    this.changeOptionsProp('thumbnailsColumns', columns);
+  }
+
+  changeThumbnailsRows(rows: number) {
+    this.changeOptionsProp('thumbnailsRows', rows);
+  }
+
+  changeThumbPosition(layout: GalleryLayouts): void {
     this.options = this.options.map(o => {
-      o.layout = o.layout === GalleryLayout.ThumbnailsTop ? GalleryLayout.ThumbnailsBottom : GalleryLayout.ThumbnailsTop;
+      switch (layout) {
+        case GalleryLayout.ThumbnailsBottom:
+          o.layout = GalleryLayout.ThumbnailsBottom;
+          break;
+        case GalleryLayout.ThumbnailsTop:
+          o.layout = GalleryLayout.ThumbnailsTop;
+          break;
+        case GalleryLayout.ThumbnailsLeft:
+          o.layout = GalleryLayout.ThumbnailsLeft;
+          break;
+        case GalleryLayout.ThumbnailsRight:
+          o.layout = GalleryLayout.ThumbnailsRight;
+      }
       return o;
     });
   }

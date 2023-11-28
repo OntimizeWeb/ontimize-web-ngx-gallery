@@ -98,6 +98,14 @@ export class AppComponent implements OnInit {
 <o-gallery [gallery-options]="galleryOptions" [gallery-images]="galleryImages"></o-gallery>
 ````
 
+ ```scss
+  //app.scss
+  ...
+  @import 'node_modules/ontimize-web-ngx-gallery/o-gallery-theme.scss';
+  @include o-gallery-theme($theme);
+  ...
+ ```
+
 ### Styling
 - Active thumbnail
 ```
@@ -126,4 +134,4 @@ o-gallery ::ng-deep o-gallery-preview .o-gallery-arrow {
 }
 ```
 
-You can play with gallery using http://try.imatia.com/ontimizeweb/playground/main/gallery/
+You can play with gallery using http://try.imatia.com/ontimizeweb/v15/playground/main/media/gallery/playground
