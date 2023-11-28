@@ -1,6 +1,7 @@
-## 8.2.2
+## 8.2.2(2023-11-28)
 ### Bug Fixes
-* Fixed bug in navigation main about image does not navigate to end ([](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/)) Closes [#142](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/142)
+* Fixed bug in navigation main about image does not navigate to end ([15ff9e2](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/15ff9e2)) Closes [#142](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/142)
+
 ## 8.2.1 (2023-11-24)
 ### Bug Fixes
 * Fixed problem of building distributable package ([5ec9902](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/5ec9902))
