@@ -186,7 +186,7 @@ export class GalleryImageComponent implements OnInit, OnChanges {
     if (this.canShowNext && this.canChangeImage) {
       this.selectedIndex++;
 
-      if (this.selectedIndex === this.getImages().length) {
+      if (this.selectedIndex === this.images.length) {
         this.selectedIndex = 0;
       }
 
@@ -204,7 +204,7 @@ export class GalleryImageComponent implements OnInit, OnChanges {
       this.selectedIndex--;
 
       if (this.selectedIndex < 0) {
-        this.selectedIndex = this.getImages().length - 1;
+        this.selectedIndex = this.images.length - 1;
       }
 
       this.onActiveChange.emit(this.selectedIndex);
@@ -227,7 +227,7 @@ export class GalleryImageComponent implements OnInit, OnChanges {
   }
 
   get canShowNext(): boolean {
-    return this.infinityMove || (this.selectedIndex < this.getImages().length - 1);
+    return this.infinityMove || (this.selectedIndex < this.images.length - 1);
   }
 
   get canShowPrev(): boolean {
