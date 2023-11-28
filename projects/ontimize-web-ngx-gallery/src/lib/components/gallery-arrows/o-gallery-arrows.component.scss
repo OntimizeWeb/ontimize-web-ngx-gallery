@@ -1,3 +1,4 @@
+@use 'sass:math';
 $thumbnail-width-arrow-icon:16px;
 $thumbnail-margin-arrow-icon:12px;
 $mainimage-width-arrow-icon:24px;
@@ -29,8 +30,9 @@ $previewimage-margin-arrow-icon:64px;
     }
   }
 
+
   .o-gallery-arrow {
-    top: calc(50% - #{($mainimage-width-arrow-icon/2)});
+    top: calc(50% - #{math.div($mainimage-width-arrow-icon, 2)});
     cursor: pointer;
 
     &.o-gallery-disabled {
@@ -57,13 +59,13 @@ o-gallery-thumbnails {
 
       &.o-gallery-arrow-top,
       &.o-gallery-arrow-bottom {
-        left: calc(50% - #{($thumbnail-width-arrow-icon / 2)});
+        left: calc(50% - #{math.div($thumbnail-width-arrow-icon, 2)});
       }
 
       &.o-gallery-arrow-right,
       &.o-gallery-arrow-left {
         .o-gallery-arrow {
-          top: calc(50% - #{($thumbnail-width-arrow-icon / 2)});
+          top: calc(50% - #{math.div($thumbnail-width-arrow-icon,2)});
         }
       }
 
@@ -94,7 +96,9 @@ o-gallery-thumbnails {
 
 .o-gallery-preview {
   .o-gallery-arrow {
-    top:calc(50% - #{$previewimage-width-arrow-icon / 2}) .o-gallery-icon-content {
+    top:calc(50% - #{math.div($previewimage-width-arrow-icon,2)});
+
+    .o-gallery-icon-content {
       height: $previewimage-width-arrow-icon;
       width: $previewimage-width-arrow-icon;
       font-size: $previewimage-width-arrow-icon;
