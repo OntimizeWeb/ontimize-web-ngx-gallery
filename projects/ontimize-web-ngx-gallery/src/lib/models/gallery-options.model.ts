@@ -29,7 +29,7 @@ export class GalleryOptions implements IGalleryOptions {
   imageActions?: GalleryAction[];
   imageDescription?: boolean;
   imageBullets?: boolean;
-  imageRatio?: string;
+  aspectRatio?: string;
   thumbnails?: boolean;
   thumbnailsColumns?: number;
   thumbnailsRows?: number;
@@ -45,7 +45,6 @@ export class GalleryOptions implements IGalleryOptions {
   thumbnailsAutoHide?: boolean;
   thumbnailMargin?: number;
   thumbnailSize?: string;
-  thumbnailRatio?: string;
   thumbnailActions?: GalleryAction[];
   preview?: boolean;
   previewDescription?: boolean;
@@ -66,7 +65,6 @@ export class GalleryOptions implements IGalleryOptions {
   previewZoomStep?: number;
   previewZoomMax?: number;
   previewZoomMin?: number;
-  previewRatio?: string;
   previewRotate?: boolean;
   previewDownload?: boolean;
   previewCustom?: (index: number) => void;
@@ -115,7 +113,7 @@ export class GalleryOptions implements IGalleryOptions {
     this.imageActions = use(obj.imageActions, []);
     this.imageDescription = use(obj.imageDescription, false);
     this.imageBullets = use(obj.imageBullets, false);
-    this.imageRatio = use(obj.imageRatio, undefined)
+    this.aspectRatio = use(obj.aspectRatio, undefined)
 
     this.thumbnails = use(obj.thumbnails, true);
     if (obj.layout === GalleryLayout.ThumbnailsRight || obj.layout === GalleryLayout.ThumbnailsLeft) {
@@ -141,7 +139,6 @@ export class GalleryOptions implements IGalleryOptions {
       obj.thumbnailActions = obj.thumbnailActions.map(action => new GalleryAction(action));
     }
     this.thumbnailActions = use(obj.thumbnailActions, []);
-    this.thumbnailRatio = use(obj.thumbnailRatio, undefined);
 
     this.preview = use(obj.preview, true);
     this.previewDescription = use(obj.previewDescription, false);
@@ -166,7 +163,6 @@ export class GalleryOptions implements IGalleryOptions {
     this.previewDownload = use(obj.previewDownload, true);
     this.previewCustom = use(obj.previewCustom, undefined);
     this.previewBullets = use(obj.previewBullets, false);
-    this.previewRatio = use(obj.previewRatio, undefined);
 
     this.arrowPrevIcon = use(obj.arrowPrevIcon, 'navigate_before');
     this.arrowNextIcon = use(obj.arrowNextIcon, 'navigate_next');

@@ -24,7 +24,7 @@ export interface IGalleryOptions {
   imageActions?: GalleryAction[];
   imageDescription?: boolean;
   imageBullets?: boolean;
-  imageRatio?: string;
+  aspectRatio?: string;
   thumbnails?: boolean;
   thumbnailsColumns?: number;
   thumbnailsRows?: number;
@@ -41,7 +41,6 @@ export interface IGalleryOptions {
   thumbnailMargin?: number;
   thumbnailSize?: string;
   thumbnailActions?: GalleryAction[];
-  thumbnailRatio?: string;
   preview?: boolean;
   previewDescription?: boolean;
   previewArrows?: boolean;
@@ -65,7 +64,6 @@ export interface IGalleryOptions {
   previewDownload?: boolean;
   previewCustom?: (index: number) => void;
   previewBullets?: boolean;
-  previewRatio?: string;
   arrowPrevIcon?: string;
   arrowNextIcon?: string;
   closeIcon?: string;
