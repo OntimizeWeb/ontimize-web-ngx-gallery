@@ -111,17 +111,12 @@ export class GalleryThumbnailsComponent implements OnChanges {
 
   constructor(
     private sanitization: DomSanitizer,
-    private elementRef: ElementRef,
+    public elementRef: ElementRef,
     private helperService: GalleryHelperService
   ) { }
 
   ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-    if (changes.selectedIndex) {
-      this.validateIndex();
-    }
-
     if (changes.layout) {
-
       if (changes.layout.currentValue === 'thumbnails-top' || changes.layout.currentValue === 'thumbnails-bottom') {
         this.visibleThumbnails = this.columns;
         this.thumbnailLayoutCount = this.rows;
@@ -129,6 +124,10 @@ export class GalleryThumbnailsComponent implements OnChanges {
         this.visibleThumbnails = this.rows;
         this.thumbnailLayoutCount = this.columns;
       }
+    }
+
+    if (changes.selectedIndex) {
+      this.validateIndex();
     }
 
     if (changes.swipe) {
@@ -290,6 +289,7 @@ export class GalleryThumbnailsComponent implements OnChanges {
   hasHorizontalDirection(): boolean {
     return (GalleryLayout.ThumbnailsBottom === this.layout || GalleryLayout.ThumbnailsTop === this.layout)
   }
+
   setThumbnailsPosition(): void {
     this.thumbnailsLeft = - ((100 / this.visibleThumbnails) * this.index) + '%';
 
