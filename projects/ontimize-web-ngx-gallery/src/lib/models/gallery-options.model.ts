@@ -89,7 +89,7 @@ export class GalleryOptions implements IGalleryOptions {
 
     this.breakpoint = use(obj.breakpoint, undefined);
     this.width = use(obj.width, '800px');
-    this.height = use(obj.height, '600px');
+    this.height = use(obj.height, obj.aspectRatio ? undefined : '600px');
     this.fullWidth = use(obj.fullWidth, false);
     this.layout = use(obj.layout, GalleryLayout.ThumbnailsBottom);
     this.startIndex = use(obj.startIndex, 0);
