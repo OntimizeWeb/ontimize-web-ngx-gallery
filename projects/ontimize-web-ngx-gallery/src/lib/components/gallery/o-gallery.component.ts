@@ -312,6 +312,10 @@ export class GalleryComponent implements AfterViewInit {
     this.changeOptionsProp('height', newHeight);
   }
 
+  changeAspectRatio(newRatio: string) {
+    this.changeOptionsProp('aspectRatio', newRatio);
+  }
+
   changeThumbnailsColumns(columns: number) {
     this.changeOptionsProp('thumbnailsColumns', columns);
   }
@@ -362,7 +366,7 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   get thumbnailHeight() {
-    if (Util.isDefined(this.currentOptions.aspectRatio && this.currentOptions.aspectRatio.indexOf(':') > -1)) {
+    if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
       if (Util.isDefined(this.thubmnails) &&
         Util.isDefined(this.currentOptions.layout) && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
         const widthThumbnail = this.thubmnails.elementRef.nativeElement.querySelector('a').offsetWidth;
@@ -375,7 +379,7 @@ export class GalleryComponent implements AfterViewInit {
 
     } else {
       if (Util.isDefined(this.currentOptions.thumbnails) &&
-        (this.currentOptions.layout === 'thumbnails-left' || this.currentOptions.layout === 'thumbnails-right')) {
+        (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
         return 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
       } else {
         return '100%';
@@ -512,7 +516,9 @@ export class GalleryComponent implements AfterViewInit {
       .forEach((opt) => this.combineOptions(this.currentOptions, opt));
 
     this.width = this.currentOptions.width;
-    //this.height = this.currentOptions.height;
+    if (!Util.isDefined(this.currentOptions.aspectRatio)) {
+     this.height = this.currentOptions.height;
+    }
   }
 
   private combineOptions(first: GalleryOptions, second: GalleryOptions) {
