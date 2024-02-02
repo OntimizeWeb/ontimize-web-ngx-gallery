@@ -356,7 +356,7 @@ export class GalleryComponent implements AfterViewInit {
     if (Util.isDefined(this.currentOptions.aspectRatio)) {
       return undefined;
     } else {
-      if (Util.isDefined(this.currentOptions.thumbnails) &&
+      if (this.currentOptions.thumbnails &&
         (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
         return this.currentOptions.imagePercent + '%'
       } else {
@@ -367,8 +367,7 @@ export class GalleryComponent implements AfterViewInit {
 
   get thumbnailHeight() {
     if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
-      if (Util.isDefined(this.thubmnails) &&
-        Util.isDefined(this.currentOptions.layout) && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
+      if (Util.isDefined(this.thubmnails) &&  this.currentOptions.layout && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
         const widthThumbnail = this.thubmnails.elementRef.nativeElement.querySelector('a').offsetWidth;
         const ratioParts= this.currentOptions.aspectRatio.split(':').map(x=>parseInt(x));
         const ratioPercent = !isNaN(ratioParts[0]) && !isNaN(ratioParts[1]) ? ratioParts[1] / ratioParts[0] : 1;
@@ -378,7 +377,7 @@ export class GalleryComponent implements AfterViewInit {
       }
 
     } else {
-      if (Util.isDefined(this.currentOptions.thumbnails) &&
+      if (this.currentOptions.image &&
         (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
         return 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
       } else {
