@@ -1,3 +1,7 @@
+## 8.3.0
+### Feature
+* New property aspectRatio in `gallery-options` and new method `changeAspectRatio`
+
 ## 8.2.2(2023-11-28)
 ### Bug Fixes
 * Fixed bug into navigation over main image that does not navigate to the last item([15ff9e2](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/15ff9e2)) Closes [#142](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/142)
