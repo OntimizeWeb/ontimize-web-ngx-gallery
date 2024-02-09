@@ -156,7 +156,7 @@ export class GalleryComponent implements AfterViewInit {
     private myElement: ElementRef,
     private injector: Injector
   ) {
-    this.sanitization = this.injector.get<DomSanitizer>(DomSanitizer as Type<DomSanitizer>);
+    this.sanitization = this.injector.get<DomSanitizer>(DomSanitizer);
     this.scrollStrategy = this.injector.get<ScrollStrategyOptions>(ScrollStrategyOptions as Type<ScrollStrategyOptions>);
     this.overlay = this.injector.get<Overlay>(Overlay as Type<Overlay>);
     this.helperService = this.injector.get<GalleryHelperService>(GalleryHelperService as Type<GalleryHelperService>);
