@@ -16,6 +16,7 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Util } from 'ontimize-web-ngx';
 import { merge, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
@@ -28,7 +29,6 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
 import { GalleryImageComponent } from '../gallery-image/o-gallery-image.component';
 import { GalleryPreviewComponent } from '../gallery-preview/o-gallery-preview.component';
 import { GalleryThumbnailsComponent } from '../gallery-thumbnails/o-gallery-thumbnails.component';
-import { Util } from 'ontimize-web-ngx';
 
 export const DEFAULT_OUTPUTS_O_GALLERY = [
   'onImagesReady',
@@ -347,7 +347,7 @@ export class GalleryComponent implements AfterViewInit {
   get aspectRatio() {
     if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
       const ratioParts = this.currentOptions.aspectRatio.split(':');
-      return this.sanitization.bypassSecurityTrustStyle(ratioParts[0] + '/' + parseFloat(ratioParts[1]));
+      return ratioParts[0] + '/' + parseFloat(ratioParts[1]);
 
     }
     return undefined
@@ -367,11 +367,11 @@ export class GalleryComponent implements AfterViewInit {
 
   get thumbnailHeight() {
     if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
-      if (Util.isDefined(this.thubmnails) &&  this.currentOptions.layout && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
+      if (Util.isDefined(this.thubmnails) && this.currentOptions.layout && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
         const widthThumbnail = this.thubmnails.elementRef.nativeElement.querySelector('a').offsetWidth;
-        const ratioParts= this.currentOptions.aspectRatio.split(':').map(x=>parseInt(x));
+        const ratioParts = this.currentOptions.aspectRatio.split(':').map(x => parseInt(x));
         const ratioPercent = !isNaN(ratioParts[0]) && !isNaN(ratioParts[1]) ? ratioParts[1] / ratioParts[0] : 1;
-        return widthThumbnail*ratioPercent+'px';
+        return widthThumbnail * ratioPercent + 'px';
       } else {
         return undefined;
       }
@@ -516,7 +516,7 @@ export class GalleryComponent implements AfterViewInit {
 
     this.width = this.currentOptions.width;
     if (!Util.isDefined(this.currentOptions.aspectRatio)) {
-     this.height = this.currentOptions.height;
+      this.height = this.currentOptions.height;
     }
   }
 
