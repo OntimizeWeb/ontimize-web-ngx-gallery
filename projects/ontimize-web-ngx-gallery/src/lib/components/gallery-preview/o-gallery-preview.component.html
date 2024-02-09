@@ -25,7 +25,8 @@
     <img alt="previewImage" *ngIf="src && type === 'image'" #previewImage class="o-gallery-preview-img o-gallery-center" [src]="src" (click)="$event.stopPropagation()"
       (mouseenter)="imageMouseEnter()" (mouseleave)="imageMouseLeave()" (mousedown)="mouseDownHandler($event)" (touchstart)="mouseDownHandler($event)"
       [class.o-gallery-active]="!loading" [class.animation]="animation" [class.o-gallery-grab]="canDragOnZoom" [style.transform]="getTransform"
-      [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'" />
+      [style.left]="positionLeft + 'px'" [style.top]="positionTop + 'px'"
+      [style.aspectRatio]="aspectRatio"/>
     <video *ngIf="src && type === 'video'" #previewImage class="o-gallery-preview-video o-gallery-center" controls style="width: 50%; height: 50%;">
       <source [src]="src">
       Your browser does not support the video tag.
