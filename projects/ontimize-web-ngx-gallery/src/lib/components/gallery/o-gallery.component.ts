@@ -355,14 +355,13 @@ export class GalleryComponent implements AfterViewInit {
   get imageHeight() {
     if (Util.isDefined(this.currentOptions.aspectRatio)) {
       return undefined;
+    } else if (this.currentOptions.thumbnails &&
+      (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
+      return this.currentOptions.imagePercent + '%'
     } else {
-      if (this.currentOptions.thumbnails &&
-        (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
-        return this.currentOptions.imagePercent + '%'
-      } else {
-        return '100%';
-      }
+      return '100%';
     }
+
   }
 
   get thumbnailHeight() {
@@ -376,15 +375,14 @@ export class GalleryComponent implements AfterViewInit {
         return undefined;
       }
 
+    } else if (this.currentOptions.image &&
+      (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
+      return 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
     } else {
-      if (this.currentOptions.image &&
-        (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
-        return 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
-      } else {
-        return '100%';
-      }
+      return '100%';
     }
   }
+
   changeImageSize(): void {
     this.options = this.options.map(o => {
       o.imageSize = o.imageSize === GalleryImageSize.Cover ? GalleryImageSize.Contain : GalleryImageSize.Cover;
@@ -577,8 +575,8 @@ export class GalleryComponent implements AfterViewInit {
       this.galleryOverlayRef.backdropClick(),
       this.galleryOverlayRef.detachments(),
       this.galleryOverlayRef.keydownEvents().pipe(filter(event => {
-        return event.keyCode === ESCAPE ||
-          (this.myElement && event.altKey && event.keyCode === UP_ARROW);
+        return event.code === 'Escape' ||
+          (this.myElement && event.altKey && event.code === 'ArrowUp');
       }))
     ).subscribe(() => this.previewClosed());
   }
