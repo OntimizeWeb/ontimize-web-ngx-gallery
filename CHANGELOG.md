@@ -1,3 +1,7 @@
+## 8.3.0(2024-02-09)
+### Feature
+* New property aspectRatio in `gallery-options` and new method `changeAspectRatio`([cc6cf1f](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/cc6cf1f)) Closes [#154](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/154)
+
 ## 15.0.0 (2023-11-28)
 > Ontimize Web Gallery v15 based in [Angular 15](https://blog.angular.io/angular-v15-is-now-available-df7be7f2f4c8) is now available!!!
 ### Features
@@ -8,7 +12,7 @@ Fixed deprecation warning about using / operation ([af62350](https://github.com/
 
 ## 8.2.2 (2023-11-28)
 ### Bug Fixes
-* Fixed bug into navigation over main image that does not navigate to the last item([15ff9e2](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/15ff9e2)) Closes [#142](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/142)
+* Fixed bug into navigation over main image that does not navigate to the last item ([15ff9e2](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/15ff9e2)) Closes [#142](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/142)
 
 ## 8.2.1 (2023-11-24)
 ### Bug Fixes

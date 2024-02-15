@@ -137,6 +137,7 @@ export class GalleryPreviewComponent implements OnInit, OnChanges, OnDestroy {
   public bullets: string;
   @BooleanInputConverter()
   public previewEnabled: boolean;
+  public aspectRatio:SafeStyle;
 
   onOpen = new EventEmitter();
   onClose = new EventEmitter();

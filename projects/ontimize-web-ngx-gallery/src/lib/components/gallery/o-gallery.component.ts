@@ -9,11 +9,14 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  Injector,
   NgZone,
+  Type,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import { SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Util } from 'ontimize-web-ngx';
 import { merge, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
@@ -48,7 +51,6 @@ export const DEFAULT_INPUTS_O_GALLERY = [
   outputs: DEFAULT_OUTPUTS_O_GALLERY
 })
 export class GalleryComponent implements AfterViewInit {
-
   protected subscription: Subscription = new Subscription();
   protected previewComponentPortal: ComponentPortal<GalleryPreviewComponent>;
   protected galleryOverlayRef: OverlayRef;
@@ -143,16 +145,23 @@ export class GalleryComponent implements AfterViewInit {
   @HostBinding('style.width') width: string;
   @HostBinding('style.height') height: string;
   @HostBinding('style.left') left: string;
+  private sanitization: DomSanitizer;
+  private scrollStrategy: ScrollStrategyOptions;
+  private overlay: Overlay;
+  private helperService: GalleryHelperService;
+  private ngZone: NgZone;
 
   constructor(
     public viewContainerRef: ViewContainerRef,
     private myElement: ElementRef,
-    private ngZone: NgZone,
-    private helperService: GalleryHelperService,
-    private overlay: Overlay,
-    public el: ElementRef,
-    private scrollStrategy: ScrollStrategyOptions,
-  ) { }
+    private injector: Injector
+  ) {
+    this.sanitization = this.injector.get<DomSanitizer>(DomSanitizer);
+    this.scrollStrategy = this.injector.get<ScrollStrategyOptions>(ScrollStrategyOptions as Type<ScrollStrategyOptions>);
+    this.overlay = this.injector.get<Overlay>(Overlay as Type<Overlay>);
+    this.helperService = this.injector.get<GalleryHelperService>(GalleryHelperService as Type<GalleryHelperService>);
+    this.ngZone = this.injector.get<NgZone>(NgZone as Type<NgZone>);
+  }
 
   ngAfterViewInit(): void {
     if (this.galleryMainImage) {
@@ -304,6 +313,10 @@ export class GalleryComponent implements AfterViewInit {
     this.changeOptionsProp('height', newHeight);
   }
 
+  changeAspectRatio(newRatio: string) {
+    this.changeOptionsProp('aspectRatio', newRatio);
+  }
+
   changeThumbnailsColumns(columns: number) {
     this.changeOptionsProp('thumbnailsColumns', columns);
   }
@@ -329,6 +342,45 @@ export class GalleryComponent implements AfterViewInit {
       }
       return o;
     });
+  }
+
+  get aspectRatio() {
+    if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
+      const ratioParts = this.currentOptions.aspectRatio.split(':');
+      return ratioParts[0] + '/' + parseFloat(ratioParts[1]);
+
+    }
+    return undefined
+  }
+  get imageHeight() {
+    if (Util.isDefined(this.currentOptions.aspectRatio)) {
+      return undefined;
+    } else if (this.currentOptions.thumbnails &&
+      (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
+      return this.currentOptions.imagePercent + '%'
+    } else {
+      return '100%';
+    }
+
+  }
+
+  get thumbnailHeight() {
+    if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
+      if (Util.isDefined(this.thubmnails) && this.currentOptions.layout && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
+        const widthThumbnail = this.thubmnails.elementRef.nativeElement.querySelector('a').offsetWidth;
+        const ratioParts = this.currentOptions.aspectRatio.split(':').map(x => parseInt(x));
+        const ratioPercent = !isNaN(ratioParts[0]) && !isNaN(ratioParts[1]) ? ratioParts[1] / ratioParts[0] : 1;
+        return widthThumbnail * ratioPercent + 'px';
+      } else {
+        return undefined;
+      }
+
+    } else if (this.currentOptions.image &&
+      (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
+      return 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
+    } else {
+      return '100%';
+    }
   }
 
   changeImageSize(): void {
@@ -461,7 +513,9 @@ export class GalleryComponent implements AfterViewInit {
       .forEach((opt) => this.combineOptions(this.currentOptions, opt));
 
     this.width = this.currentOptions.width;
-    this.height = this.currentOptions.height;
+    if (!Util.isDefined(this.currentOptions.aspectRatio)) {
+      this.height = this.currentOptions.height;
+    }
   }
 
   private combineOptions(first: GalleryOptions, second: GalleryOptions) {
@@ -521,8 +575,8 @@ export class GalleryComponent implements AfterViewInit {
       this.galleryOverlayRef.backdropClick(),
       this.galleryOverlayRef.detachments(),
       this.galleryOverlayRef.keydownEvents().pipe(filter(event => {
-        return event.keyCode === ESCAPE ||
-          (this.el && event.altKey && event.keyCode === UP_ARROW);
+        return event.code === 'Escape' ||
+          (this.myElement && event.altKey && event.code === 'ArrowUp');
       }))
     ).subscribe(() => this.previewClosed());
   }
@@ -563,6 +617,7 @@ export class GalleryComponent implements AfterViewInit {
     galleryPreviewContent.instance.download = this.currentOptions.previewDownload;
     galleryPreviewContent.instance.downloadIcon = this.currentOptions.downloadIcon;
     galleryPreviewContent.instance.previewEnabled = this.previewEnabled;
+    galleryPreviewContent.instance.aspectRatio = this.aspectRatio;
 
     this.subscription.add(galleryPreviewContent.instance.onClose.subscribe(() => this.previewClosed()))
     this.subscription.add(galleryPreviewContent.instance.onOpen.subscribe(() => this.previewOpened()))
