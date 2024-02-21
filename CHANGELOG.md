@@ -1,3 +1,7 @@
+## 15.1.0 (2024-02-21)
+> [!NOTE]
+> In this version, the features of version [8.3.0](#8302024-02-09) were integrated
+
 ## 8.3.0(2024-02-09)
 ### Feature
 * New property aspectRatio in `gallery-options` and new method `changeAspectRatio`([cc6cf1f](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/cc6cf1f)) Closes [#154](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/154)
