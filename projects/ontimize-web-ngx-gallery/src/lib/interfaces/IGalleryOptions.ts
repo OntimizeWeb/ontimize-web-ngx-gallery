@@ -24,6 +24,7 @@ export interface IGalleryOptions {
   imageActions?: GalleryAction[];
   imageDescription?: boolean;
   imageBullets?: boolean;
+  aspectRatio?: string;
   thumbnails?: boolean;
   thumbnailsColumns?: number;
   thumbnailsRows?: number;

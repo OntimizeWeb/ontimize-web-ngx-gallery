@@ -29,6 +29,7 @@ export class GalleryOptions implements IGalleryOptions {
   imageActions?: GalleryAction[];
   imageDescription?: boolean;
   imageBullets?: boolean;
+  aspectRatio?: string;
   thumbnails?: boolean;
   thumbnailsColumns?: number;
   thumbnailsRows?: number;
@@ -88,7 +89,7 @@ export class GalleryOptions implements IGalleryOptions {
 
     this.breakpoint = use(obj.breakpoint, undefined);
     this.width = use(obj.width, '800px');
-    this.height = use(obj.height, '600px');
+    this.height = use(obj.height, obj.aspectRatio ? undefined : '600px');
     this.fullWidth = use(obj.fullWidth, false);
     this.layout = use(obj.layout, GalleryLayout.ThumbnailsBottom);
     this.startIndex = use(obj.startIndex, 0);
@@ -112,6 +113,7 @@ export class GalleryOptions implements IGalleryOptions {
     this.imageActions = use(obj.imageActions, []);
     this.imageDescription = use(obj.imageDescription, false);
     this.imageBullets = use(obj.imageBullets, false);
+    this.aspectRatio = use(obj.aspectRatio, undefined)
 
     this.thumbnails = use(obj.thumbnails, true);
     if (obj.layout === GalleryLayout.ThumbnailsRight || obj.layout === GalleryLayout.ThumbnailsLeft) {

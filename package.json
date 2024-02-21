@@ -1,6 +1,6 @@
 {
   "name": "ontimize-web-ngx-gallery",
-  "version": "15.0.0",
+  "version": "15.1.0",
   "description": "An implementation of a multimedia Gallery for Ontimize Web",
   "scripts": {
     "ng": "ng",
