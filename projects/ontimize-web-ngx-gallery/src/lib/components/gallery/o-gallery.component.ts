@@ -1,4 +1,3 @@
-import { ESCAPE, UP_ARROW } from '@angular/cdk/keycodes';
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
@@ -365,6 +364,7 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   get thumbnailHeight() {
+    let height = undefined;
     if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
       if (Util.isDefined(this.thubmnails) && this.currentOptions.layout && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
         const thumbnailHref = this.thubmnails.elementRef.nativeElement.querySelector('a');
@@ -372,20 +372,17 @@ export class GalleryComponent implements AfterViewInit {
           const widthThumbnail = thumbnailHref ? thumbnailHref.offsetWidth : 0;
           const ratioParts = this.currentOptions.aspectRatio.split(':').map(x => parseInt(x));
           const ratioPercent = !isNaN(ratioParts[0]) && !isNaN(ratioParts[1]) ? ratioParts[1] / ratioParts[0] : 1;
-          return widthThumbnail * ratioPercent + 'px';
-        } else {
-          return undefined;
+          height = widthThumbnail * ratioPercent + 'px';
         }
-      } else {
-        return undefined;
       }
 
     } else if (this.currentOptions.image &&
       (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
-      return 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
+      height = 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
     } else {
-      return '100%';
+      height = '100%';
     }
+    return height;
   }
 
   changeImageSize(): void {
