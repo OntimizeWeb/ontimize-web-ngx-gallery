@@ -1,6 +1,6 @@
 ## 8.3.1 (2024-06-11)
 ### Bugfixes
-Fixed bug when `gallery-images` is empty and `aspectRatio` is configured ([](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/)) Closes [#176](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/176)
+Fixed bug when `gallery-images` is empty and `aspectRatio` is configured ([185fd8d](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/185fd8d)) Closes [#176](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/176)
 
 ## 8.3.0(2024-02-09)
 ### Feature
