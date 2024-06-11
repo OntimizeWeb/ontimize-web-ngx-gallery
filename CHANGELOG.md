@@ -1,3 +1,8 @@
+
+## 15.1.1 (2024-06-11)
+### Bugfixes
+Fixed bug when the code when there are no images and aspectRatio is configured ([](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/)) Closes [#176](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/176)
+
 ## 15.1.0 (2024-02-21)
 > [!NOTE]
 > In this version, the features of version [8.3.0](#8302024-02-09) were integrated
