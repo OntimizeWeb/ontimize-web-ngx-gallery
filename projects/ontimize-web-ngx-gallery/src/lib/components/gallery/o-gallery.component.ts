@@ -366,35 +366,41 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   get thumbnailHeight() {
+    let height = undefined;
     if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
-      if (Util.isDefined(this.thubmnails) &&  this.currentOptions.layout && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
+      if (Util.isDefined(this.thubmnails) && this.currentOptions.layout && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
         const thumbnailHref = this.thubmnails.elementRef.nativeElement.querySelector('a');
         if (Util.isDefined(thumbnailHref)) {
-          const widthThumbnail = thumbnailHref ? thumbnailHref.offsetWidth : 0;
-          const ratioParts = this.currentOptions.aspectRatio.split(':').map(x => parseInt(x));
-          const ratioPercent = !isNaN(ratioParts[0]) && !isNaN(ratioParts[1]) ? ratioParts[1] / ratioParts[0] : 1;
-          return widthThumbnail * ratioPercent + 'px';
-        } else {
-          return undefined;
+          const widthThumbnail = this.getWidthThumbnail(thumbnailHref);
+          const ratioPercent = this.getRatioPercentage();
+          height = widthThumbnail * ratioPercent + 'px';
         }
-      } else {
-        return undefined;
       }
 
+    } else if (this.currentOptions.image &&
+      (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
+      height = 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
     } else {
-      if (this.currentOptions.image &&
-        (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
-        return 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
-      } else {
-        return '100%';
-      }
+      height = '100%';
     }
+    return height;
   }
+
   changeImageSize(): void {
     this.options = this.options.map(o => {
       o.imageSize = o.imageSize === GalleryImageSize.Cover ? GalleryImageSize.Contain : GalleryImageSize.Cover;
       return o;
     });
+  }
+
+
+  private getRatioPercentage() {
+    const ratioParts = this.currentOptions.aspectRatio.split(':').map(x => parseInt(x));
+    return !isNaN(ratioParts[0]) && !isNaN(ratioParts[1]) ? ratioParts[1] / ratioParts[0] : 1;
+  }
+
+  private getWidthThumbnail(thumbnailHref: any) {
+    return thumbnailHref ? thumbnailHref.offsetWidth : 0;
   }
 
   changeThumbnailSize(): void {
