@@ -1,4 +1,3 @@
-import { ESCAPE, UP_ARROW } from '@angular/cdk/keycodes';
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
@@ -365,22 +364,33 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   get thumbnailHeight() {
-    if (Util.isDefined(this.currentOptions.aspectRatio) && this.currentOptions.aspectRatio.indexOf(':') > -1) {
+    let height = undefined;
+    if (this.currentOptions.aspectRatio?.indexOf(':') > -1) {
       if (Util.isDefined(this.thubmnails) && this.currentOptions.layout && (this.currentOptions.layout === 'thumbnails-bottom' || this.currentOptions.layout === 'thumbnails-top')) {
-        const widthThumbnail = this.thubmnails.elementRef.nativeElement.querySelector('a').offsetWidth;
-        const ratioParts = this.currentOptions.aspectRatio.split(':').map(x => parseInt(x));
-        const ratioPercent = !isNaN(ratioParts[0]) && !isNaN(ratioParts[1]) ? ratioParts[1] / ratioParts[0] : 1;
-        return widthThumbnail * ratioPercent + 'px';
-      } else {
-        return undefined;
+        const thumbnailHref = this.thubmnails.elementRef.nativeElement.querySelector('a');
+        if (Util.isDefined(thumbnailHref)) {
+          const widthThumbnail = this.getWidthThumbnail(thumbnailHref);
+          const ratioPercent = this.getRatioPercentage();
+          height = widthThumbnail * ratioPercent + 'px';
+        }
       }
 
     } else if (this.currentOptions.image &&
       (this.currentOptions.layout !== 'thumbnails-left' && this.currentOptions.layout !== 'thumbnails-right')) {
-      return 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
+      height = 'calc(' + this.currentOptions.thumbnailsPercent + '% - ' + this.currentOptions.thumbnailsMargin + 'px)'
     } else {
-      return '100%';
+      height = '100%';
     }
+    return height;
+  }
+
+  private getRatioPercentage() {
+    const ratioParts = this.currentOptions.aspectRatio.split(':').map(x => parseInt(x));
+    return !isNaN(ratioParts[0]) && !isNaN(ratioParts[1]) ? ratioParts[1] / ratioParts[0] : 1;
+  }
+
+  private getWidthThumbnail(thumbnailHref: any) {
+    return thumbnailHref ? thumbnailHref.offsetWidth : 0;
   }
 
   changeImageSize(): void {
