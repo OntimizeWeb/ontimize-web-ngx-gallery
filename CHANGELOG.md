@@ -1,6 +1,6 @@
-## 15.1.2 (2024-06-27)
+## 15.1.2 (2024-06-28)
 ### Bugfixes
-Fixed navigation arrows from the main view being shown in the preview view([](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/)) Closes [#187](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/187)
+Fixed navigation arrows from the main view being shown in the preview view([6f96256](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/6f96256)) Closes [#187](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/187)
 
 ## 15.1.1 (2024-06-11)
 ### Bugfixes
