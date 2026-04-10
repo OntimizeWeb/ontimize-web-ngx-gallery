@@ -89,6 +89,24 @@ Sin cambios en código fuente.
 
 ---
 
+## FASE 4: Standalone migration — commit `77e6332` (10 abril 2026)
+
+**Rama**: `migration/18.x.x`
+
+| Componente / Directiva | Cambio |
+|---|---|
+| `GalleryActionComponent` | `standalone: true` |
+| `GalleryArrowsComponent` | `standalone: true`, imports `CommonModule`, `MatIconModule` |
+| `GalleryBulletsComponent` | `standalone: true`, imports `CommonModule` |
+| `GalleryImageDirective` | `standalone: true` |
+| `GalleryImageComponent` | `standalone: true`, imports `CommonModule`, `GalleryActionComponent`, `GalleryArrowsComponent`, `GalleryBulletsComponent`, `GalleryImageDirective` |
+| `GalleryThumbnailsComponent` | `standalone: true`, imports `CommonModule`, `GalleryActionComponent`, `GalleryArrowsComponent`, `GalleryImageDirective` |
+| `GalleryPreviewComponent` | `standalone: true`, imports `CommonModule`, `GalleryActionComponent`, `GalleryArrowsComponent`, `GalleryBulletsComponent` |
+| `GalleryComponent` | `standalone: true`, imports `CommonModule`, `GalleryImageComponent`, `GalleryThumbnailsComponent` |
+| `OGalleryModule` | Convertido a wrapper NgModule (`imports/exports` standalone components, eliminados `CommonModule`/`OCustomMaterialModule`/`PortalModule`) |
+
+---
+
 ## PENDIENTE
 
 Ninguno — migración completa ✅
