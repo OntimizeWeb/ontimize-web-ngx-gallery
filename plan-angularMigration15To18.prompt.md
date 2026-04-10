@@ -40,25 +40,28 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 
 ---
 
-## FASE 2: Angular 16 → 17 — Rama `migration/17.x.x`
+## FASE 2: Angular 16 → 17 — Rama `migration/17.x.x` ✅ COMPLETADO
 
-### Acciones previstas
-- Actualizar todas las dependencias Angular a `^17.x`
-- `ng-packagr` → `^17.x`, `typescript` → `~5.2.x`, `zone.js` → `~0.14.x`
-- Actualizar `ontimize-web-ngx` → `^16.x` si se publica, si no mantener `^15.9.0`
-- Control flow syntax opcional (`@if`, `@for`) si el tiempo lo permite
+### Acciones realizadas
+- Actualizar todas las dependencias Angular a `^17.3.0`
+- `ng-packagr` → `^17.3.0`, `typescript` → `~5.2.2`, `zone.js` → `~0.14.0`
+- `@angular-eslint/*` → `^17.0.0`
+- `ontimize-web-ngx` → mantenido en `^15.9.0` (no hay versión 16/17 publicada)
+- Actualizar `projects/ontimize-web-ngx-gallery/package.json`: peer deps a `^17.3.0`
+- Sin cambios en código fuente
 
 ---
 
-## FASE 3: Angular 17 → 18 — Rama `migration/18.x.x`
+## FASE 3: Angular 17 → 18 — Rama `migration/18.x.x` ✅ COMPLETADO
 
-### Acciones previstas
-- Actualizar todas las dependencias Angular a `^18.x`
-- `ng-packagr` → `^18.x`, `typescript` → `~5.4.x`
+### Acciones realizadas
+- Actualizar todas las dependencias Angular a `^18.2.0`
+- `ng-packagr` → `^18.2.0`, `typescript` → `~5.5.4`
+- Añadir `luxon ^3.4.0` + `@types/luxon` (peer de `ngx-material-timepicker` transitivo del framework)
 - Eliminar `@angular/flex-layout`
-- Actualizar `ontimize-web-ngx` → `^18.0.0` (tgz local o versión publicada)
-- Revisar SCSS theming: prefijos `m2-` de Angular Material 18 (el addon ya tiene `o-gallery-theme.scss`)
-- Actualizar peer deps en `projects/ontimize-web-ngx-gallery/package.json`
+- `ontimize-web-ngx` → `file:../ontimize-web-ngx/dist/ontimize-web-ngx-18.0.0-SNAPSHOT-0.tgz`
+- Actualizar `projects/ontimize-web-ngx-gallery/package.json`: peer deps a `^18.2.0`
+- Sin cambios en código fuente (el SCSS `o-gallery-theme.scss` es compatible con Material 18 M2)
 
 ---
 
@@ -71,7 +74,8 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 
 ## Decisiones
 
-- **flex-layout**: Mantener `@angular/flex-layout` como peer transitorio en Fases 1-2; eliminar en Fase 3
-- **ontimize-web-ngx**: Usar `^15.9.0` en Fases 1-2 hasta que se publique versión 16/17/18
+- **flex-layout**: Mantenido `@angular/flex-layout` como peer transitorio en Fases 1-2; eliminado en Fase 3 ✅
+- **ontimize-web-ngx**: Usada `^15.9.0` en Fases 1-2; en Fase 3 apunta al tgz local `^18.0.0` ✅
+- **luxon**: Añadido en Fase 3 como dependencia directa (peer transitivo de `ngx-material-timepicker` que viene del framework) ✅
 - **Standalone**: No hay standalone components propios — no requiere migración de DI
-- **SCSS theming**: El addon exporta `o-gallery-theme.scss` — revisar compatibilidad con Material 18 en Fase 3
+- **SCSS theming**: `o-gallery-theme.scss` compatible con Material 18 M2 sin cambios ✅
