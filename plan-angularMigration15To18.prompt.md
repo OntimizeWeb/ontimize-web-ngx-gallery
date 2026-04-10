@@ -69,12 +69,38 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 - Actualizar `projects/ontimize-web-ngx-gallery/package.json`: peer deps a `^18.2.0`
 - Sin cambios en código fuente (el SCSS `o-gallery-theme.scss` es compatible con Material 18 M2)
 
+### Standalone migration ⏳ PENDIENTE
+
+El framework `ontimize-web-ngx@18` ya tiene **201 componentes con `standalone: true`** en su rama `migration/18.x.x`. Los componentes de este addon aún no están migrados.
+
+**Inventario de componentes a migrar:**
+| Componente / Directiva | Archivo |
+|---|---|
+| `OGalleryComponent` | `components/gallery/o-gallery.component.ts` |
+| `OGalleryPreviewComponent` | `components/gallery-preview/o-gallery-preview.component.ts` |
+| `OGalleryThumbnailsComponent` | `components/gallery-thumbnails/o-gallery-thumbnails.component.ts` |
+| `OGalleryBulletsComponent` | `components/gallery-bullets/o-gallery-bullets.component.ts` |
+| `OGalleryImageComponent` | `components/gallery-image/o-gallery-image.component.ts` |
+| `OGalleryImageDirective` | `components/gallery-image/o-gallery-image.directive.ts` |
+| `OGalleryActionComponent` | `components/gallery-action/o-gallery-action.component.ts` |
+| `OGalleryArrowsComponent` | `components/gallery-arrows/o-gallery-arrows.component.ts` |
+
+**Módulo wrapper a mantener por backward compatibility:**
+- `OntimizeWebNgxGalleryModule` → re-exportar standalone components
+
+**Pasos:**
+1. Añadir `standalone: true` a cada componente/directiva
+2. Mover sus `imports` de NgModule al array `imports` del decorador `@Component`
+3. Mantener `OntimizeWebNgxGalleryModule` wrapper re-exportando los standalone components
+4. Verificar build y que `o-gallery-theme.scss` sigue copiándose a `dist/`
+
+**Bloqueo**: Esperar a que el framework publique la API standalone completa para alinear la migración de este addon con la del framework.
+
 ### No aplica en este addon
 - **M3 theming migration**: `o-gallery-theme.scss` usa la API M2 estable de Material — compatible sin cambios con Angular Material 18; se actualizará cuando el framework migre a M3
-- **Standalone migration completa** (equivalente a 3.3 del framework): sin standalone components propios; cuando el framework exponga la API standalone, este addon se actualizará como consumidor
 - **Typed Forms**: sin uso de `UntypedFormGroup`/`UntypedFormControl` propios
 - **Guards funcionales**: sin guards propios
-- **flex-layout → CSS nativo** (equivalente a 3.5 del framework): la galería no usa directivas `fxLayout` propias en sus templates
+- **flex-layout → CSS nativo**: la galería no usa directivas `fxLayout` propias en sus templates
 
 ---
 
@@ -90,7 +116,7 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 - **flex-layout**: Mantenido `@angular/flex-layout` como peer transitorio en Fases 1-2; eliminado en Fase 3 ✅
 - **ontimize-web-ngx**: Usada `^15.9.0` en Fases 1-2; en Fase 3 apunta al tgz local `^18.0.0` ✅
 - **luxon**: Añadido en Fase 3 como dependencia directa (peer transitivo de `ngx-material-timepicker` que viene del framework) ✅
-- **Standalone**: No hay standalone components propios — no requiere migración de DI
+- **Standalone**: Pendiente ⏳ — 8 componentes/directivas a migrar (ver Fase 3). Bloqueado hasta que el framework publique su API standalone completa
 - **SCSS theming**: `o-gallery-theme.scss` compatible con Material 18 M2 sin cambios ✅
 - **M3 theming**: Postergado — se actualizará cuando `ontimize-web-ngx` publique su nueva API de theming M3
 - **Control flow / inject() / Guards**: No aplica — addon sin templates propios con estructuras de control, sin guards ni DI complejo propio
