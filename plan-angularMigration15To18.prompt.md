@@ -50,6 +50,12 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 - Actualizar `projects/ontimize-web-ngx-gallery/package.json`: peer deps a `^17.3.0`
 - Sin cambios en código fuente
 
+### No aplica en este addon
+- **Control flow migration** (`*ngIf` → `@if`): los templates de la galería no usan `*ngIf`/`*ngFor` propios
+- **Migración `inject()`**: sin inyectores propios complejos
+- **Guards funcionales**: sin guards propios
+- **Standalone gradual**: no hay componentes que requieran migración parcial — se gestiona en Fase 3
+
 ---
 
 ## FASE 3: Angular 17 → 18 — Rama `migration/18.x.x` ✅ COMPLETADO
@@ -62,6 +68,13 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 - `ontimize-web-ngx` → `file:../ontimize-web-ngx/dist/ontimize-web-ngx-18.0.0-SNAPSHOT-0.tgz`
 - Actualizar `projects/ontimize-web-ngx-gallery/package.json`: peer deps a `^18.2.0`
 - Sin cambios en código fuente (el SCSS `o-gallery-theme.scss` es compatible con Material 18 M2)
+
+### No aplica en este addon
+- **M3 theming migration**: `o-gallery-theme.scss` usa la API M2 estable de Material — compatible sin cambios con Angular Material 18; se actualizará cuando el framework migre a M3
+- **Standalone migration completa** (equivalente a 3.3 del framework): sin standalone components propios; cuando el framework exponga la API standalone, este addon se actualizará como consumidor
+- **Typed Forms**: sin uso de `UntypedFormGroup`/`UntypedFormControl` propios
+- **Guards funcionales**: sin guards propios
+- **flex-layout → CSS nativo** (equivalente a 3.5 del framework): la galería no usa directivas `fxLayout` propias en sus templates
 
 ---
 
@@ -79,3 +92,5 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 - **luxon**: Añadido en Fase 3 como dependencia directa (peer transitivo de `ngx-material-timepicker` que viene del framework) ✅
 - **Standalone**: No hay standalone components propios — no requiere migración de DI
 - **SCSS theming**: `o-gallery-theme.scss` compatible con Material 18 M2 sin cambios ✅
+- **M3 theming**: Postergado — se actualizará cuando `ontimize-web-ngx` publique su nueva API de theming M3
+- **Control flow / inject() / Guards**: No aplica — addon sin templates propios con estructuras de control, sin guards ni DI complejo propio
