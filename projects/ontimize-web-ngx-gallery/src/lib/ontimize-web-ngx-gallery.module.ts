@@ -1,8 +1,5 @@
-import { PortalModule } from '@angular/cdk/portal';
-import { CommonModule } from '@angular/common';
 import { Injectable, NgModule } from '@angular/core';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
-import { OCustomMaterialModule } from 'ontimize-web-ngx';
 
 import { OGALLERY_DIRECTIVES } from './components';
 
@@ -20,12 +17,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
 }
 
 @NgModule({
-    imports: [
-        CommonModule,
-        OCustomMaterialModule,
-        PortalModule
-    ],
-    declarations: [OGALLERY_DIRECTIVES],
+    imports: [OGALLERY_DIRECTIVES],
     exports: [OGALLERY_DIRECTIVES],
     providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }]
 })

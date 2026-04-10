@@ -4,7 +4,8 @@ import { DomSanitizer, SafeResourceUrl, SafeStyle } from '@angular/platform-brow
 import { GalleryHelperService } from '../../services';
 
 @Directive({
-  selector: '[oGalleryBackgroundImg]'
+  selector: '[oGalleryBackgroundImg]',
+  standalone: true
 })
 export class GalleryImageDirective {
 

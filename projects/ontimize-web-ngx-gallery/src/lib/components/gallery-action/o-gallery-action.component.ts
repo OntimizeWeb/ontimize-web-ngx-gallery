@@ -4,6 +4,7 @@ import { BooleanInputConverter } from 'ontimize-web-ngx';
 @Component({
   selector: 'o-gallery-action',
   templateUrl: './o-gallery-action.component.html',
+  standalone: true,
   inputs: [
     'icon',
     'disabled',

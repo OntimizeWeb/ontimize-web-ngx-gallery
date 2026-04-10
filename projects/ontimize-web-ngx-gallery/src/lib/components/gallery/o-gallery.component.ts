@@ -14,6 +14,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Util } from 'ontimize-web-ngx';
 import { merge, Subscription } from 'rxjs';
@@ -45,6 +46,8 @@ export const DEFAULT_INPUTS_O_GALLERY = [
   selector: 'o-gallery',
   templateUrl: './o-gallery.component.html',
   styleUrls: ['./o-gallery.component.scss'],
+  standalone: true,
+  imports: [CommonModule, GalleryImageComponent, GalleryThumbnailsComponent],
   providers: [GalleryHelperService],
   inputs: DEFAULT_INPUTS_O_GALLERY,
   outputs: DEFAULT_OUTPUTS_O_GALLERY

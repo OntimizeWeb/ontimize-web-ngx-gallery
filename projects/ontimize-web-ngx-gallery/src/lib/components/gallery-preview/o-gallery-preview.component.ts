@@ -12,8 +12,12 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { BooleanInputConverter } from 'ontimize-web-ngx';
+import { GalleryActionComponent } from '../gallery-action/o-gallery-action.component';
+import { GalleryArrowsComponent } from '../gallery-arrows/o-gallery-arrows.component';
+import { GalleryBulletsComponent } from '../gallery-bullets/o-gallery-bullets.component';
 
 import { GalleryAction } from '../../models/gallery-action.model';
 import { GalleryHelperService } from '../../services/gallery-helper.service';
@@ -22,6 +26,8 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
   selector: 'o-gallery-preview',
   templateUrl: './o-gallery-preview.component.html',
   styleUrls: ['./o-gallery-preview.component.scss'],
+  standalone: true,
+  imports: [CommonModule, GalleryActionComponent, GalleryArrowsComponent, GalleryBulletsComponent],
   providers: [GalleryHelperService],
   inputs: [
     'images',

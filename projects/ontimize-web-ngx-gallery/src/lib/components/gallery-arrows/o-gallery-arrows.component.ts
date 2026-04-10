@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { BooleanInputConverter, Util } from 'ontimize-web-ngx';
 
 @Component({
   selector: 'o-gallery-arrows',
   templateUrl: './o-gallery-arrows.component.html',
   styleUrls: ['./o-gallery-arrows.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatIconModule],
   inputs: [
     'prevDisabled: prev-disabled',
     'nextDisabled: next-disabled',

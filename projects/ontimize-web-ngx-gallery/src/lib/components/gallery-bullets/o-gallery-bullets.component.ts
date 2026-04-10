@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'o-gallery-bullets',
@@ -11,6 +12,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core'
   outputs: [
     'onChange'
   ],
+  standalone: true,
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GalleryBulletsComponent {
