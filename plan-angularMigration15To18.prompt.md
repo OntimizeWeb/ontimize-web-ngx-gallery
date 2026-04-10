@@ -94,7 +94,7 @@ El framework `ontimize-web-ngx@18` ya tiene **201 componentes con `standalone: t
 3. Mantener `OntimizeWebNgxGalleryModule` wrapper re-exportando los standalone components
 4. Verificar build y que `o-gallery-theme.scss` sigue copiándose a `dist/`
 
-**Bloqueo**: Esperar a que el framework publique la API standalone completa para alinear la migración de este addon con la del framework.
+**Nota**: No hay bloqueo técnico — los componentes de este addon pueden migrarse a standalone independientemente del framework. La `GalleryComponent` ya usa `inject()` en el constructor (`this.injector.get()`), que es compatible con standalone. La API `provideOntimizeWeb()` solo es necesaria para la playground (bootstrap de la app).
 
 ### No aplica en este addon
 - **M3 theming migration**: `o-gallery-theme.scss` usa la API M2 estable de Material — compatible sin cambios con Angular Material 18; se actualizará cuando el framework migre a M3
@@ -116,7 +116,7 @@ El framework `ontimize-web-ngx@18` ya tiene **201 componentes con `standalone: t
 - **flex-layout**: Mantenido `@angular/flex-layout` como peer transitorio en Fases 1-2; eliminado en Fase 3 ✅
 - **ontimize-web-ngx**: Usada `^15.9.0` en Fases 1-2; en Fase 3 apunta al tgz local `^18.0.0` ✅
 - **luxon**: Añadido en Fase 3 como dependencia directa (peer transitivo de `ngx-material-timepicker` que viene del framework) ✅
-- **Standalone**: Pendiente ⏳ — 8 componentes/directivas a migrar (ver Fase 3). Bloqueado hasta que el framework publique su API standalone completa
+- **Standalone**: Pendiente ⏳ — 8 componentes/directivas a migrar (ver Fase 3). Sin bloqueo técnico — puede hacerse en paralelo al framework
 - **SCSS theming**: `o-gallery-theme.scss` compatible con Material 18 M2 sin cambios ✅
 - **M3 theming**: Postergado — se actualizará cuando `ontimize-web-ngx` publique su nueva API de theming M3
 - **Control flow / inject() / Guards**: No aplica — addon sin templates propios con estructuras de control, sin guards ni DI complejo propio
