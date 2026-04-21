@@ -1,6 +1,6 @@
 # Migración Angular 15 → 18 — Estado actual — ontimize-web-ngx-gallery
 
-> Última actualización: 10 abril 2026 (sesión 2)
+> Última actualización: 21 abril 2026 (adopción del framework M3 — rama `theming/m3`)
 
 ## Repositorio y ramas
 
@@ -23,6 +23,8 @@
 | Fase 1: Angular 15→16 | ✅ Completado | `0f4601e` |
 | Fase 2: Angular 16→17 | ✅ Completado | `1a1f2d5` |
 | Fase 3: Angular 17→18 | ✅ Completado | `f938dca` |
+| Fase 4: Standalone components | ✅ Completado | `77e6332` |
+| Fase 5: Adopción framework M3 | ✅ Completado | `2e8f669` |
 
 ---
 
@@ -104,6 +106,36 @@ Sin cambios en código fuente.
 | `GalleryPreviewComponent` | `standalone: true`, imports `CommonModule`, `GalleryActionComponent`, `GalleryArrowsComponent`, `GalleryBulletsComponent` |
 | `GalleryComponent` | `standalone: true`, imports `CommonModule`, `GalleryImageComponent`, `GalleryThumbnailsComponent` |
 | `OGalleryModule` | Convertido a wrapper NgModule (`imports/exports` standalone components, eliminados `CommonModule`/`OCustomMaterialModule`/`PortalModule`) |
+
+---
+
+### Fase 5: Adopción del framework M3 — commit `2e8f669` (21 abril 2026)
+
+**Rama**: `migration/18.x.x`
+
+Tras la migración Material M2→M3 del framework (rama `theming/m3`,
+commits `fdcb42da` → `ee7f3534`), el addon se actualizó para consumir
+el nuevo tgz y adoptar los tokens runtime `--o-*`.
+
+#### Cambios
+
+| Fichero | Cambio |
+|---|---|
+| `projects/ontimize-web-ngx-gallery/src/lib/theming/o-gallery-theme.scss` | Mixin reescrito: `mat.get-color-from-palette($background, background)` sustituido por `var(--o-bg-background)`. El mixin ya no depende de `@angular/material` ni de un theme M2-shaped — solo emite CSS que sigue el tema activo via CSS custom properties. |
+| `projects/ontimize-web-ngx-gallery/src/lib/components/gallery/o-gallery.component.spec.ts` | `GalleryComponent` movido de `declarations` a `imports`. Angular 18 TestBed rechaza componentes standalone en `declarations`. |
+| `projects/ontimize-web-ngx-gallery/src/lib/components/gallery-action/o-gallery-action.component.spec.ts` | `GalleryActionComponent`: mismo fix. |
+| `projects/ontimize-web-ngx-gallery/src/lib/components/gallery-arrows/o-gallery-arrows.component.spec.ts` | `GalleryArrowsComponent`: mismo fix. |
+| `package-lock.json` | Regenerado al reinstalar `ontimize-web-ngx-18.0.0-SNAPSHOT-0.tgz` del framework (rama `theming/m3`). |
+
+#### Validación
+
+- `npx ng build ontimize-web-ngx-gallery`: ✅ 0 errores.
+- `npx ng test --watch=false`: ✅ `TOTAL: 3 SUCCESS`, 0 fallos.
+
+#### Notas
+
+- El resto de SCSS (6 ficheros en `components/`) no necesitó cambios — no usaban APIs Material ni tenían colores hardcoded relevantes al tema.
+- El addon queda listo para ser re-empaquetado (`npm pack` desde `dist/`) y consumido por la playground con el framework M3.
 
 ---
 
