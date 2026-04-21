@@ -1,21 +1,17 @@
-@use '@angular/material'as mat;
-@use "sass:map";
+// Gallery theme — consumes Ontimize's runtime --o-* CSS custom properties
+// (light / dark swap handled by the host theme, not by this mixin).
 
 @mixin o-gallery-theme($theme-or-color-config) {
-
-  $theme: map.get($theme-or-color-config, color);
-  $background: map.get($theme, background);
-
   .o-gallery-arrows {
     .o-gallery-icon-content {
-      background-color: mat.get-color-from-palette($background, background);
+      background-color: var(--o-bg-background);
     }
   }
 
   o-gallery-preview .o-gallery-arrows {
     .o-gallery-icon-content {
-      background-color: rgba(#ffffff, 0.87);
-      color: rgba(black, 0.87);
+      background-color: rgba(255, 255, 255, 0.87);
+      color: rgba(0, 0, 0, 0.87);
     }
   }
 }

@@ -13,8 +13,7 @@ describe('GalleryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserModule, CommonModule, OGalleryModule],
-      declarations: [GalleryComponent]
+      imports: [BrowserModule, CommonModule, OGalleryModule, GalleryComponent]
     })
       .compileComponents();
 
