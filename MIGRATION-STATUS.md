@@ -1,6 +1,6 @@
 # Migración Angular 15 → 18 — Estado actual — ontimize-web-ngx-gallery
 
-> Última actualización: 21 abril 2026 (adopción del framework M3 — rama `theming/m3`)
+> Última actualización: 29 abril 2026 (control flow migration `*ngIf`/`*ngFor` → `@if`/`@for`)
 
 ## Repositorio y ramas
 
@@ -25,6 +25,7 @@
 | Fase 3: Angular 17→18 | ✅ Completado | `f938dca` |
 | Fase 4: Standalone components | ✅ Completado | `77e6332` |
 | Fase 5: Adopción framework M3 | ✅ Completado | `2e8f669` |
+| Fase 6: Control flow migration | ✅ Completado | pendiente commit |
 
 ---
 
@@ -136,6 +137,24 @@ el nuevo tgz y adoptar los tokens runtime `--o-*`.
 
 - El resto de SCSS (6 ficheros en `components/`) no necesitó cambios — no usaban APIs Material ni tenían colores hardcoded relevantes al tema.
 - El addon queda listo para ser re-empaquetado (`npm pack` desde `dist/`) y consumido por la playground con el framework M3.
+
+---
+
+### Fase 6: Control flow migration — 29 abril 2026
+
+**Rama**: `migration/18.x.x`
+
+Migración de la sintaxis estructural antigua a la nueva sintaxis de control flow de Angular 17+.
+
+| Template | `*ngFor` → `@for` | `*ngIf` → `@if` |
+|---|---|---|
+| `o-gallery-thumbnails.component.html` | 2 | 3 |
+| `o-gallery.component.html` | — | 2 |
+| `o-gallery-bullets.component.html` | 1 | — |
+| `o-gallery-image.component.html` | 3 | 4 |
+| `o-gallery-preview.component.html` | 1 | 8 |
+
+**Nota**: El compilador de Angular 18 es más estricto con el tipo `string | SafeResourceUrl` dentro de `@for` que con `*ngFor`. Se añadió `$any()` en los bindings `[oGalleryBackgroundImg]` y `[src]` del template `o-gallery-thumbnails.component.html` para mantener el comportamiento original.
 
 ---
 

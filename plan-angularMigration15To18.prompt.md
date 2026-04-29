@@ -51,7 +51,7 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 - Sin cambios en código fuente
 
 ### No aplica en este addon
-- **Control flow migration** (`*ngIf` → `@if`): los templates de la galería no usan `*ngIf`/`*ngFor` propios
+- **Control flow migration** (`*ngIf` → `@if`): completado en Fase 6 (29 abril 2026)
 - **Migración `inject()`**: sin inyectores propios complejos
 - **Guards funcionales**: sin guards propios
 - **Standalone gradual**: no hay componentes que requieran migración parcial — se gestiona en Fase 3
@@ -97,10 +97,30 @@ El framework `ontimize-web-ngx@18` ya tiene **201 componentes con `standalone: t
 **Nota**: No hay bloqueo técnico — los componentes de este addon pueden migrarse a standalone independientemente del framework. La `GalleryComponent` ya usa `inject()` en el constructor (`this.injector.get()`), que es compatible con standalone. La API `provideOntimizeWeb()` solo es necesaria para la playground (bootstrap de la app).
 
 ### No aplica en este addon
-- **M3 theming migration**: `o-gallery-theme.scss` usa la API M2 estable de Material — compatible sin cambios con Angular Material 18; se actualizará cuando el framework migre a M3
 - **Typed Forms**: sin uso de `UntypedFormGroup`/`UntypedFormControl` propios
 - **Guards funcionales**: sin guards propios
 - **flex-layout → CSS nativo**: la galería no usa directivas `fxLayout` propias en sus templates
+
+---
+
+## FASE 5: Adopción framework M3 — commit `2e8f669` ✅ COMPLETADO
+
+- `o-gallery-theme.scss`: `mat.get-color-from-palette($background, background)` → `var(--o-bg-background)`
+- Specs: componentes standalone movidos de `declarations` a `imports` en `TestBed`
+
+---
+
+## FASE 6: Control flow migration — 29 abril 2026 ✅ COMPLETADO
+
+Migración `*ngIf`/`*ngFor` → `@if`/`@for` en los 5 templates del addon.
+
+| Template | Cambios |
+|---|---|
+| `o-gallery-thumbnails.component.html` | `*ngFor` → `@for` (2), `*ngIf` → `@if` (3). `$any()` en `[oGalleryBackgroundImg]` y `[src]` por tipo `string\|SafeResourceUrl` más estricto en Angular 18 con `@for` |
+| `o-gallery.component.html` | `*ngIf` → `@if` (2) |
+| `o-gallery-bullets.component.html` | `*ngFor` → `@for` (1) |
+| `o-gallery-image.component.html` | `*ngFor` → `@for` (3), `*ngIf` → `@if` (4) |
+| `o-gallery-preview.component.html` | `*ngFor` → `@for` (1), `*ngIf` → `@if` (8) |
 
 ---
 
@@ -118,5 +138,6 @@ El framework `ontimize-web-ngx@18` ya tiene **201 componentes con `standalone: t
 - **luxon**: Añadido en Fase 3 como dependencia directa (peer transitivo de `ngx-material-timepicker` que viene del framework) ✅
 - **Standalone**: ✅ Completado — 8 componentes/directivas migrados (`77e6332`). `OGalleryModule` wrapper mantiene backward compatibility
 - **SCSS theming**: `o-gallery-theme.scss` compatible con Material 18 M2 sin cambios ✅
-- **M3 theming**: Postergado — se actualizará cuando `ontimize-web-ngx` publique su nueva API de theming M3
-- **Control flow / inject() / Guards**: No aplica — addon sin templates propios con estructuras de control, sin guards ni DI complejo propio
+- **M3 theming**: ✅ Completado en Fase 5 — `var(--o-bg-background)` en `o-gallery-theme.scss`
+- **Control flow**: ✅ Completado en Fase 6 — 5 templates migrados a `@if`/`@for`
+- **inject() / Guards**: No aplica — addon sin guards ni DI complejo propio

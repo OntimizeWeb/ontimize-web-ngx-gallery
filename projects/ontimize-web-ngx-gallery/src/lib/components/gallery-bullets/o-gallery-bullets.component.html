@@ -1,2 +1,4 @@
-<div class="o-gallery-bullet" *ngFor="let bullet of getBullets(); let i = index;" (click)="handleChange($event, i)"
-  [ngClass]="{ 'o-gallery-active': i == active }"></div>
+@for (bullet of getBullets(); track $index; let i = $index) {
+  <div class="o-gallery-bullet" (click)="handleChange($event, i)"
+    [ngClass]="{ 'o-gallery-active': i == active }"></div>
+}
