@@ -25,7 +25,7 @@
 | Fase 3: Angular 17→18 | ✅ Completado | `f938dca` |
 | Fase 4: Standalone components | ✅ Completado | `77e6332` |
 | Fase 5: Adopción framework M3 | ✅ Completado | `2e8f669` |
-| Fase 6: Control flow migration | ✅ Completado | pendiente commit |
+| Fase 6: Control flow migration | ✅ Completado | `cb72475` |
 
 ---
 
