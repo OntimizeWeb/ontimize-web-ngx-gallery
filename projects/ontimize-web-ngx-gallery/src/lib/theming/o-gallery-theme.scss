@@ -1,0 +1,21 @@
+@use '@angular/material'as mat;
+@use "sass:map";
+
+@mixin o-gallery-theme($theme-or-color-config) {
+
+  $theme: map.get($theme-or-color-config, color);
+  $background: map.get($theme, background);
+
+  .o-gallery-arrows {
+    .o-gallery-icon-content {
+      background-color: mat.get-color-from-palette($background, background);
+    }
+  }
+
+  o-gallery-preview .o-gallery-arrows {
+    .o-gallery-icon-content {
+      background-color: rgba(#ffffff, 0.87);
+      color: rgba(black, 0.87);
+    }
+  }
+}

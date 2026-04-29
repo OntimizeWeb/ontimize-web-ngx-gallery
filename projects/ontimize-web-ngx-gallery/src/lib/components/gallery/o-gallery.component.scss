@@ -1,0 +1,79 @@
+:host {
+  display: inline-block;
+  z-index: 0;
+
+  &>* {
+    float: left;
+  }
+
+  ::ng-deep {
+    * {
+      box-sizing: border-box;
+    }
+
+    .o-gallery-icon {
+      font-family: 'Material Icons', sans-serif;
+      position: absolute;
+      z-index: 2000;
+      display: inline-block;
+
+      .o-gallery-icon-content {
+        border-radius: 50%;
+        display: block;
+      }
+    }
+
+    .o-gallery-clickable {
+      cursor: pointer;
+    }
+
+    .o-gallery-icons-wrapper .o-gallery-icon {
+      position: relative;
+      margin-right: 5px;
+      margin-top: 5px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .o-gallery-icons-wrapper {
+      float: right;
+    }
+  }
+
+  .o-gallery-layout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .o-gallery-layout.thumbnails-left {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .o-gallery-layout.thumbnails-right {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .o-gallery-layout.thumbnails-top {
+    o-gallery-image {
+      order: 2;
+    }
+
+    o-gallery-thumbnails {
+      order: 1;
+    }
+  }
+
+  .o-gallery-layout.thumbnails-bottom {
+    o-gallery-image {
+      order: 1;
+    }
+
+    o-gallery-thumbnails {
+      order: 2;
+    }
+  }
+}

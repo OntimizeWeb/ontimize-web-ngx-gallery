@@ -1,0 +1,38 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "paths": {
+      "ontimize-web-ngx-gallery": [
+        "dist/ontimize-web-ngx-gallery"
+      ],
+      "ontimize-web-ngx-gallery/*": [
+        "dist/ontimize-web-ngx-gallery/*"
+      ]
+    },
+    "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictMetadataEmit": true,
+    "strictInjectionParameters": true
+  }
+}
