@@ -67,6 +67,8 @@ Migración incremental del addon `ontimize-web-ngx-gallery` (Angular 15 → 18) 
 - Eliminar `@angular/flex-layout`
 - `ontimize-web-ngx` → `file:../ontimize-web-ngx/dist/ontimize-web-ngx-18.0.0-SNAPSHOT-0.tgz`
 - Actualizar `projects/ontimize-web-ngx-gallery/package.json`: peer deps a `^18.2.0`
+- **`projects/ontimize-web-ngx-gallery/tsconfig.lib.json`**: añadir `"compilationMode": "partial"` en `angularCompilerOptions`
+  > ⚠️ `tsconfig.lib.prod.json` ya lo tiene, pero `tsconfig.lib.json` (usado por `npm run build` sin `-c production`) no. Sin esto el dist se compila en modo full y produce errores `NG0203` en el consumidor.
 - Sin cambios en código fuente (el SCSS `o-gallery-theme.scss` es compatible con Material 18 M2)
 
 ### Standalone migration ✅ COMPLETADO (commit `77e6332`)
