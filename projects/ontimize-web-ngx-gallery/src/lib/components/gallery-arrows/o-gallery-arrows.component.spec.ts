@@ -8,7 +8,7 @@ describe('GalleryActionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GalleryArrowsComponent]
+      imports: [GalleryArrowsComponent]
     })
     .compileComponents();
 

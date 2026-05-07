@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { BooleanInputConverter } from 'ontimize-web-ngx';
 
 @Component({
   selector: 'o-gallery-action',
   templateUrl: './o-gallery-action.component.html',
+  standalone: true,
+  imports: [MatIconModule],
   inputs: [
     'icon',
     'disabled',

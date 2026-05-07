@@ -1,6 +1,10 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnChanges, SimpleChange } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeStyle } from '@angular/platform-browser';
 import { BooleanInputConverter } from 'ontimize-web-ngx';
+import { GalleryActionComponent } from '../gallery-action/o-gallery-action.component';
+import { GalleryArrowsComponent } from '../gallery-arrows/o-gallery-arrows.component';
+import { GalleryImageDirective } from '../gallery-image/o-gallery-image.directive';
 
 import { GalleryAction } from '../../models/gallery-action.model';
 import { GalleryLayout } from '../../models/gallery-layout.model';
@@ -11,6 +15,8 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
   selector: 'o-gallery-thumbnails',
   templateUrl: './o-gallery-thumbnails.component.html',
   styleUrls: ['./o-gallery-thumbnails.component.scss'],
+  standalone: true,
+  imports: [CommonModule, GalleryActionComponent, GalleryArrowsComponent, GalleryImageDirective],
   inputs: [
     'images',
     'links',

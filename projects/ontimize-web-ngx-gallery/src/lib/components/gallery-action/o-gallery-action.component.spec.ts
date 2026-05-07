@@ -9,8 +9,7 @@ describe('GalleryActionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GalleryActionComponent],
-      imports: [OGalleryModule]
+      imports: [OGalleryModule, GalleryActionComponent]
     })
     .compileComponents();
 
