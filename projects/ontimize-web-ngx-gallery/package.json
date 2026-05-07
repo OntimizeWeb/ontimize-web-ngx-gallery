@@ -1,6 +1,6 @@
 {
   "name": "ontimize-web-ngx-gallery",
-  "version": "18.0.0-SNAPSHOT-0",
+  "version": "18.0.0-next.0",
   "dependencies": {
     "tslib": "^2.3.0"
   },
