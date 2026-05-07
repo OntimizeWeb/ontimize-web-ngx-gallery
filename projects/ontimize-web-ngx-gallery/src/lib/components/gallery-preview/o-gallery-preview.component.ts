@@ -13,6 +13,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { BooleanInputConverter } from 'ontimize-web-ngx';
 import { GalleryActionComponent } from '../gallery-action/o-gallery-action.component';
@@ -27,7 +28,7 @@ import { GalleryHelperService } from '../../services/gallery-helper.service';
   templateUrl: './o-gallery-preview.component.html',
   styleUrls: ['./o-gallery-preview.component.scss'],
   standalone: true,
-  imports: [CommonModule, GalleryActionComponent, GalleryArrowsComponent, GalleryBulletsComponent],
+  imports: [CommonModule, MatIconModule, GalleryActionComponent, GalleryArrowsComponent, GalleryBulletsComponent],
   providers: [GalleryHelperService],
   inputs: [
     'images',
