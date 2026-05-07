@@ -1,3 +1,35 @@
+## 18.0.0-next.0 (2026-05-07)
+
+> [!NOTE]
+> This version requires `ontimize-web-ngx` version `18.0.0-next.0` or higher and Angular `18.2.x`.
+
+### BREAKING CHANGES
+* **Angular 18**: Upgraded from Angular 15 to Angular 18. Requires Node.js ≥ 20.
+* **Standalone components**: `GalleryComponent`, `GalleryActionComponent`, `GalleryArrowsComponent`, `GalleryBulletsComponent`, `GalleryImageComponent`, `GalleryThumbnailsComponent`, `GalleryPreviewComponent` and `GalleryImageDirective` are now `standalone: true`. The `OGalleryModule` wrapper is kept for backward compatibility (now uses `imports`/`exports` instead of `declarations`).
+* **flex-layout removed**: `@angular/flex-layout` peer dependency removed.
+
+### Features
+* **Library compilation**: Added `compilationMode: "partial"` to `tsconfig.lib.json` as required for Angular 18 library publishing.
+* **Theming M3**: Adopted runtime CSS custom properties from `ontimize-web-ngx` 18 (`--o-bg-*`). The `o-gallery-theme.scss` mixin no longer depends on Angular Material's M2 palette helpers; it emits CSS that follows the active theme via custom properties.
+* **Control flow**: Migrated all templates from `*ngIf`/`*ngFor` structural directives to `@if`/`@for` (Angular 17+ control flow syntax).
+
+### Bug Fixes
+* **gallery-action**: add `MatIconModule` to component `imports[]` (Angular 18 standalone strict imports required it).
+* **gallery-preview**: add `MatIconModule` to component `imports[]`.
+* **gallery-thumbnails**: cast `getFileType($any(image))` to support `string | SafeResourceUrl` typed images in template type-checking strict mode.
+
+### DEPENDENCY UPDATES
+* **Updated**: `@angular/*` `^15.x` → `^18.2.0`
+* **Updated**: `ng-packagr` `^15.x` → `^18.2.0`
+* **Updated**: `typescript` `~4.9.x` → `~5.5.4`
+* **Updated**: `zone.js` `~0.12.x` → `~0.14.0`
+* **Updated**: `@angular-eslint/*` → `^18.0.0`
+* **Updated**: `ontimize-web-ngx` → `18.0.0-next.1`
+* **Added**: `luxon ^3.4.0`, `@types/luxon ^3.4.0` (transitive peer of `ngx-material-timepicker`)
+* **Removed**: `@angular/flex-layout`
+
+---
+
 ## 15.1.2 (2024-06-28)
 ### Bugfixes
 Fixed navigation arrows from the main view being shown in the preview view([6f96256](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/commit/6f96256)) Closes [#187](https://github.com/OntimizeWeb/ontimize-web-ngx-gallery/issues/187)

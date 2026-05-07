@@ -1,6 +1,6 @@
 # Migración Angular 15 → 18 — Estado actual — ontimize-web-ngx-gallery
 
-> Última actualización: 29 abril 2026 (control flow migration `*ngIf`/`*ngFor` → `@if`/`@for`)
+> Última actualización: 7 mayo 2026 (rebase ramas huérfanas + bump 18.0.0-next.0 + fixes build)
 
 ## Repositorio y ramas
 
@@ -23,9 +23,12 @@
 | Fase 1: Angular 15→16 | ✅ Completado | `0f4601e` |
 | Fase 2: Angular 16→17 | ✅ Completado | `1a1f2d5` |
 | Fase 3: Angular 17→18 | ✅ Completado | `f938dca` |
-| Fase 4: Standalone components | ✅ Completado | `77e6332` |
-| Fase 5: Adopción framework M3 | ✅ Completado | `2e8f669` |
-| Fase 6: Control flow migration | ✅ Completado | `cb72475` |
+| Fase 4: Standalone components | ✅ Completado | `77e6332` (pre-rebase) |
+| Fase 5: Adopción framework M3 | ✅ Completado | `2e8f669` (pre-rebase) |
+| Fase 6: Control flow migration | ✅ Completado | `cb72475` (pre-rebase) |
+| Fase 7: Rebase a ramas huérfanas | ✅ Completado | `6f31a84` (huérfano `18.x.x`) |
+| Fase 8: Versión `18.0.0-next.0` | ✅ Completado | `7101725` |
+| Fase 9: Fixes build (`mat-icon`, `$any` en `getFileType`) | ✅ Completado | en curso |
 
 ---
 
@@ -155,6 +158,59 @@ Migración de la sintaxis estructural antigua a la nueva sintaxis de control flo
 | `o-gallery-preview.component.html` | 1 | 8 |
 
 **Nota**: El compilador de Angular 18 es más estricto con el tipo `string | SafeResourceUrl` dentro de `@for` que con `*ngFor`. Se añadió `$any()` en los bindings `[oGalleryBackgroundImg]` y `[src]` del template `o-gallery-thumbnails.component.html` para mantener el comportamiento original.
+
+---
+
+### Fase 7: Rebase a ramas huérfanas — 7 mayo 2026
+
+**Cambio estructural en remoto** alineando gallery con la estrategia de los demás addons (charts, map, report, extra-components):
+
+- `18.x.x` reescrita como rama **huérfana** (sin historia común con `15.x.x`) — commit raíz `6f31a84` (snapshot del código v15)
+- `migration/16.x.x` → rebasada sobre el huérfano
+- `migration/17.x.x` → rebasada sobre `migration/16.x.x`
+- `migration/18.x.x` → rebasada sobre `migration/17.x.x`
+
+Las 4 ramas remotas tienen genealogía limpia:
+```
+18.x.x (huérfana)                       6f31a84
+  └─ migration/16.x.x  (+2 commits)     dc882b0
+       └─ migration/17.x.x  (+1 commit)  6988149
+            └─ migration/18.x.x  (+13 commits) 5b54a34 → 9a63aa7
+```
+
+Working tree validado: `git diff` entre HEAD anterior y nuevo HEAD = vacío (ningún cambio perdido). Force-push completado a las 4 ramas remotas.
+
+---
+
+### Fase 8: Versión `18.0.0-next.0` — commit `7101725` (7 mayo 2026)
+
+| Fichero | Cambio |
+|---|---|
+| `package.json` | `version`: `18.0.0-SNAPSHOT-0` → `18.0.0-next.0` · `ontimize-web-ngx`: `file:.../tgz` → `18.0.0-next.1` |
+| `projects/ontimize-web-ngx-gallery/package.json` | `version`: `18.0.0-SNAPSHOT-0` → `18.0.0-next.0` |
+| `package-lock.json` | Regenerado |
+| `MIGRATION-ISSUE.md` | Añadido (commit `9a63aa7`) — describe fases 1-3 para issue de migración |
+
+---
+
+### Fase 9: Fixes build — 7 mayo 2026
+
+Errores de compilación en modo Ivy estricto de Angular 18 al rebuilder con la nueva versión.
+
+#### `getFileType($any(image))` en `o-gallery-thumbnails.component.html`
+
+`images: string[] | SafeResourceUrl[]`, pero `getFileType(fileSource: string)` solo acepta `string`. Causa: `TS2345: Argument of type 'string | SafeResourceUrl' is not assignable to parameter of type 'string'`.
+
+Aplicado `$any(image)` a las 2 llamadas (líneas 14 y 19), consistente con el patrón ya usado en `[oGalleryBackgroundImg]="$any(image)"` (línea 15) y `<source [src]="$any(image)">` (línea 23).
+
+#### `MatIconModule` en componentes standalone
+
+`mat-icon` aparece en templates pero `MatIconModule` no estaba importado en standalone components. Causa: `NG8001: 'mat-icon' is not a known element`.
+
+| Componente | Cambio |
+|---|---|
+| `GalleryActionComponent` | Sin `imports[]` declarados → añadidos `imports: [MatIconModule]` |
+| `GalleryPreviewComponent` | `imports[]` ya existía, añadido `MatIconModule` al array |
 
 ---
 
